@@ -455,33 +455,42 @@ public class Solution {
     }
 
     /**
-     *操作给定的二叉树，将其变换为源二叉树的镜像。
+     * 操作给定的二叉树，将其变换为源二叉树的镜像。
      * 二叉树的镜像定义：源二叉树
-     *     	    8
-     *     	   /  \
-     *     	  6   10
-     *     	 / \  / \
-     *     	5  7 9 11
-     *     	镜像二叉树
-     *     	    8
-     *     	   /  \
-     *     	  10   6
-     *     	 / \  / \
-     *     	11 9 7  5
+     * 8
+     * /  \
+     * 6   10
+     * / \  / \
+     * 5  7 9 11
+     * 镜像二叉树
+     * 8
+     * /  \
+     * 10   6
+     * / \  / \
+     * 11 9 7  5
      * 先前序遍历这棵树的每个结点，如果遍历到的结点有子结点，就交换它的两个子节点，
      * 当交换完所有的非叶子结点的左右子结点之后，就得到了树的镜像
+     *
      * @param root
      */
     public void Mirror(TreeNode root) {
-        if(root == null){return;}
-        if(root.left==null && root.right == null){return;}
+        if (root == null) {
+            return;
+        }
+        if (root.left == null && root.right == null) {
+            return;
+        }
 
         TreeNode pTemp = root.left;
         root.left = root.right;
         root.right = pTemp;
 
-        if(root.left != null){Mirror(root.left);}
-        if(root.right != null){Mirror(root.right);}
+        if (root.left != null) {
+            Mirror(root.left);
+        }
+        if (root.right != null) {
+            Mirror(root.right);
+        }
 
     }
 
@@ -492,6 +501,7 @@ public class Solution {
      * 序列4,5,3,2,1是该压栈序列对应的一个弹出序列，
      * 但4,3,5,1,2就不可能是该压栈序列的弹出序列。
      * （注意：这两个序列的长度是相等的）
+     *
      * @param pushA
      * @param popA
      * @return
@@ -514,8 +524,32 @@ public class Solution {
         return stack.empty();
     }
 
+    /**
+     * 从上往下打印出二叉树的每个节点，同层节点从左至右打印。
+     *
+     * 用arraylist模拟一个队列来存储相应的TreeNode
+     *
+     * @param root
+     * @return
+     */
     public ArrayList<Integer> PrintFromTopToBottom(TreeNode root) {
-
+        ArrayList<Integer> list = new ArrayList<>();
+        ArrayList<TreeNode> queue = new ArrayList<>();
+        if (root == null) {
+            return list;
+        }
+        queue.add(root);
+        while (queue.size() != 0) {
+            TreeNode temp = queue.remove(0);
+            if (temp.left != null) {
+                queue.add(temp.left);
+            }
+            if (temp.right != null) {
+                queue.add(temp.right);
+            }
+            list.add(temp.val);
+        }
+        return list;
     }
 
 }
