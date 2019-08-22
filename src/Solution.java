@@ -526,7 +526,7 @@ public class Solution {
 
     /**
      * 从上往下打印出二叉树的每个节点，同层节点从左至右打印。
-     *
+     * <p>
      * 用arraylist模拟一个队列来存储相应的TreeNode
      *
      * @param root
@@ -550,6 +550,40 @@ public class Solution {
             list.add(temp.val);
         }
         return list;
+    }
+
+    /**
+     * 输入一个整数数组，判断该数组是不是某二叉搜索树的后序遍历的结果。
+     * 如果是则输出Yes,否则输出No。假设输入的数组的任意两个数字都互不相同。
+     * （后序遍历：首先遍历左子树，然后遍历右子树，最后访问根结点，
+     * 在遍历左、右子树时，仍然先遍历左子树，然后遍历右子树，最后遍历根结点）
+     *
+     * 解：BST的后序序列的合法序列是，对于一个序列S，最后一个元素是x
+     * （也就是根），如果去掉最后一个元素的序列为T，
+     * 那么T满足：T可以分成两段，前一段（左子树）小于x，后一段（右子树）大于x，
+     * 且这两段（子树）都是合法的后序序列。完美的递归定义 : )
+     * @param sequence
+     * @return
+     */
+    public boolean VerifySquenceOfBST(int[] sequence) {
+        int count = sequence.length;
+        if (count == 0)
+            return false;
+        return isRight(sequence, 0, count - 1);
+
+    }
+
+    public boolean isRight(int[] sequence, int start, int end) {
+        if (start >= end) return true;
+        int i = end - 1;
+        while (sequence[i] > sequence[end] && i > start) i--;
+        for (int j = start; j < i; j++) {
+            if (sequence[j] > sequence[end])
+                return false;
+        }
+        return isRight(sequence, start, i) && isRight(sequence, i + 1, end - 1);
+
+
     }
 
 }
