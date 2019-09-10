@@ -674,18 +674,55 @@ public class Solution {
         QuickSort(num, i + 1, right);
     }
 
+    /**
+     * 时间复杂度O(n)，空间复杂度O(1）
+     * 查找数组中重复的数字
+     * 在长度为n的数组中，所有的元素都是0到n-1的范围内。
+     * 数组中的某些数字是重复的，但不知道有几个重复的数字，
+     * 也不知道重复了几次，请找出任意重复的数字。
+     * 例如，输入长度为7的数组{2,3,1,0,2,5,3}，那么对应的输出为2或3
+     *
+     * @param nums
+     * @return
+     */
+    public static ArrayList<Integer> findDuplicatedNum(int[] nums) {
+        ArrayList<Integer> integers = new ArrayList<>();
+        if (nums == null || nums.length <= 0) {
+            return null;
+        }
+        // 数据不在0-n-1区间
+        for (int i = 0; i < nums.length; ++i) {
+            if (nums[i] < 0 || nums[i] > nums.length - 1) {
+                return null;
+            }
+        }
+        // 数组中的数字为 0 到 n-1 的范围内。如果这个数组中没有重复的数字，则对应的 i 位置的数据也为 i。
+        // 可以重排此数组，扫描数组中的每一个数字，当扫描到下标为 i 的数字时，首先比较这个数字（m）是不是等于 i。
+        // 如果是，接着扫描下一个数字。如果不是，再拿它和第m 个数字比较，
+        // 如果相等则找到重复的数据。否则就把第 i 个数字与第 m 个数字交换。
+        // 重复这个比较、交换的过程，直到找到重复的数字。
+        for (int i = 0; i < nums.length; ++i) {
+            while (nums[i]!=i){
+                if(nums[i] == nums[nums[i]]){
+                    integers.add(nums[i]);
+                    // 找到该数字后 就结束循环
+                    break;
+                }
+                // 交换数字
+                    int temp = nums[i];
+                    nums[i] = nums[temp];
+                    nums[temp] = temp;
+            }
+        }
+
+        return integers;
+    }
 
     public static void main(String[] args) {
-//
-//        int[] a =  {1,2,3,2,2,2,5,4,2};
-//        new Solution().MoreThanHalfNum_Solution(a);
+        int[] a = {2,3,1,0,2,5,3};
+        ArrayList<Integer> duplicatedNum = findDuplicatedNum(a);
+        System.out.println(duplicatedNum);
 
-        int arr[] = new int[]{5, 7, 6, 2, 1};
-        int len = arr.length - 1;
-        QuickSort(arr, 0, len);
-        for (int i : arr) {
-            System.out.print(i + "\t");
-        }
     }
 
 }
