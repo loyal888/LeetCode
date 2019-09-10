@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Stack;
 
 public class Solution {
@@ -507,7 +508,10 @@ public class Solution {
      * @return
      */
     public boolean IsPopOrder(int[] pushA, int[] popA) {
-        if (pushA.length == 0 || popA.length == 0) return false;
+        if (pushA.length == 0 || popA.length == 0) {
+            return false;
+        }
+        ;
 
         Stack<Integer> stack = new Stack<>();
         int popIndex = 0;
@@ -568,26 +572,120 @@ public class Solution {
      */
     public boolean VerifySquenceOfBST(int[] sequence) {
         int count = sequence.length;
-        if (count == 0)
+        if (count == 0) {
             return false;
+        }
         return isRight(sequence, 0, count - 1);
 
     }
 
     public boolean isRight(int[] sequence, int start, int end) {
-        if (start >= end) return true;
+        if (start >= end) {
+            return true;
+        }
         int i = end - 1;
-        while (sequence[i] > sequence[end] && i > start) i--;
+        while (sequence[i] > sequence[end] && i > start) {
+            i--;
+        }
         for (int j = start; j < i; j++) {
-            if (sequence[j] > sequence[end])
+            if (sequence[j] > sequence[end]) {
                 return false;
+            }
         }
         return isRight(sequence, start, i) && isRight(sequence, i + 1, end - 1);
 
 
     }
 
+    /**
+     * 数组中有一个数字出现的次数超过数组长度的一半，请找出这个数字。
+     * 例如输入一个长度为9的数组{1,2,3,2,2,2,5,4,2}。
+     * 由于数字2在数组中出现了5次，超过数组长度的一半，
+     * 因此输出2。如果不存在则输出0。
+     *
+     * @param array
+     * @return
+     */
+    public int MoreThanHalfNum_Solution(int[] array) {
+        // 测试用例 [1,2,2]->2; [1,2,3]->0; []->0;  [1]->1; [1,2]->0;
+        if (array.length == 0) {
+            return 0;
+        }
+        if (array.length == 1) {
+            return array[0];
+        }
+        // 遍历数组 记录出现的次数
+        HashMap<Integer, Integer> count = new HashMap<>();
+        for (int i = 0; i < array.length; i++) {
+            if (!count.containsKey(array[i])) {
+                count.put(array[i], 1);
+            } else {
+                Integer value = count.get(array[i]);
+                count.put(array[i], value + 1);
+            }
+        }
+        // 判断次数是否超过数组长度的一半
+        for (Integer i : count.keySet()) {
+            if (count.get(i) > array.length / 2) {
+                return i;
+            }
+        }
+        return 0;
+    }
+
+    /**
+     * 快排实现
+     *
+     * @param num
+     * @param left
+     * @param right
+     * @return
+     */
+
+    private static void QuickSort(int[] num, int left, int right) {
+        //如果left等于right，即数组只有一个元素，直接返回
+        if (left >= right) {
+            return;
+        }
+        //设置最左边的元素为基准值
+        int key = num[left];
+        //数组中比key小的放在左边，比key大的放在右边，key值下标为i
+        int i = left;
+        int j = right;
+        while (i < j) {
+            //j向左移，直到遇到比key小的值
+            while (num[j] >= key && i < j) {
+                j--;
+            }
+            //i向右移，直到遇到比key大的值
+            while (num[i] <= key && i < j) {
+                i++;
+            }
+            //i和j指向的元素交换
+            if (i < j) {
+                int temp = num[i];
+                num[i] = num[j];
+                num[j] = temp;
+            }
+        }
+        num[left] = num[i];
+        num[i] = key;
+        QuickSort(num, left, i - 1);
+        QuickSort(num, i + 1, right);
+    }
+
+
     public static void main(String[] args) {
+//
+//        int[] a =  {1,2,3,2,2,2,5,4,2};
+//        new Solution().MoreThanHalfNum_Solution(a);
+
+        int arr[] = new int[]{5, 7, 6, 2, 1};
+        int len = arr.length - 1;
+        QuickSort(arr, 0, len);
+        for (int i : arr) {
+            System.out.print(i + "\t");
+        }
     }
 
 }
