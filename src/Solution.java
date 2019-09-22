@@ -1,8 +1,11 @@
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Scanner;
 import java.util.Stack;
 
 public class Solution {
+
+
     /**
      * 在一个二维数组中（每个一维数组的长度相同），每一行都按照从左到右递增的顺序排序，
      * 每一列都按照从上到下递增的顺序排序。
@@ -702,27 +705,45 @@ public class Solution {
         // 如果相等则找到重复的数据。否则就把第 i 个数字与第 m 个数字交换。
         // 重复这个比较、交换的过程，直到找到重复的数字。
         for (int i = 0; i < nums.length; ++i) {
-            while (nums[i]!=i){
-                if(nums[i] == nums[nums[i]]){
+            while (nums[i] != i) {
+                if (nums[i] == nums[nums[i]]) {
                     integers.add(nums[i]);
                     // 找到该数字后 就结束循环
                     break;
                 }
                 // 交换数字
-                    int temp = nums[i];
-                    nums[i] = nums[temp];
-                    nums[temp] = temp;
+                int temp = nums[i];
+                nums[i] = nums[temp];
+                nums[temp] = temp;
             }
         }
 
         return integers;
     }
 
-    public static void main(String[] args) {
-        int[] a = {2,3,1,0,2,5,3};
-        ArrayList<Integer> duplicatedNum = findDuplicatedNum(a);
-        System.out.println(duplicatedNum);
+    /**
+     * 输入n个整数，找出其中最小的K个数。例如输入4,5,1,6,2,7,3,8这8个数字，则最小的4个数字是1,2,3,4,。
+     * @param input
+     * @param k
+     * @return
+     */
+    public ArrayList<Integer> GetLeastNumbers_Solution(int [] input, int k) {
+        ArrayList<Integer> minKs = new ArrayList<>();
+        if(k>input.length){return minKs;}
+        QuickSort(input,0,input.length-1);
+        for(int i=0;i<k;i++){
+            minKs.add(input[i]);
+        }
+        return minKs;
+    }
+
+    public static void main(String args[])
+    {
 
     }
+
+
+
+
 
 }
