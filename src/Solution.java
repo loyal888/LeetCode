@@ -722,6 +722,7 @@ public class Solution {
      * 输入n个整数，找出其中最小的K个数。例如输入4,5,1,6,2,7,3,8这8个数字，则最小的4个数字是1,2,3,4,。
      * 暴力法
      * // TODO 学习非暴力解决办法
+     *
      * @param input
      * @param k
      * @return
@@ -748,6 +749,7 @@ public class Solution {
      * 例如:{6,-3,-2,7,-15,1,2,2},连续子向量的最大和为8(从第0个开始,到第3个为止)。
      * 给一个数组，返回它的最大连续子序列的和，
      * 你会不会被他忽悠住？(子向量的长度至少是1)
+     *
      * @param array
      * @return
      */
@@ -756,13 +758,13 @@ public class Solution {
         for (int i = 0; i < array.length; i++) {
             integers.add(array[i]);
             int sum = array[i];
-            for (int j = i+1; j < array.length; j++) {
-                sum+=array[j];
+            for (int j = i + 1; j < array.length; j++) {
+                sum += array[j];
                 integers.add(sum);
             }
         }
         Collections.sort(integers);
-        return integers.get(integers.size()-1);
+        return integers.get(integers.size() - 1);
     }
 
     /**
@@ -771,42 +773,195 @@ public class Solution {
      * F（i）=max（F（i-1）+array[i] ， array[i]）
      * res：所有子数组的和的最大值
      * res=max（res，F（i））
-     *
+     * <p>
      * 如数组[6, -3, -2, 7, -15, 1, 2, 2]
      * 初始状态：
-     *     F（0）=6
-     *     res=6
+     * F（0）=6
+     * res=6
      * i=1：
-     *     F（1）=max（F（0）-3，-3）=max（6-3，3）=3
-     *     res=max（F（1），res）=max（3，6）=6
+     * F（1）=max（F（0）-3，-3）=max（6-3，3）=3
+     * res=max（F（1），res）=max（3，6）=6
      * i=2：
-     *     F（2）=max（F（1）-2，-2）=max（3-2，-2）=1
-     *     res=max（F（2），res）=max（1，6）=6
+     * F（2）=max（F（1）-2，-2）=max（3-2，-2）=1
+     * res=max（F（2），res）=max（1，6）=6
      * i=3：
-     *     F（3）=max（F（2）+7，7）=max（1+7，7）=8
-     *     res=max（F（3），res）=max（8，6）=8
+     * F（3）=max（F（2）+7，7）=max（1+7，7）=8
+     * res=max（F（3），res）=max（8，6）=8
      * i=4：
-     *     F（4）=max（F（3）-15，-15）=max（8-15，-15）=-7
-     *     res=max（F（4），res）=max（-7，8）=8
+     * F（4）=max（F（3）-15，-15）=max（8-15，-15）=-7
+     * res=max（F（4），res）=max（-7，8）=8
      * 以此类推
      * 最终res的值为8     * @param array
+     *
      * @return
      */
     public static int FindGreatestSumOfSubArray1(int[] array) {
         // 记录当前所有子数组的和的最大值
         int res = array[0];
         // 包含array[i]的连续数组最大值
-        int max=array[0];
+        int max = array[0];
         for (int i = 1; i < array.length; i++) {
-            max=Math.max(max+array[i], array[i]);
-            res=Math.max(max, res);
+            max = Math.max(max + array[i], array[i]);
+            res = Math.max(max, res);
         }
         return res;
     }
 
-    public static void main(String args[]) {
-        int[] array = new int[]{6,-3,-2,8};
+
+    /**
+     * 暴力法
+     * 求出1~13的整数中1出现的次数,并算出100~1300的整数中1出现的次数？
+     * 为此他特别数了一下1~13中包含1的数字有1、10、11、12、13
+     * 因此共出现6次,但是对于后面问题他就没辙了。
+     * ACMer希望你们帮帮他,并把问题更加普遍化
+     * 可以很快的求出任意非负整数区间中1出现的次数（从1 到 n 中1出现的次数）。
+     *
+     * @param n
+     * @return
+     */
+    public static int NumberOf1Between1AndN_Solution(int n) {
+        int count = 0;
+        for (int i = 0; i <= n; i++) {
+            Integer integer = i;
+            char one = '1';
+            String s = integer.toString();
+            for (int j = 0; j < s.length(); j++) {
+                if (one == s.charAt(j)) {
+                    count++;
+                }
+            }
+        }
+        return count;
     }
 
+    /**
+     * 输入一个正整数数组，把数组里所有数字拼接起来排成一个数，打印能拼接出的所有数字中最小的一个。
+     * 例如输入数组{3，32，321}，则打印出这三个数字能排成的最小数字为321323。
+     *
+     * @param numbers
+     * @return 解题思路：
+     * 先将整型数组转换成String数组，然后将String数组排序，最后将排好序的字符串数组拼接出来。关键就是制定排序规则。
+     * 排序规则如下：
+     * 若ab > ba 则 a > b，
+     * 若ab < ba 则 a < b，
+     * 若ab = ba 则 a = b；
+     * 解释说明：
+     * 比如 "3" < "31"但是 "331" > "313"，所以要将二者拼接起来进行比较
+     */
+    public static String PrintMinNumber(int[] numbers) {
+        if (numbers == null || numbers.length == 0) {
+            return "";
+        }
+        int len = numbers.length;
+        String[] str = new String[len];
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < len; i++) {
+            str[i] = String.valueOf(numbers[i]);
+        }
+        Arrays.sort(str, new Comparator<String>() {
+            @Override
+            public int compare(String s1, String s2) {
+                String c1 = s1 + s2;
+                String c2 = s2 + s1;
+                return c1.compareTo(c2);
+            }
+        });
+        for (int i = 0; i < len; i++) {
+            sb.append(str[i]);
+        }
+        return sb.toString();
+    }
+
+    /**
+     * 把只包含质因子2、3和5的数称作丑数（Ugly Number）。
+     * 例如6、8都是丑数，但14不是，因为它包含质因子7。
+     * 习惯上我们把1当做是第一个丑数。
+     * 求按从小到大的顺序的第N个丑数。
+     *
+     *
+     * 通俗易懂的解释：
+     * 首先从丑数的定义我们知道，一个丑数的因子只有2,3,5，那么丑数p = 2 ^ x * 3 ^ y * 5 ^ z，换句话说一个丑数一定由另一个丑数乘以2或者乘以3或者乘以5得到，那么我们从1开始乘以2,3,5，就得到2,3,5三个丑数，在从这三个丑数出发乘以2,3,5就得到4，6,10,6，9,15,10,15,25九个丑数，我们发现这种方法会得到重复的丑数，而且我们题目要求第N个丑数，这样的方法得到的丑数也是无序的。那么我们可以维护三个队列：
+     * （1）丑数数组： 1
+     * 乘以2的队列：2
+     * 乘以3的队列：3
+     * 乘以5的队列：5
+     * 选择三个队列头最小的数2加入丑数数组，同时将该最小的数乘以2,3,5放入三个队列；
+     * （2）丑数数组：1,2
+     * 乘以2的队列：4
+     * 乘以3的队列：3，6
+     * 乘以5的队列：5，10
+     * 选择三个队列头最小的数3加入丑数数组，同时将该最小的数乘以2,3,5放入三个队列；
+     * （3）丑数数组：1,2,3
+     * 乘以2的队列：4,6
+     * 乘以3的队列：6,9
+     * 乘以5的队列：5,10,15
+     * 选择三个队列头里最小的数4加入丑数数组，同时将该最小的数乘以2,3,5放入三个队列；
+     * （4）丑数数组：1,2,3,4
+     * 乘以2的队列：6，8
+     * 乘以3的队列：6,9,12
+     * 乘以5的队列：5,10,15,20
+     * 选择三个队列头里最小的数5加入丑数数组，同时将该最小的数乘以2,3,5放入三个队列；
+     * （5）丑数数组：1,2,3,4,5
+     * 乘以2的队列：6,8,10，
+     * 乘以3的队列：6,9,12,15
+     * 乘以5的队列：10,15,20,25
+     * 选择三个队列头里最小的数6加入丑数数组，但我们发现，有两个队列头都为6，所以我们弹出两个队列头，同时将12,18,30放入三个队列；
+     * ……………………
+     * 疑问：
+     * 1.为什么分三个队列？
+     * 丑数数组里的数一定是有序的，因为我们是从丑数数组里的数乘以2,3,5选出的最小数，一定比以前未乘以2,3,5大，同时对于三个队列内部，按先后顺序乘以2,3,5分别放入，所以同一个队列内部也是有序的；
+     * 2.为什么比较三个队列头部最小的数放入丑数数组？
+     * 因为三个队列是有序的，所以取出三个头中最小的，等同于找到了三个队列所有数中最小的。
+     * 实现思路：
+     * 我们没有必要维护三个队列，只需要记录三个指针显示到达哪一步；“|”表示指针,arr表示丑数数组；
+     * （1）1
+     * |2
+     * |3
+     * |5
+     * 目前指针指向0,0,0，队列头arr[0] * 2 = 2,  arr[0] * 3 = 3,  arr[0] * 5 = 5
+     * （2）1 2
+     * 2 |4
+     * |3 6
+     * |5 10
+     * 目前指针指向1,0,0，队列头arr[1] * 2 = 4,  arr[0] * 3 = 3, arr[0] * 5 = 5
+     * （3）1 2 3
+     * 2| 4 6
+     * 3 |6 9
+     * |5 10 15
+     * 目前指针指向1,1,0，队列头arr[1] * 2 = 4,  arr[1] * 3 = 6, arr[0] * 5 = 5
+     * @param index
+     * @return
+     */
+    public static int GetUglyNumber_Solution(int index) {
+        if (index < 7) {
+            return index;
+        }
+        ArrayList<Integer> arr = new ArrayList<>();
+        //p2，p3，p5分别为三个队列的指针，newNum为从队列头选出来的最小数
+        int p2 = 0, p3 = 0, p5 = 0, newNum = 1;
+        arr.add(newNum);
+        while (arr.size() < index) {
+            //选出三个队列头最小的数
+            newNum = Math.min(arr.get(p2) * 2, Math.min(arr.get(p3) * 3, arr.get(p5) * 5));
+            //这三个if有可能进入一个或者多个，进入多个是三个队列头最小的数有多个的情况
+            if (arr.get(p2) * 2 == newNum) {
+                p2++;
+            } ;
+            if (arr.get(p3) * 3 == newNum) {
+                p3++;
+            }
+            if (arr.get(p5) * 5 == newNum) {
+                p5++;
+            }
+            arr.add(newNum);
+        }
+        return arr.get(index - 1);
+    }
+
+    public static void main(String args[]) {
+        int[] array = new int[]{6, 13, 3, 8};
+        GetUglyNumber_Solution(10);
+
+    }
 
 }
