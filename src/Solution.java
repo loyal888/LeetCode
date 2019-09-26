@@ -674,6 +674,52 @@ public class Solution {
         QuickSort(num, i + 1, right);
     }
 
+    public static void merge(int[] a, int low, int mid, int high) {
+        int[] temp = new int[high - low + 1];
+        int i = low;// 左指针
+        int j = mid + 1;// 右指针
+        int k = 0;
+        // 把较小的数先移到新数组中
+        while (i <= mid && j <= high) {
+            if (a[i] < a[j]) {
+                temp[k++] = a[i++];
+            } else {
+                temp[k++] = a[j++];
+            }
+        }
+        // 把左边剩余的数移入数组
+        while (i <= mid) {
+            temp[k++] = a[i++];
+        }
+        // 把右边边剩余的数移入数组
+        while (j <= high) {
+            temp[k++] = a[j++];
+        }
+        // 把新数组中的数覆盖nums数组
+        for (int k2 = 0; k2 < temp.length; k2++) {
+            a[k2 + low] = temp[k2];
+        }
+    }
+
+    /**
+     * 归并排序
+     * @param a
+     * @param low
+     * @param high
+     */
+    public static void mergeSort(int[] a, int low, int high) {
+        int mid = (low + high) / 2;
+        if (low < high) {
+            // 左边
+            mergeSort(a, low, mid);
+            // 右边
+            mergeSort(a, mid + 1, high);
+            // 左右归并
+            merge(a, low, mid, high);
+        }
+
+    }
+
     /**
      * 时间复杂度O(n)，空间复杂度O(1）
      * 查找数组中重复的数字
@@ -877,8 +923,8 @@ public class Solution {
      * 例如6、8都是丑数，但14不是，因为它包含质因子7。
      * 习惯上我们把1当做是第一个丑数。
      * 求按从小到大的顺序的第N个丑数。
-     *
-     *
+     * <p>
+     * <p>
      * 通俗易懂的解释：
      * 首先从丑数的定义我们知道，一个丑数的因子只有2,3,5，那么丑数p = 2 ^ x * 3 ^ y * 5 ^ z，换句话说一个丑数一定由另一个丑数乘以2或者乘以3或者乘以5得到，那么我们从1开始乘以2,3,5，就得到2,3,5三个丑数，在从这三个丑数出发乘以2,3,5就得到4，6,10,6，9,15,10,15,25九个丑数，我们发现这种方法会得到重复的丑数，而且我们题目要求第N个丑数，这样的方法得到的丑数也是无序的。那么我们可以维护三个队列：
      * （1）丑数数组： 1
@@ -929,6 +975,7 @@ public class Solution {
      * 3 |6 9
      * |5 10 15
      * 目前指针指向1,1,0，队列头arr[1] * 2 = 4,  arr[1] * 3 = 6, arr[0] * 5 = 5
+     *
      * @param index
      * @return
      */
@@ -946,7 +993,8 @@ public class Solution {
             //这三个if有可能进入一个或者多个，进入多个是三个队列头最小的数有多个的情况
             if (arr.get(p2) * 2 == newNum) {
                 p2++;
-            } ;
+            }
+            ;
             if (arr.get(p3) * 3 == newNum) {
                 p3++;
             }
@@ -959,7 +1007,6 @@ public class Solution {
     }
 
     /**
-     *
      * @param str
      * @return 说一下解题思路哈，其实主要还是hash，
      * 利用每个字母的ASCII码作hash来作为数组的index。
@@ -972,22 +1019,82 @@ public class Solution {
      */
     public static int FirstNotRepeatingChar(String str) {
         int[] words = new int[58];
-        for(int i = 0;i<str.length();i++){
-            words[((int)str.charAt(i))-65] += 1;
+        for (int i = 0; i < str.length(); i++) {
+            words[((int) str.charAt(i)) - 65] += 1;
         }
-        for(int i=0;i<str.length();i++){
-            if(words[((int)str.charAt(i))-65]==1) {
+        for (int i = 0; i < str.length(); i++) {
+            if (words[((int) str.charAt(i)) - 65] == 1) {
                 return i;
             }
         }
         return -1;
     }
 
+    /**
+     * 归并排序的改进，把数据分成前后两个数组(递归分到每个数组仅有一个数据项)，
+     * 合并数组，合并时，出现前面的数组值array[i]大于后面数组值array[j]时；则前面
+     * 数组array[i]~array[mid]都是大于array[j]的，count += mid+1 - i
+     * 参考剑指Offer，但是感觉剑指Offer归并过程少了一步拷贝过程。
+     * 还有就是测试用例输出结果比较大，对每次返回的count mod(1000000007)求余
+     *
+     * @param array
+     * @return
+     */
+    public int InversePairs(int[] array) {
+        if (array == null || array.length == 0) {
+            return 0;
+        }
+        int[] copy = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            copy[i] = array[i];
+        }
+        //数值过大求余
+        int count = InversePairsCore(array, copy, 0, array.length - 1);
+        return count;
+
+    }
+
+    private int InversePairsCore(int[] array, int[] copy, int low, int high) {
+        if (low == high) {
+            return 0;
+        }
+        int mid = (low + high) >> 1;
+        int leftCount = InversePairsCore(array, copy, low, mid) % 1000000007;
+        int rightCount = InversePairsCore(array, copy, mid + 1, high) % 1000000007;
+        int count = 0;
+        int i = mid;
+        int j = high;
+        int locCopy = high;
+        while (i >= low && j > mid) {
+            if (array[i] > array[j]) {
+                count += j - mid;
+                copy[locCopy--] = array[i--];
+                // 数值过大求余
+                if (count >= 1000000007) {
+                    count %= 1000000007;
+                }
+            } else {
+                copy[locCopy--] = array[j--];
+            }
+        }
+        for (; i >= low; i--) {
+            copy[locCopy--] = array[i];
+        }
+        for (; j > mid; j--) {
+            copy[locCopy--] = array[j];
+        }
+        for (int s = low; s <= high; s++) {
+            array[s] = copy[s];
+        }
+        return (leftCount + rightCount + count) % 1000000007;
+    }
+
     public static void main(String args[]) {
-        int[] array = new int[]{6, 13, 3, 8};
+        int[] array = new int[]{6, 13, 23, 8};
         GetUglyNumber_Solution(10);
         int index = FirstNotRepeatingChar("gfdusbfvhcbdiuswfbuidsab");
         System.out.print(index);
+        mergeSort(array,0,3);
 
     }
 
