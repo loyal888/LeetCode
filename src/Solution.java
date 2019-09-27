@@ -1,3 +1,7 @@
+
+
+import android.util.ArrayMap;
+
 import java.util.*;
 
 public class Solution {
@@ -703,6 +707,7 @@ public class Solution {
 
     /**
      * 归并排序
+     *
      * @param a
      * @param low
      * @param high
@@ -1089,13 +1094,204 @@ public class Solution {
         return (leftCount + rightCount + count) % 1000000007;
     }
 
-    public static void main(String args[]) {
-        int[] array = new int[]{6, 13, 23, 8};
-        GetUglyNumber_Solution(10);
-        int index = FirstNotRepeatingChar("gfdusbfvhcbdiuswfbuidsab");
-        System.out.print(index);
-        mergeSort(array,0,3);
+    /**
+     * 输入两个链表，找出它们的第一个公共结点。
+     * 例如： 1->3->5->6 2->3->5
+     * 5是公共结点
+     *
+     * @param pHead1
+     * @param pHead2
+     * @return
+     */
+    public ListNode FindFirstCommonNode(ListNode pHead1, ListNode pHead2) {
+        ListNode p1 = pHead1;
+        ListNode p2 = pHead2;
+        while (p1 != p2) {
+            p1 = (p1 == null ? pHead2 : p1.next);
+            p2 = (p2 == null ? pHead1 : p2.next);
+        }
+        return p1;
+    }
+
+
+    /**
+     * 统计一个数字在排序数组中出现的次数。
+     *
+     * @param array
+     * @param k
+     * @return
+     */
+    public int GetNumberOfK(int[] array, int k) {
+        int count = 0;
+        for (int i = 0; i < array.length; i++) {
+            if (array[i] == k) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    /**
+     * 输入一棵二叉树，求该树的深度。
+     * 从根结点到叶结点依次经过的结点（含根、叶结点）
+     * 形成树的一条路径，最长路径的长度为树的深度。
+     * 递归层次遍历
+     *
+     * @param root
+     * @return
+     */
+    public int TreeDepth(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        int left = TreeDepth(root.left);
+        int right = TreeDepth(root.right);
+        return Math.max(left, right) + 1;
+    }
+
+    /**
+     * 输入一棵二叉树，判断该二叉树是否是平衡二叉树。
+     * 平衡二叉树（Balanced Binary Tree）具有以下性质：
+     * 它是一棵空树或它的左右两个子树的高度差的绝对值不超过1，
+     * 并且左右两个子树都是一棵平衡二叉树。
+     *
+     * @param root
+     * @return
+     */
+    public boolean IsBalanced_Solution(TreeNode root) {
+        if (root == null) {
+            return true;
+        }
+        return Math.abs(maxDepth(root.left) - maxDepth(root.right)) <= 1 &&
+                IsBalanced_Solution(root.left) && IsBalanced_Solution(root.right);
+    }
+
+    private int maxDepth(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        return 1 + Math.max(maxDepth(root.left), maxDepth(root.right));
+    }
+
+    /**
+     * 一个整型数组里除了两个数字之外，其他的数字都出现了两次。
+     * 请写程序找出这两个只出现一次的数字。
+     *
+     * @param array
+     * @param num1
+     * @param num2
+     */
+    public static void FindNumsAppearOnce(int[] array, int num1[], int num2[]) {
+        if (array == null) {
+            num1 = null;
+            num2 = null;
+        }
+        HashMap<Integer, Integer> arrayMap = new HashMap<>();
+        for (int num : array) {
+            if (arrayMap.containsKey(num)) {
+                arrayMap.put(num, (arrayMap.get(num)) + 1);
+            } else {
+                arrayMap.put(num, 1);
+            }
+        }
+        int[] num = new int[2];
+        int j = 0;
+        for (int anArray : array) {
+            Integer integer = arrayMap.get(anArray);
+            if (integer == 1) {
+                num[j] = anArray;
+                j++;
+            }
+        }
+        num1[0] = num[0];
+        num2[0] = num[1];
+    }
+
+    /**
+     * 小明很喜欢数学,有一天他在做数学作业时,要求计算出9~16的和,他马上就写出了正确答案是100。
+     * 但是他并不满足于此,他在想究竟有多少种连续的正数序列的和为100(至少包括两个数)。
+     * 没多久,他就得到另一组连续正数和为100的序列:18,19,20,21,22。
+     * 现在把问题交给你,你能不能也很快的找出所有和为S的连续正数序列?
+     * Good Luck!
+     * <p>
+     * 1）由于我们要找的是和为S的连续正数序列，因此这个序列是个公差为1的等差数列，
+     * 而这个序列的中间值代表了平均值的大小。假设序列长度为n，
+     * 那么这个序列的中间值可以通过（S / n）得到，知道序列的中间值和长度，
+     * 也就不难求出这段序列了。
+     * 2）满足条件的n分两种情况：
+     * n为奇数时，序列中间的数正好是序列的平均值，所以条件为：(n & 1) == 1 && sum % n == 0；
+     * n为偶数时，序列中间两个数的平均值是序列的平均值，而这个平均值的小数部分为0.5，
+     * 所以条件为：(sum % n) * 2 == n.
+     * 3）由题可知n >= 2，那么n的最大值是多少呢？我们完全可以将n从2到S全部遍历一次，
+     * 但是大部分遍历是不必要的。为了让n尽可能大，我们让序列从1开始，
+     * 根据等差数列的求和公式：S = (1 + n) * n / 2，得到. n < 根号（2*s）
+     * 最后举一个例子，假设输入sum = 100，我们只需遍历n = 13~2的情况（按题意应从大到小遍历），n = 8时，得到序列[9, 10, 11, 12, 13, 14, 15, 16]；n  = 5时，得到序列[18, 19, 20, 21, 22]。
+     * 完整代码：时间复杂度为
+     *
+     * @param sum
+     * @return
+     */
+    public ArrayList<ArrayList<Integer>> FindContinuousSequence(int sum) {
+        ArrayList<ArrayList<Integer>> ans = new ArrayList<>();
+        for (int n = (int) Math.sqrt(2 * sum); n >= 2; n--) {
+            if ((n & 1) == 1 && sum % n == 0 || (sum % n) * 2 == n) {
+                ArrayList<Integer> list = new ArrayList<>();
+                for (int j = 0, k = (sum / n) - (n - 1) / 2; j < n; j++, k++) {
+                    list.add(k);
+                }
+                ans.add(list);
+            }
+        }
+        return ans;
+    }
+
+    /**
+     * 输入一个递增排序的数组和一个数字S，在数组中查找两个数，
+     * 使得他们的和正好是S，如果有多对数字的和等于S
+     * ，输出两个数的乘积最小的。
+     *
+     * @param array
+     * @param sum
+     * @return
+     */
+    public ArrayList<Integer> FindNumbersWithSum(int[] array, int sum) {
+        ArrayList<Integer> integers = new ArrayList<>();
+        boolean find = false;
+        for (int i = 0; i < array.length; i++) {
+            for (int j = array.length - 1; j >= i; j--) {
+                if (array[i] + array[j] == sum) {
+                    integers.add(array[i]);
+                    integers.add(array[j]);
+                    find = true;
+                }
+            }
+            if (find) {
+                break;
+            }
+        }
+        return integers;
+    }
+
+    /**
+     * 汇编语言中有一种移位指令叫做循环左移（ROL），现在有个简单的任务，就是用字符串模拟这个指令的运算结果。对于一个给定的字符序列S，请你把其循环左移K位后的序列输出。例如，字符序列S=”abcXYZdef”,要求输出循环左移3位后的结果，即“XYZdefabc”。
+     *
+     * @param str
+     * @param n
+     * @return
+     */
+    public String LeftRotateString(String str, int n) {
+            if (n > str.length()) {
+                return "";
+            }
+            return new String(str.getBytes(), n, str.length() - n) + new String(str.getBytes(), 0, n);
+        }
+    public String ReverseSentence(String str) {
 
     }
 
+    public static void main(String args[]) {
+        int[] array = new int[]{6, 13, 8, 23, 8};
+        FindNumsAppearOnce(array, null, null);
+
+    }
 }
