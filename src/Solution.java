@@ -1280,18 +1280,158 @@ public class Solution {
      * @return
      */
     public String LeftRotateString(String str, int n) {
-            if (n > str.length()) {
-                return "";
-            }
-            return new String(str.getBytes(), n, str.length() - n) + new String(str.getBytes(), 0, n);
+        if (n > str.length()) {
+            return "";
         }
-    public String ReverseSentence(String str) {
+        return new String(str.getBytes(), n, str.length() - n) + new String(str.getBytes(), 0, n);
+    }
 
+    /**
+     * 牛客最近来了一个新员工Fish，每天早晨总是会拿着一本英文杂志，写些句子在本子上。
+     * 同事Cat对Fish写的内容颇感兴趣，有一天他向Fish借来翻看，但却读不懂它的意思。
+     * 例如，“student. a am I”。
+     * 后来才意识到，这家伙原来把句子单词的顺序翻转了，正确的句子应该是“I am a student.”。
+     * Cat对一一的翻转这些单词顺序可不在行，你能帮助他么？
+     * @param args
+     */
+    /**
+     * 牛客最近来了一个新员工Fish，每天早晨总是会拿着一本英文杂志，写些句子在本子上。
+     * 同事Cat对Fish写的内容颇感兴趣，有一天他向Fish借来翻看，但却读不懂它的意思。
+     * 例如，“student. a am I”。
+     * 后来才意识到，这家伙原来把句子单词的顺序翻转了，正确的句子应该是“I am a student.”。
+     * Cat对一一的翻转这些单词顺序可不在行，你能帮助他么？
+     */
+    public static String ReverseSentence(String str) {
+        if (" ".equals(str)) {
+            return " ";
+        }
+        Stack<String> chs = new Stack<>();
+        String[] strs = str.split(" ");
+        chs.addAll(Arrays.asList(strs));
+        StringBuilder s = new StringBuilder();
+        while (!chs.empty()) {
+            s.append(chs.pop());
+            s.append(" ");
+        }
+        return s.toString().trim();
+    }
+
+    /**
+     * 每年六一儿童节,牛客都会准备一些小礼物去看望孤儿院的小朋友,今年亦是如此。
+     * HF作为牛客的资深元老,自然也准备了一些小游戏。
+     * 其中,有个游戏是这样的:首先,让小朋友们围成一个大圈。
+     * 然后,他随机指定一个数m,让编号为0的小朋友开始报数。
+     * 每次喊到m-1的那个小朋友要出列唱首歌,然后可以在礼品箱中任意的挑选礼物,并且不再回到圈中
+     * 从他的下一个小朋友开始,继续0...m-1报数....这样下去....直到剩下最后一个小朋友,
+     * 可以不用表演,并且拿到牛客名贵的“名侦探柯南”典藏版(名额有限哦!!^_^)。
+     * 请你试着想下,哪个小朋友会得到这份礼品呢？(注：小朋友的编号是从0到n-1)
+     * 如果没有小朋友，请返回-1
+     * <p>
+     * 约瑟夫环 x'=(x+k)%n
+     */
+    int LastRemaining_Solution(int n, int m) {
+        if (n == 0) {
+            return -1;
+        }
+        if (n == 1) {
+            return 0;
+        } else {
+            return (LastRemaining_Solution(n - 1, m) + m) % n;
+        }
+    }
+
+    /**
+     * 求1+2+3+...+n，要求不能使用乘除法、for、while、if、else、switch、
+     * case等关键字及条件判断语句（A?B:C）。
+     * @param n
+     * @return
+     */
+    public int Sum_Solution(int n) {
+        int sum = n;
+        boolean ans = (n > 0) && ((sum += Sum_Solution(n - 1)) > 0);
+        return sum;
+    }
+
+    /**
+     * 整数相加
+     * @param num1
+     * @param num2
+     * @return
+     */
+    public static  int Add(int num1,int num2) {
+        while (num2!=0) {
+            int temp = num1^num2;
+            num2 = (num1&num2)<<1;
+            num1 = temp;
+        }
+        return num1;
+    }
+
+    public static boolean flag;
+
+    /**
+     * 将一个字符串转换成一个整数(实现Integer.valueOf(string)的功能
+     * ，但是string不符合数字要求时返回0)，
+     * 要求不能使用字符串转换整数的库函数。
+     * 数值为0或者字符串不是一个合法的数值则返回0
+     * @param str
+     * @return
+     */
+    public static int StrToInt(String str) {
+        flag = false;
+        //判断输入是否合法
+        if (str == null || str.trim().equals("")) {
+            flag = true;
+            return 0;
+        }
+        // symbol=0,说明该数为正数;symbol=1，该数为负数;start用来区分第一位是否为符号位
+        int symbol = 0;
+        int start = 0;
+        char[] chars = str.trim().toCharArray();
+        if (chars[0] == '+') {
+            start = 1;
+        } else if (chars[0] == '-') {
+            start = 1;
+            symbol = 1;
+        }
+        int result = 0;
+        for (int i = start; i < chars.length; i++) {
+            if (chars[i] > '9' || chars[i] < '0') {
+                flag = true;
+                return 0;
+            }
+            int sum= result * 10 + (int) (chars[i] - '0');
+
+
+            if((sum-(int) (chars[i] - '0'))/10!=result){
+                flag=true;
+                return 0;
+            }
+
+            result=result * 10 + (int) (chars[i] - '0');
+            /*
+             * 本人认为java热门第一判断是否溢出是错误的，举个反例
+             * 当输入为value=2147483648时，在计算机内部的表示应该是-2147483648
+             * 显然value>Integer.MAX_VALUE是不成立的
+             */
+        }
+        // 注意：java中-1的n次方不能用：(-1)^n .'^'异或运算
+        // 注意，当value=-2147483648时，value=-value
+        result = (int) Math.pow(-1, symbol) * result;
+        return result;
     }
 
     public static void main(String args[]) {
-        int[] array = new int[]{6, 13, 8, 23, 8};
-        FindNumsAppearOnce(array, null, null);
-
+//        int[] array = new int[]{6, 13, 8, 23, 8};
+////        FindNumsAppearOnce(array, null, null);
+//        String abc = ReverseSentence(" ");
+//        System.out.println(abc);
+//        int i = LastRemaining_Solution(5, 3);
+//        System.out.println(i);
+        System.out.println(0 % 6);
+        Add(2,3);
+        StrToInt("-111");
     }
+
+
 }
