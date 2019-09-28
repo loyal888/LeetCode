@@ -1343,6 +1343,7 @@ public class Solution {
     /**
      * 求1+2+3+...+n，要求不能使用乘除法、for、while、if、else、switch、
      * case等关键字及条件判断语句（A?B:C）。
+     *
      * @param n
      * @return
      */
@@ -1354,14 +1355,15 @@ public class Solution {
 
     /**
      * 整数相加
+     *
      * @param num1
      * @param num2
      * @return
      */
-    public static  int Add(int num1,int num2) {
-        while (num2!=0) {
-            int temp = num1^num2;
-            num2 = (num1&num2)<<1;
+    public static int Add(int num1, int num2) {
+        while (num2 != 0) {
+            int temp = num1 ^ num2;
+            num2 = (num1 & num2) << 1;
             num1 = temp;
         }
         return num1;
@@ -1374,6 +1376,7 @@ public class Solution {
      * ，但是string不符合数字要求时返回0)，
      * 要求不能使用字符串转换整数的库函数。
      * 数值为0或者字符串不是一个合法的数值则返回0
+     *
      * @param str
      * @return
      */
@@ -1400,15 +1403,15 @@ public class Solution {
                 flag = true;
                 return 0;
             }
-            int sum= result * 10 + (int) (chars[i] - '0');
+            int sum = result * 10 + (int) (chars[i] - '0');
 
 
-            if((sum-(int) (chars[i] - '0'))/10!=result){
-                flag=true;
+            if ((sum - (int) (chars[i] - '0')) / 10 != result) {
+                flag = true;
                 return 0;
             }
 
-            result=result * 10 + (int) (chars[i] - '0');
+            result = result * 10 + (int) (chars[i] - '0');
             /*
              * 本人认为java热门第一判断是否溢出是错误的，举个反例
              * 当输入为value=2147483648时，在计算机内部的表示应该是-2147483648
@@ -1421,16 +1424,149 @@ public class Solution {
         return result;
     }
 
+    /**
+     * 在一个长度为n的数组里的所有数字都在0到n-1的范围内。
+     * 数组中某些数字是重复的，但不知道有几个数字是重复的。也不知道每个数字重复几次。请找出数组中任意一个重复的数字。 例如，如果输入长度为7的数组{2,3,1,0,2,5,3}，那么对应的输出是第一个重复的数字2。
+     *
+     * @param numbers
+     * @param length
+     * @param duplication
+     * @return
+     */
+    public boolean duplicate(int numbers[], int length, int[] duplication) {
+        boolean flag = false;
+        for (int i = 0; i < length; i++) {
+            if (flag) {
+                break;
+            }
+            for (int j = i + 1; j < length; j++) {
+                if (numbers[j] == numbers[i]) {
+                    duplication[0] = numbers[i];
+                    flag = true;
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 因为值都小于n-1 故可以用一个boolean数组保存
+     * k[numbers[i]] == true 就说明前面有这个数字了
+     *
+     * @param numbers
+     * @param length
+     * @param duplication
+     * @return
+     */
+    public static boolean duplicate1(int numbers[], int length, int[] duplication) {
+        boolean[] k = new boolean[length];
+        for (int i = 0; i < k.length; i++) {
+            if (k[numbers[i]] == true) {
+                duplication[0] = numbers[i];
+                return true;
+            }
+            k[numbers[i]] = true;
+        }
+        return false;
+    }
+
+    /**
+     * 给定一个数组A[0,1,...,n-1],请构建一个数组B[0,1,...,n-1],
+     * 其中B中的元素B[i]=A[0]*A[1]*...*A[i-1]*A[i+1]*...*A[n-1]。
+     * 不能使用除法。
+     *
+     * @param A
+     * @return
+     */
+    public static int[] multiply(int[] A) {
+        int length = A.length;
+        int[] B = new int[length];
+        if (length != 0) {
+            B[0] = 1;
+            //计算下三角连乘
+            for (int i = 1; i < length; i++) {
+                B[i] = B[i - 1] * A[i - 1];
+            }
+            int temp = 1;
+            //计算上三角
+            for (int j = length - 2; j >= 0; j--) {
+                temp *= A[j + 1];
+                B[j] *= temp;
+            }
+        }
+        return B;
+    }
+
+    /**
+     * 请实现一个函数用来匹配包括'.'和'*'的正则表达式。
+     * 模式中的字符'.'表示任意一个字符，而'*'表示它前面的字符可以出现任意次（包含0次）。
+     * 在本题中，匹配是指字符串的所有字符匹配整个模式。
+     * 例如，字符串"aaa"与模式"a.a"和"ab*ac*a"匹配，但是与"aa.a"和"ab*a"均不匹配
+     *
+     * @param str
+     * @param pattern
+     * @return
+     */
+    public boolean match(char[] str, char[] pattern) {
+        return false;
+    }
+
+    /**
+     * 请实现一个函数用来判断字符串是否表示数值（包括整数和小数）。
+     * 例如，字符串"+100","5e2","-123","3.1416"和"-1E-16"都表示数值。
+     * 但是"12e","1a3.14","1.2.3","+-5"和"12e+4.3"都不是。
+     *
+     * @param str
+     * @return
+     */
+    public boolean isNumeric(char[] str) {
+        String string = String.valueOf(str);
+        return string.matches("[\\+\\-]?\\d*(\\.\\d+)?([Ee][\\+\\-]?\\d+)?");
+    }
+
+    public ListNode EntryNodeOfLoop(ListNode pHead) {
+        ArrayList<ListNode> nodes = new ArrayList<>();
+        while (pHead.next != null) {
+            if (nodes.contains(pHead.next)) {
+                return pHead.next;
+            }
+            if (!nodes.contains(pHead)) {
+                nodes.add(pHead);
+            }
+            pHead = pHead.next;
+
+        }
+        return null;
+    }
+
+    /**
+     * 断链法
+     *
+     * @param pHead
+     * @return
+     */
+    public ListNode EntryNodeOfLoop2(ListNode pHead) {
+        if (pHead == null || pHead.next == null) return null;
+        ListNode fast = pHead.next;
+        ListNode slow = pHead;
+        while (fast != null) {
+            slow.next = null;
+            slow = fast;
+            fast = fast.next;
+        }
+        return slow;
+    }
+
     public static void main(String args[]) {
-//        int[] array = new int[]{6, 13, 8, 23, 8};
-////        FindNumsAppearOnce(array, null, null);
-//        String abc = ReverseSentence(" ");
-//        System.out.println(abc);
-//        int i = LastRemaining_Solution(5, 3);
-//        System.out.println(i);
+        int[] array = new int[]{2, 3, 4, 1, 3};
+        int[] ints = new int[1];
+
         System.out.println(0 % 6);
-        Add(2,3);
+        Add(2, 3);
         StrToInt("-111");
+        multiply(array);
+
     }
 
 
