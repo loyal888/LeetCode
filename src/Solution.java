@@ -1592,9 +1592,15 @@ public class Solution {
     }
 
     private boolean comRoot(TreeNode left, TreeNode right) {
-        if (left == null) return right == null;
-        if (right == null) return false;
-        if (left.val != right.val) return false;
+        if (left == null) {
+            return right == null;
+        }
+        if (right == null) {
+            return false;
+        }
+        if (left.val != right.val) {
+            return false;
+        }
         return comRoot(left.right, right.left) && comRoot(left.left, right.right);
     }
 
@@ -1742,14 +1748,17 @@ public class Solution {
     TreeNode KthNode(TreeNode root, int k) {
         if (root != null) { //中序遍历寻找第k个
             TreeNode node = KthNode(root.left, k);
-            if (node != null)
+            if (node != null) {
                 return node;
+            }
             index++;
-            if (index == k)
+            if (index == k) {
                 return root;
+            }
             node = KthNode(root.right, k);
-            if (node != null)
+            if (node != null) {
                 return node;
+            }
         }
         return null;
     }
@@ -1761,8 +1770,6 @@ public class Solution {
 //        backtrack(ans, "", 0, 0, 3);
 //        convert("leetcod", 3);
 
-        int reverse = reverse(2147483647);
-        System.out.println(reverse);
     }
 
 
