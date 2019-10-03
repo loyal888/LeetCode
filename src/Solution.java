@@ -1,7 +1,4 @@
 
-
-import android.util.ArrayMap;
-
 import java.util.*;
 
 public class Solution {
@@ -53,7 +50,7 @@ public class Solution {
         return str.toString().replace(" ", "%20");
     }
 
-    public class ListNode {
+    public static class ListNode {
         int val;
         ListNode next = null;
 
@@ -1547,7 +1544,9 @@ public class Solution {
      * @return
      */
     public ListNode EntryNodeOfLoop2(ListNode pHead) {
-        if (pHead == null || pHead.next == null) return null;
+        if (pHead == null || pHead.next == null) {
+            return null;
+        }
         ListNode fast = pHead.next;
         ListNode slow = pHead;
         while (fast != null) {
@@ -1558,15 +1557,212 @@ public class Solution {
         return slow;
     }
 
+    //    /**
+//     * 这段代码可以去除重复的链表结点并保留一个
+//     * @param pHead
+//     * @return
+//     */
+//    public static ListNode deleteDuplication(ListNode pHead) {
+//        ListNode p = pHead;
+//        while (pHead.next != null) {
+//            if (pHead.val == pHead.next.val) {
+//                ListNode pre = pHead;
+//                while (pre.val == pHead.next.val) {
+//                    pHead = pHead.next;
+//                }
+//                pre.next = pHead.next;
+//            }
+//            pHead = pHead.next;
+//        }
+//        return p;
+//    }
+
+    /**
+     * 思路：首先根节点以及其左右子树，左子树的左子树和右子树的右子树相同
+     * * 左子树的右子树和右子树的左子树相同即可，采用递归
+     * * 非递归也可，采用栈或队列存取各级子树根节点
+     *
+     * @return
+     */
+    boolean isSymmetrical(TreeNode pRoot) {
+        if (pRoot == null) {
+            return true;
+        }
+        return comRoot(pRoot.left, pRoot.right);
+    }
+
+    private boolean comRoot(TreeNode left, TreeNode right) {
+        if (left == null) return right == null;
+        if (right == null) return false;
+        if (left.val != right.val) return false;
+        return comRoot(left.right, right.left) && comRoot(left.left, right.right);
+    }
+
+    /**
+     * 大家的实现很多都是将每层的数据存进ArrayList中，偶数层时进行reverse操作，
+     * 在海量数据时，这样效率太低了。
+     * （我有一次面试，算法考的就是之字形打印二叉树，用了reverse，
+     * 直接被鄙视了，面试官说海量数据时效率根本就不行。）
+     * <p>
+     * 下面的实现：不必将每层的数据存进ArrayList中，偶数层时进行reverse操作，直接按打印顺序存入
+     * 思路：利用Java中的LinkedList的底层实现是双向链表的特点。
+     * 1)可用做队列,实现树的层次遍历
+     * 2)可双向遍历,奇数层时从前向后遍历，偶数层时从后向前遍历
+     */
+    public ArrayList<ArrayList<Integer>> Print(TreeNode pRoot) {
+        ArrayList<ArrayList<Integer>> ret = new ArrayList<>();
+        if (pRoot == null) {
+            return ret;
+        }
+        ArrayList<Integer> list = new ArrayList<>();
+        LinkedList<TreeNode> queue = new LinkedList<>();
+        queue.addLast(null);//层分隔符
+        queue.addLast(pRoot);
+        boolean leftToRight = true;
+
+        while (queue.size() != 1) {
+            TreeNode node = queue.removeFirst();
+            if (node == null) {//到达层分隔符
+                Iterator<TreeNode> iter = null;
+                if (leftToRight) {
+                    iter = queue.iterator();//从前往后遍历
+                } else {
+                    iter = queue.descendingIterator();//从后往前遍历
+                }
+                leftToRight = !leftToRight;
+                while (iter.hasNext()) {
+                    TreeNode temp = (TreeNode) iter.next();
+                    list.add(temp.val);
+                }
+                ret.add(new ArrayList<Integer>(list));
+                list.clear();
+                queue.addLast(null);//添加层分隔符
+                continue;//一定要continue
+            }
+            if (node.left != null) {
+                queue.addLast(node.left);
+            }
+            if (node.right != null) {
+                queue.addLast(node.right);
+            }
+        }
+
+        return ret;
+    }
+
+    /**
+     * 请实现两个函数，分别用来序列化和反序列化二叉树
+     * <p>
+     * 二叉树的序列化是指：把一棵二叉树按照某种遍历方式的结果以某种格式保存为字符串
+     * 从而使得内存中建立起来的二叉树可以持久保存。
+     * 序列化可以基于先序、中序、后序、层序的二叉树遍历方式来进行修改，
+     * 序列化的结果是一个字符串，序列化时通过 某种符号表示空节点（#），
+     * 以 ！ 表示一个结点值的结束（value!）。
+     * <p>
+     * 二叉树的反序列化是指：根据某种遍历顺序得到的序列化字符串结果str，重构二叉树
+     */
+    public int index = -1;
+
+    String Serialize(TreeNode root) {
+        StringBuffer sb = new StringBuffer();
+        if (root == null) {
+            sb.append("#,");
+            return sb.toString();
+        }
+        sb.append(root.val + ",");
+        sb.append(Serialize(root.left));
+        sb.append(Serialize(root.right));
+        return sb.toString();
+    }
+
+    TreeNode Deserialize(String str) {
+        index++;
+        int len = str.length();
+        if (index >= len) {
+            return null;
+        }
+        String[] strr = str.split(",");
+        TreeNode node = null;
+        if (!strr[index].equals("#")) {
+            node = new TreeNode(Integer.valueOf(strr[index]));
+            node.left = Deserialize(str);
+            node.right = Deserialize(str);
+        }
+
+        return node;
+    }
+
+    /**
+     * 从左到右打印
+     *
+     * @param pRoot
+     * @return
+     */
+    ArrayList<ArrayList<Integer>> Print1(TreeNode pRoot) {
+        ArrayList<ArrayList<Integer>> ret = new ArrayList<>();
+        if (pRoot == null) {
+            return ret;
+        }
+        ArrayList<Integer> list = new ArrayList<>();
+        LinkedList<TreeNode> queue = new LinkedList<>();
+        queue.addLast(null);
+        queue.addLast(pRoot);
+        while (queue.size() != 1) {
+            TreeNode node = queue.removeFirst();
+            if (node == null) {
+                Iterator<TreeNode> iterator = queue.iterator();
+                while (iterator.hasNext()) {
+                    TreeNode temp = (TreeNode) iterator.next();
+                    list.add(temp.val);
+                }
+                ret.add(new ArrayList<Integer>(list));
+                list.clear();
+                queue.addLast(null);
+                continue;
+            } else {
+                if (node.left != null) {
+                    queue.addLast(node.left);
+                }
+                if (node.right != null) {
+                    queue.addLast(node.right);
+                }
+            }
+
+        }
+        return ret;
+    }
+
+    /**
+     * 给定一棵二叉搜索树，请找出其中的第k小的结点。例如， （5，3，7，2，4，6，8）    中，按结点数值大小顺序第三小结点的值为4。
+     *
+     * @param k
+     * @return
+     */
+
+    TreeNode KthNode(TreeNode root, int k) {
+        if (root != null) { //中序遍历寻找第k个
+            TreeNode node = KthNode(root.left, k);
+            if (node != null)
+                return node;
+            index++;
+            if (index == k)
+                return root;
+            node = KthNode(root.right, k);
+            if (node != null)
+                return node;
+        }
+        return null;
+    }
+
     public static void main(String args[]) {
-        int[] array = new int[]{2, 3, 4, 1, 3};
-        int[] ints = new int[1];
+//        int[] array = new int[]{2, 7, 9};
+//        twoSum(array, 9);
+//        List<String> ans = new ArrayList();
+//        backtrack(ans, "", 0, 0, 3);
+//        convert("leetcod", 3);
 
-        System.out.println(0 % 6);
-        Add(2, 3);
-        StrToInt("-111");
-        multiply(array);
-
+        int reverse = reverse(2147483647);
+        System.out.println(reverse);
     }
 
 
