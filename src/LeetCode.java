@@ -312,7 +312,7 @@ public class LeetCode {
      * @param s
      * @return
      */
-    public static  boolean isValid(String s) {
+    public static boolean isValid(String s) {
         Stack<Character> stack = new Stack<>();
         HashMap<Character, Character> map = new HashMap<>();
         map.put(')', '(');
@@ -332,10 +332,44 @@ public class LeetCode {
         return stack.isEmpty();
     }
 
+    /**
+     * 21. 合并两个有序链表
+     *
+     * @param l1
+     * @param l2
+     * @return
+     */
+    public static  ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+
+        if (l1 == null) {
+            return l2;
+        }
+        if (l2 == null) {
+            return l1;
+        }
+
+        if (l1.val < l2.val) {
+            l1.next = mergeTwoLists(l1.next, l2);
+            return l1;
+        } else {
+            l2.next = mergeTwoLists(l1, l2.next);
+            return l2;
+        }
+    }
+
     public static void main(String[] args) {
         int[] nums = {1, 0, -1, 0, -2, 2};
-        fourSum(nums, 0);
-        isValid("()[]{}");
+        ListNode listNode = new ListNode(1);
+        ListNode listNode1 = new ListNode(2);
+        ListNode listNode2 = new ListNode(3);
+        ListNode listNode3 = new ListNode(4);
+        ListNode listNode4 = new ListNode(5);
+
+        listNode.next = listNode2;
+        listNode2.next = listNode4;
+        listNode1.next = listNode3;
+
+        mergeTwoLists(listNode,listNode1);
 
     }
 
