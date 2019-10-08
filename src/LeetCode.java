@@ -339,7 +339,7 @@ public class LeetCode {
      * @param l2
      * @return
      */
-    public static  ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+    public static ListNode mergeTwoLists(ListNode l1, ListNode l2) {
 
         if (l1 == null) {
             return l2;
@@ -357,19 +357,51 @@ public class LeetCode {
         }
     }
 
+    /**
+     * 23. 合并K个排序链表
+     * @param lists
+     * @return
+     */
+    public static ListNode mergeKLists(ListNode[] lists) {
+        if (lists == null || lists.length == 0) {
+            return null;
+        }
+
+        return merge(lists, 0, lists.length - 1);
+
+
+    }
+
+    static ListNode merge(ListNode[] lists, int left, int right) {
+        if (left == right) {
+            return lists[left];
+        }
+        int mid = left + (right - left) / 2;
+        ListNode l1 = merge(lists, left, mid);
+        ListNode l2 = merge(lists, mid + 1, right);
+        return mergeTwoLists(l1, l2);
+    }
+
     public static void main(String[] args) {
         int[] nums = {1, 0, -1, 0, -2, 2};
         ListNode listNode = new ListNode(1);
-        ListNode listNode1 = new ListNode(2);
-        ListNode listNode2 = new ListNode(3);
-        ListNode listNode3 = new ListNode(4);
+        ListNode listNode1 = new ListNode(1);
+        ListNode listNode2 = new ListNode(4);
+        ListNode listNode3 = new ListNode(3);
         ListNode listNode4 = new ListNode(5);
+        ListNode listNode5 = new ListNode(2);
+        ListNode listNode6 = new ListNode(6);
 
         listNode.next = listNode2;
         listNode2.next = listNode4;
+
         listNode1.next = listNode3;
 
-        mergeTwoLists(listNode,listNode1);
+        listNode5.next = listNode6;
+        ListNode[] lists = {null, null};
+
+        ListNode listNode7 = mergeKLists(lists);
+        int i;
 
     }
 
