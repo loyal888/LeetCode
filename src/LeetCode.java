@@ -306,9 +306,36 @@ public class LeetCode {
         return p.next;
     }
 
+    /**
+     * 20. 有效的括号
+     *
+     * @param s
+     * @return
+     */
+    public static  boolean isValid(String s) {
+        Stack<Character> stack = new Stack<>();
+        HashMap<Character, Character> map = new HashMap<>();
+        map.put(')', '(');
+        map.put('}', '{');
+        map.put(']', '[');
+        for (int i = 0; i < s.length(); i++) {
+            Character c = s.charAt(i);
+            if (map.containsKey(c)) {
+                Character value = stack.empty() ? '#' : stack.pop();
+                if (!value.equals(map.get(c))) {
+                    return false;
+                }
+            } else {
+                stack.push(c);
+            }
+        }
+        return stack.isEmpty();
+    }
+
     public static void main(String[] args) {
         int[] nums = {1, 0, -1, 0, -2, 2};
         fourSum(nums, 0);
+        isValid("()[]{}");
 
     }
 
