@@ -57,41 +57,38 @@ public class Solution {
         ListNode(int val) {
             this.val = val;
         }
-
-        /**
-         * 输入一个链表，按链表从尾到头的顺序返回一个ArrayList。
-         *
-         * @param listNode
-         * @return
-         */
-        public ArrayList<Integer> printListFromTailToHead(ListNode listNode) {
-            ArrayList<Integer> arrayList = new ArrayList<Integer>();
-            // 传入的是空节点
-            if (listNode == null) {
-                return arrayList;
-            }
-            ListNode L = null;
-            ListNode M = null;
-            ListNode R = listNode;
-            // 先反转链表
-            while (R.next != null) {
-                L = M;
-                M = R;
-                R = R.next;
-                M.next = L;
-            }
-            R.next = M;
-            // 遍历取值
-            while (R.next != null) {
-                arrayList.add(R.val);
-                R = R.next;
-            }
-            arrayList.add(R.val);
+    }
+    /**
+     * 输入一个链表，按链表从尾到头的顺序返回一个ArrayList。
+     *
+     * @param listNode
+     * @return
+     */
+    public ArrayList<Integer> printListFromTailToHead(ListNode listNode) {
+        ArrayList<Integer> arrayList = new ArrayList<Integer>();
+        // 传入的是空节点
+        if (listNode == null) {
             return arrayList;
         }
-
+        ListNode L = null;
+        ListNode M = null;
+        ListNode R = listNode;
+        // 先反转链表
+        while (R.next != null) {
+            L = M;
+            M = R;
+            R = R.next;
+            M.next = L;
+        }
+        R.next = M;
+        // 遍历取值
+        while (R.next != null) {
+            arrayList.add(R.val);
+            R = R.next;
+        }
+        arrayList.add(R.val);
+        return arrayList;
     }
-
     // 用两个栈来实现一个队列，完成队列的Push和Pop操作。 队列中的元素为int类型。
 
     Stack<Integer> stack1 = new Stack<Integer>();

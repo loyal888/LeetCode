@@ -6,6 +6,14 @@ import java.util.regex.Pattern;
 
 public class LeetCode {
 
+    public static class ListNode {
+        int val;
+        ListNode next = null;
+
+        ListNode(int val) {
+            this.val = val;
+        }
+    }
 
     public static int myAtoi(String str) {
         // 去除空格
@@ -234,6 +242,7 @@ public class LeetCode {
 
     /**
      * 18. 四数之和
+     *
      * @param nums
      * @param target
      * @return
@@ -255,7 +264,8 @@ public class LeetCode {
                         tList.add(nums[i]);
                         tList.add(nums[j]);
                         tList.add(nums[start]);
-                        tList.add(nums[end]);;
+                        tList.add(nums[end]);
+                        ;
                         ans.add(tList);
                         start++;
                         end--;
@@ -272,9 +282,33 @@ public class LeetCode {
         return new ArrayList<>(new HashSet<>(ans));
     }
 
+    /**
+     * 19.删除链表的倒数第N个节点
+     *
+     * @param head
+     * @param n
+     * @return
+     */
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+        ListNode p = new ListNode(0);
+        p.next = head;
+        ListNode first = p;
+        ListNode second = p;
+        // 提前移动 n+1步
+        for (int i = 1; i <= n + 1; i++) {
+            first = first.next;
+        }
+        while (first != null) {
+            first = first.next;
+            second = second.next;
+        }
+        second.next = second.next.next;
+        return p.next;
+    }
+
     public static void main(String[] args) {
         int[] nums = {1, 0, -1, 0, -2, 2};
-        fourSum(nums,0);
+        fourSum(nums, 0);
 
     }
 
