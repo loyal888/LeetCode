@@ -1,3 +1,5 @@
+import org.omg.CORBA.INTERNAL;
+
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -199,7 +201,7 @@ public class LeetCode {
                     end--;
                 } else if (sum < target) {
                     start++;
-                }else{
+                } else {
                     return ans;
                 }
             }
@@ -208,36 +210,73 @@ public class LeetCode {
     }
 
     /**
-     *17. 电话号码的字母组合
+     * 17. 电话号码的字母组合
+     *
      * @param digits
      * @return
      */
     public static List<String> letterCombinations(String digits) {
         LinkedList<String> ans = new LinkedList<String>();
-        if(digits.isEmpty()) return ans;
-        String[] mapping = new String[] {"0", "1", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+        if (digits.isEmpty()) return ans;
+        String[] mapping = new String[]{"0", "1", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
         ans.add("");
-        for(int i =0; i<digits.length();i++){
+        for (int i = 0; i < digits.length(); i++) {
 //            int x = Character.getNumericValue(digits.charAt(i));
-            int x = Integer.valueOf(digits.charAt(i)+"");
-            while(ans.peek().length()==i){
+            int x = Integer.valueOf(digits.charAt(i) + "");
+            while (ans.peek().length() == i) {
                 String t = ans.remove();
-                for(char s : mapping[x].toCharArray())
-                    ans.add(t+s);
+                for (char s : mapping[x].toCharArray())
+                    ans.add(t + s);
             }
         }
         return ans;
     }
 
+    /**
+     * 18. 四数之和
+     * @param nums
+     * @param target
+     * @return
+     */
+    public static List<List<Integer>> fourSum(int[] nums, int target) {
+        if (nums == null || nums.length < 4) {
+            return new ArrayList<>();
+        }
+        Arrays.sort(nums);
+        List<List<Integer>> ans = new ArrayList<>();
+        for (int i = 0; i < nums.length; i++) {
+            for (int j = i + 1; j < nums.length; j++) {
+                int start = j + 1, end = nums.length - 1;
 
-    public static void main(String[] args) {
-//        romanToInt("IV");
-        String[] s = new String[]{"flow", "flower", "floast"};
-        longestCommonPrefix(s);
-        letterCombinations("234");
+                while (start < end) {
+                    int temp = nums[i] + nums[j] + nums[start] + nums[end];
+                    if (target == temp) {
+                        ArrayList<Integer> tList = new ArrayList<>();
+                        tList.add(nums[i]);
+                        tList.add(nums[j]);
+                        tList.add(nums[start]);
+                        tList.add(nums[end]);;
+                        ans.add(tList);
+                        start++;
+                        end--;
+                    } else if (target > temp) {
+                        start++;
+
+                    } else {
+                        end--;
+                    }
+                }
+
+            }
+        }
+        return new ArrayList<>(new HashSet<>(ans));
     }
 
+    public static void main(String[] args) {
+        int[] nums = {1, 0, -1, 0, -2, 2};
+        fourSum(nums,0);
 
+    }
 
 
 }
