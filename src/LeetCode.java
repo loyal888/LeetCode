@@ -1,4 +1,215 @@
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class LeetCode {
+
+
+    public static int myAtoi(String str) {
+        // 去除空格
+        str = str.trim();
+        // 保证为整数
+        boolean matches = str.matches("[-+]?\\d+.*");
+        int ans = 0;
+        if (matches) {
+            // 截取字符串
+            String pattern = "[-+]?\\d+";
+            Pattern p = Pattern.compile(pattern);
+            Matcher matcher = p.matcher(str);
+            if (matcher.find()) {
+                str = matcher.group();
+            }
+            // 判断第一位是否为正负号
+            char c = str.charAt(0);
+            int pos = 0;
+            int nag = 0;
+            switch (c) {
+                case '+':
+                    pos = 1;
+                    break;
+                case '-':
+                    nag = 1;
+                    break;
+                default:
+                    break;
+            }
+            // 第一位为正数
+            if (pos == 1) {
+                for (int i = 1; i < str.length(); i++) {
+                    Character num = str.charAt(i);
+                    int res = Integer.valueOf(num.toString());
+                    if (ans > Integer.MAX_VALUE / 10 || (ans == Integer.MAX_VALUE / 10 && res > 7)) {
+                        return 2147483647;
+                    }
+                    ans = ans * 10 + res;
+                }
+            } else if (nag == 1) {
+                for (int i = 1; i < str.length(); i++) {
+                    Character num = str.charAt(i);
+                    int res = Integer.valueOf(num.toString());
+                    if (-ans < Integer.MIN_VALUE / 10 || (-ans == Integer.MIN_VALUE / 10 && res > 8)) {
+                        return -2147483648;
+                    }
+                    ans = ans * 10 + res;
+                }
+                ans = ans * (-1);
+            } else {
+                for (int i = 0; i < str.length(); i++) {
+                    Character num = str.charAt(i);
+                    int res = Integer.valueOf(num.toString());
+                    if (ans > Integer.MAX_VALUE / 10 || (ans == Integer.MAX_VALUE / 10 && res > 7)) {
+                        return 2147483647;
+                    }
+                    ans = ans * 10 + res;
+                }
+            }
+            return ans;
+        }
+        return 0;
+    }
+
+    public static String intToRoman(int num) {
+        int[] nums = {1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1};
+        String[] romans = {"M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I"};
+        int index = 0;
+        StringBuilder sb = new StringBuilder();
+        while (index < nums.length) {
+
+            while (num >= nums[index]) {
+                sb.append(romans[index]);
+                num = num - nums[index];
+            }
+            index++;
+        }
+        return sb.toString();
+
+    }
+
+    public static int romanToInt(String s) {
+        Map<String, Integer> map = new HashMap<>();
+        map.put("I", 1);
+        map.put("IV", 4);
+        map.put("V", 5);
+        map.put("IX", 9);
+        map.put("X", 10);
+        map.put("XL", 40);
+        map.put("L", 50);
+        map.put("XC", 90);
+        map.put("C", 100);
+        map.put("CD", 400);
+        map.put("D", 500);
+        map.put("CM", 900);
+        map.put("M", 1000);
+
+        int ans = 0;
+        for (int i = 0; i < s.length(); ) {
+            if (i + 1 < s.length() && map.containsKey(s.substring(i, i + 2))) {
+                ans += map.get(s.substring(i, i + 2));
+                i += 2;
+            } else {
+                ans += map.get(s.substring(i, i + 1));
+                i++;
+            }
+        }
+        return ans;
+    }
+
+    /**
+     * 14. 最长公共前缀
+     * 标签：链表
+     * 当字符串数组长度为 0 时则公共前缀为空，直接返回
+     * 令最长公共前缀 ans 的值为第一个字符串，进行初始化
+     * 遍历后面的字符串，依次将其与 ans 进行比较，两两找出公共前缀，最终结果即为最长公共前缀
+     * 如果查找过程中出现了 ans 为空的情况，则公共前缀不存在直接返回
+     * 时间复杂度：O(s)O(s)，s 为所有字符串的长度之和
+     *
+     * @param strs
+     * @return
+     */
+    public static String longestCommonPrefix(String[] strs) {
+        if (strs.length == 0)
+            return "";
+        String ans = strs[0];
+        for (int i = 1; i < strs.length; i++) {
+            int j = 0;
+            for (; j < ans.length() && j < strs[i].length(); j++) {
+                if (ans.charAt(j) != strs[i].charAt(j))
+                    break;
+            }
+            ans = ans.substring(0, j);
+            if (ans.equals(""))
+                return ans;
+        }
+        return ans;
+    }
+
+    /**
+     * 15. 三数之和
+     *
+     * @param nums
+     * @return
+     */
+    public static List<List<Integer>> threeSum(int[] nums) {
+        List<List<Integer>> ans = new ArrayList();
+        int len = nums.length;
+        if (nums == null || len < 3) return ans;
+        Arrays.sort(nums); // 排序
+        for (int i = 0; i < len; i++) {
+            if (nums[i] > 0) break;
+            // 如果当前数字大于0，则三数之和一定大于0，所以结束循环
+            if (i > 0 && nums[i] == nums[i - 1]) continue; // 去重
+            int L = i + 1;
+            int R = len - 1;
+            while (L < R) {
+                int sum = nums[i] + nums[L] + nums[R];
+                if (sum == 0) {
+                    ans.add(Arrays.asList(nums[i], nums[L], nums[R]));
+                    while (L < R && nums[L] == nums[L + 1]) L++; // 去重
+                    while (L < R && nums[R] == nums[R - 1]) R--; // 去重
+                    L++;
+                    R--;
+                } else if (sum < 0) L++;
+                else if (sum > 0) R--;
+            }
+        }
+        return ans;
+    }
+
+    /**
+     * 16. 最接近的三数之和
+     *
+     * @param nums
+     * @param target
+     * @return
+     */
+    public int threeSumClosest(int[] nums, int target) {
+        if (nums == null || nums.length < 3) {
+            return -1;
+        }
+        Arrays.sort(nums);
+        int ans = nums[0] + nums[1] + nums[2];
+        for (int i = 0; i < nums.length; i++) {
+            int start = i + 1, end = nums.length - 1;
+            while (start < end) {
+                int sum = nums[i] + nums[start] + nums[end];
+                if (Math.abs(target - sum) < Math.abs(target - ans)) {
+                    ans = sum;
+                }
+                if (sum > target) {
+                    end--;
+                } else if (sum < target) {
+                    start++;
+                }else{
+                    return ans;
+                }
+            }
+        }
+        return ans;
+    }
+
     public static void main(String[] args) {
+//        romanToInt("IV");
+        String[] s = new String[]{"flow", "flower", "floast"};
+        longestCommonPrefix(s);
     }
 }
