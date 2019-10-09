@@ -1766,7 +1766,7 @@ public class Solution {
 //        List<String> ans = new ArrayList();
 //        backtrack(ans, "", 0, 0, 3);
 //        convert("leetcod", 3);
-
+new Thread(()-> System.out.println("你好")).start();
     }
 
 
