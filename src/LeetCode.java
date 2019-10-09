@@ -359,6 +359,7 @@ public class LeetCode {
 
     /**
      * 23. 合并K个排序链表
+     *
      * @param lists
      * @return
      */
@@ -383,7 +384,6 @@ public class LeetCode {
     }
 
     /**
-     *
      * @param nums
      */
     public void nextPermutation(int[] nums) {
@@ -418,32 +418,36 @@ public class LeetCode {
 
     /**
      * 32 最长有效括号
+     *
      * @param s
      * @return
      */
     public static int longestValidParentheses(String s) {
-        if(s == null || s.length() == 0){return 0;}
+        if (s == null || s.length() == 0) {
+            return 0;
+        }
 
         int ans = 0;
         Stack<Integer> stack = new Stack<>();
         stack.push(-1);
-        for(int i = 0; i<s.length();i++){
-            if(s.charAt(i) == '('){
+        for (int i = 0; i < s.length(); i++) {
+            if (s.charAt(i) == '(') {
                 stack.push(i);
-            }else{
+            } else {
                 stack.pop();
-                if(stack.empty()){
+                if (stack.empty()) {
                     stack.push(i);
-                }else{
-                    ans = Math.max(ans,i-stack.peek());
+                } else {
+                    ans = Math.max(ans, i - stack.peek());
                 }
             }
         }
-        return  ans;
+        return ans;
     }
 
     /**
      * 33. 搜索旋转排序数组
+     *
      * @param nums
      * @param target
      * @return
@@ -462,6 +466,7 @@ public class LeetCode {
 
     /**
      * 34. 在排序数组中查找元素的第一个和最后一个位置
+     *
      * @param nums
      * @param target
      * @param left
@@ -475,9 +480,8 @@ public class LeetCode {
             int mid = (lo + hi) / 2;
             if (nums[mid] > target || (left && target == nums[mid])) {
                 hi = mid;
-            }
-            else {
-                lo = mid+1;
+            } else {
+                lo = mid + 1;
             }
         }
 
@@ -496,7 +500,7 @@ public class LeetCode {
         }
 
         targetRange[0] = leftIdx;
-        targetRange[1] = extremeInsertionIndex(nums, target, false)-1;
+        targetRange[1] = extremeInsertionIndex(nums, target, false) - 1;
 
         return targetRange;
     }
@@ -509,6 +513,7 @@ public class LeetCode {
     /**
      * 39. 组合总和
      * 注意：后面选取的数不能比前面选的数还要小
+     *
      * @param residue
      * @param start
      * @param pre
@@ -530,7 +535,7 @@ public class LeetCode {
         }
     }
 
-    public  List<List<Integer>> combinationSum(int[] candidates, int target) {
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
         int len = candidates.length;
         if (len == 0) {
             return res;
@@ -543,21 +548,30 @@ public class LeetCode {
         return res;
     }
 
-    public static void main(String[] args) {
-        int[] candidates = {2, 3, 6, 7};
-        int target = 7;
-        List<List<Integer>> combinationSum = new LeetCode().combinationSum(candidates, target);
-        System.out.println(combinationSum);
+    /**
+     * 42. 接雨水
+     *
+     * @param height
+     * @return
+     */
+    public static int trap(int[] height) {
+        int ans = 0;
+        int size = height.length;
+        for (int i = 1; i < size - 1; i++) {
+            int max_left = 0, max_right = 0;
+            for (int j = i; j >= 0; j--) {
+                max_left = Math.max(max_left, height[j]);
+            }
+            for (int j = i; j < size; j++) {
+                max_right = Math.max(max_right, height[j]);
+            }
+            ans += Math.min(max_left, max_right) - height[i];
+        }
+        return ans;
     }
 
-
-
-//    public static void main(String[] args) {
-//longestValidParentheses("()(())");
-//int[] array = {1,2,3,3,3,3,4,4,5};
-//        searchRange(array,3);
-//
-//    }
-
-
+    public static void main(String[] args) {
+        int[] array = {0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1};
+        trap(array);
+    }
 }
