@@ -416,26 +416,34 @@ public class LeetCode {
         nums[j] = temp;
     }
 
+    /**
+     * 32 最长有效括号
+     * @param s
+     * @return
+     */
+    public static int longestValidParentheses(String s) {
+        if(s == null || s.length() == 0){return 0;}
+
+        int ans = 0;
+        Stack<Integer> stack = new Stack<>();
+        stack.push(-1);
+        for(int i = 0; i<s.length();i++){
+            if(s.charAt(i) == '('){
+                stack.push(i);
+            }else{
+                stack.pop();
+                if(stack.empty()){
+                    stack.push(i);
+                }else{
+                    ans = Math.max(ans,i-stack.peek());
+                }
+            }
+        }
+        return  ans;
+    }
+
     public static void main(String[] args) {
-        int[] nums = {1, 0, -1, 0, -2, 2};
-        ListNode listNode = new ListNode(1);
-        ListNode listNode1 = new ListNode(1);
-        ListNode listNode2 = new ListNode(4);
-        ListNode listNode3 = new ListNode(3);
-        ListNode listNode4 = new ListNode(5);
-        ListNode listNode5 = new ListNode(2);
-        ListNode listNode6 = new ListNode(6);
-
-        listNode.next = listNode2;
-        listNode2.next = listNode4;
-
-        listNode1.next = listNode3;
-
-        listNode5.next = listNode6;
-        ListNode[] lists = {null, null};
-
-        ListNode listNode7 = mergeKLists(lists);
-        int i;
+longestValidParentheses("()(())");
 
     }
 
