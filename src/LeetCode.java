@@ -570,8 +570,32 @@ public class LeetCode {
         return ans;
     }
 
+//    public static List<List<Integer>> permute(int[] nums) {
+//
+//        List<List<Integer>> res = new ArrayList<>();
+//        int[] visited = new int[nums.length];
+//        backtrack(res, nums, new ArrayList<Integer>(), visited);
+//        return res;
+//
+//    }
+//
+//    private static void backtrack(List<List<Integer>> res, int[] nums, ArrayList<Integer> tmp, int[] visited) {
+//        if (tmp.size() == nums.length) {
+//            res.add(new ArrayList<>(tmp));
+//            return;
+//        }
+//        for (int i = 0; i < nums.length; i++) {
+//            if (visited[i] == 1) continue;
+//            visited[i] = 1;
+//            tmp.add(nums[i]);
+//            backtrack(res, nums, tmp, visited);
+//            visited[i] = 0;
+//            tmp.remove(tmp.size() - 1);
+//        }
+//    }
+
     public static void main(String[] args) {
-        int[] array = {0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1};
-        trap(array);
+        int[] array = {1,2,3};
+        permute(array);
     }
 }
