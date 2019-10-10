@@ -623,8 +623,27 @@ public class LeetCode {
         }
     }
 
+    /**
+     * 49. 字母异位词分组
+     * @param strs
+     * @return
+     */
+    public static List<List<String>> groupAnagrams(String[] strs) {
+        if (strs == null || strs.length ==0)  return new ArrayList<List<String>>();
+        Map<String, List<String>> map= new HashMap<>();
+        for (String str : strs) {
+            char[] tmp = str.toCharArray();
+            Arrays.sort(tmp);
+            String keyStr = String.valueOf(tmp);
+            if (! map.containsKey(keyStr)) map.put(keyStr,new ArrayList<String>());
+            map.get(keyStr).add(str);
+        }
+        return new ArrayList<>(map.values());
+
+    }
+
     public static void main(String[] args) {
-        int[] array = {1,2,3};
-        permute(array);
+        String [] array = {"abc","acb","aq","qa"};
+        groupAnagrams(array);
     }
 }
