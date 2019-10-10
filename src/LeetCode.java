@@ -4,6 +4,7 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@SuppressWarnings("AlibabaRemoveCommentedCode")
 public class LeetCode {
 
     public static class ListNode {
@@ -648,6 +649,7 @@ public class LeetCode {
     /**
      * 53. 最大子序和
      * 暴力法
+     *
      * @param nums
      * @return
      */
@@ -661,7 +663,7 @@ public class LeetCode {
                 max = Math.max(max, tmp + nums[i]);
                 tmp = tmp + nums[i];
             } else {   // 当tmp(当前和)小于下一个元素时，当前最长序列到此为止。以该元素为起点继续找最大子序列,
-            // 并记录此时的最大
+                // 并记录此时的最大
                 max = Math.max(Math.max(max, tmp), Math.max(tmp + nums[i], nums[i]));
                 tmp = nums[i];
             }
@@ -669,6 +671,7 @@ public class LeetCode {
         return max;
 
     }
+
     /**
      * 53. 最大子序和
      *
@@ -678,8 +681,8 @@ public class LeetCode {
     public int maxSubArray1(int[] nums) {
         int ans = nums[0];
         int sum = 0;
-        for(int num: nums) {
-            if(sum > 0) {
+        for (int num : nums) {
+            if (sum > 0) {
                 sum += num;
             } else {
                 sum = num;
@@ -689,11 +692,73 @@ public class LeetCode {
         return ans;
     }
 
+//    /**
+//     * 55. 跳跃游戏
+//     * @param position
+//     * @param nums
+//     * @return
+//     */
+//    @Deprecated
+//    public boolean canJumpFromPosition(int position, int[] nums) {
+//        if (position == nums.length - 1) {
+//            return true;
+//        }
+//
+//        int furthestJump = Math.min(position + nums[position], nums.length - 1);
+//        for (int nextPosition = position + 1; nextPosition <= furthestJump; nextPosition++) {
+//            if (canJumpFromPosition(nextPosition, nums)) {
+//                return true;
+//            }
+//        }
+//
+//        return false;
+//    }
+//
+//    public boolean canJump(int[] nums) {
+//        return canJumpFromPosition(0, nums);
+//    }
+
+
+    /**
+     * 55. 跳跃游戏
+     * @param nums
+     * @return
+     */
+    public boolean canJump(int[] nums) {
+        memo = new Index[nums.length];
+        // 初始化 memo 的所有元素为 UNKNOWN，
+        for (int i = 0; i < memo.length; i++) {
+            memo[i] = Index.UNKNOWN;
+        }
+        // 除了最后一个显然是 GOOD （自己一定可以跳到自己）
+        memo[memo.length - 1] = Index.GOOD;
+        return canJumpFromPosition(0, nums);
+    }
+    enum Index {GOOD, BAD, UNKNOWN}
+    Index[] memo;
+
+    public boolean canJumpFromPosition(int position, int[] nums) {
+        if (memo[position] != Index.UNKNOWN) {
+            // 如果已知直接返回结果 True / False
+            return memo[position] == Index.GOOD ? true : false;
+        }
+
+        int furthestJump = Math.min(position + nums[position], nums.length - 1);
+        for (int nextPosition = position + 1; nextPosition <= furthestJump; nextPosition++) {
+            if (canJumpFromPosition(nextPosition, nums)) {
+                memo[position] = Index.GOOD;
+                return true;
+            }
+        }
+
+        memo[position] = Index.BAD;
+        return false;
+    }
+
     public static void main(String[] args) {
 //        String[] array = {"abc", "acb", "aq", "qa"};
-        int[] array = {-2,1,-3,4,-1,2,1,-5,4};
-//        groupAnagrams(array);
-        maxSubArray(array);
+        int[] array = {2, 3, 1, 1, 4};
+        new LeetCode().canJump(array);
     }
 
 }
