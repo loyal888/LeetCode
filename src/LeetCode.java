@@ -599,6 +599,30 @@ public class LeetCode {
         }
     }
 
+    /**
+     * 48. 旋转图像
+     * @param matrix
+     */
+    public void rotate(int[][] matrix) {
+        int n = matrix.length;
+        // 转置矩阵
+        for(int i = 0;i<n;i++){
+            for(int j = i;j<n;j++){
+                int temp = matrix[j][i];
+                matrix[j][i] = matrix[i][j];
+                matrix[i][j] = temp;
+            }
+        }
+        // 反转本行
+        for(int i = 0; i <n;i++){
+            for(int j = 0; j<n/2;j++){
+                int tmp = matrix[i][j];
+                matrix[i][j] = matrix[i][n-j-1];
+                matrix[i][n-j-1] = tmp;
+            }
+        }
+    }
+
     public static void main(String[] args) {
         int[] array = {1,2,3};
         permute(array);
