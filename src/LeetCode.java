@@ -572,6 +572,7 @@ public class LeetCode {
 
     /**
      * 46. 全排列
+     *
      * @param nums
      * @return
      */
@@ -601,49 +602,98 @@ public class LeetCode {
 
     /**
      * 48. 旋转图像
+     *
      * @param matrix
      */
     public void rotate(int[][] matrix) {
         int n = matrix.length;
         // 转置矩阵
-        for(int i = 0;i<n;i++){
-            for(int j = i;j<n;j++){
+        for (int i = 0; i < n; i++) {
+            for (int j = i; j < n; j++) {
                 int temp = matrix[j][i];
                 matrix[j][i] = matrix[i][j];
                 matrix[i][j] = temp;
             }
         }
         // 反转本行
-        for(int i = 0; i <n;i++){
-            for(int j = 0; j<n/2;j++){
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n / 2; j++) {
                 int tmp = matrix[i][j];
-                matrix[i][j] = matrix[i][n-j-1];
-                matrix[i][n-j-1] = tmp;
+                matrix[i][j] = matrix[i][n - j - 1];
+                matrix[i][n - j - 1] = tmp;
             }
         }
     }
 
     /**
      * 49. 字母异位词分组
+     *
      * @param strs
      * @return
      */
     public static List<List<String>> groupAnagrams(String[] strs) {
-        if (strs == null || strs.length ==0)  return new ArrayList<List<String>>();
-        Map<String, List<String>> map= new HashMap<>();
+        if (strs == null || strs.length == 0) return new ArrayList<List<String>>();
+        Map<String, List<String>> map = new HashMap<>();
         for (String str : strs) {
             char[] tmp = str.toCharArray();
             Arrays.sort(tmp);
             String keyStr = String.valueOf(tmp);
-            if (! map.containsKey(keyStr)) map.put(keyStr,new ArrayList<String>());
+            if (!map.containsKey(keyStr)) map.put(keyStr, new ArrayList<String>());
             map.get(keyStr).add(str);
         }
         return new ArrayList<>(map.values());
 
     }
 
-    public static void main(String[] args) {
-        String [] array = {"abc","acb","aq","qa"};
-        groupAnagrams(array);
+    /**
+     * 53. 最大子序和
+     * 暴力法
+     * @param nums
+     * @return
+     */
+    public static int maxSubArray(int[] nums) {
+        int tmp = nums[0];
+        int max = tmp;
+        int len = nums.length;
+        for (int i = 1; i < len; i++) {
+            // 当当前序列加上此时的元素的值大于tmp的值，说明最大序列和可能出现在后续序列中，记录此时的最大值
+            if (tmp + nums[i] > nums[i]) {
+                max = Math.max(max, tmp + nums[i]);
+                tmp = tmp + nums[i];
+            } else {   // 当tmp(当前和)小于下一个元素时，当前最长序列到此为止。以该元素为起点继续找最大子序列,
+            // 并记录此时的最大
+                max = Math.max(Math.max(max, tmp), Math.max(tmp + nums[i], nums[i]));
+                tmp = nums[i];
+            }
+        }
+        return max;
+
     }
+    /**
+     * 53. 最大子序和
+     *
+     * @param nums
+     * @return
+     */
+    public int maxSubArray1(int[] nums) {
+        int ans = nums[0];
+        int sum = 0;
+        for(int num: nums) {
+            if(sum > 0) {
+                sum += num;
+            } else {
+                sum = num;
+            }
+            ans = Math.max(ans, sum);
+        }
+        return ans;
+    }
+
+    public static void main(String[] args) {
+//        String[] array = {"abc", "acb", "aq", "qa"};
+        int[] array = {-2,1,-3,4,-1,2,1,-5,4};
+//        groupAnagrams(array);
+        maxSubArray(array);
+    }
+
 }
