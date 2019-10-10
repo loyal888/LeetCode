@@ -721,6 +721,7 @@ public class LeetCode {
 
     /**
      * 55. 跳跃游戏
+     *
      * @param nums
      * @return
      */
@@ -734,7 +735,9 @@ public class LeetCode {
         memo[memo.length - 1] = Index.GOOD;
         return canJumpFromPosition(0, nums);
     }
+
     enum Index {GOOD, BAD, UNKNOWN}
+
     Index[] memo;
 
     public boolean canJumpFromPosition(int position, int[] nums) {
@@ -757,6 +760,7 @@ public class LeetCode {
 
     /**
      * 56. 合并区间
+     *
      * @param intervals
      * @return
      */
@@ -784,12 +788,18 @@ public class LeetCode {
                 i++;
                 right = Math.max(right, intervals[i][1]);
             }
-            res.add(new int[] { left, right });
+            res.add(new int[]{left, right});
             i++;
         }
         return res.toArray(new int[0][]);
     }
 
+    /**
+     * 62. 不同路径
+     * @param m
+     * @param n
+     * @return
+     */
     public int uniquePaths(int m, int n) {
         int[][] dp = new int[m][n];
         for (int i = 0; i < n; i++) dp[0][i] = 1;
@@ -806,8 +816,8 @@ public class LeetCode {
 //        String[] array = {"abc", "acb", "aq", "qa"};
 
 
-        int[][] array = {{1,3},{2,6},{8,10},{15,18}};
-        int[][] merge = new LeetCode().merge(array);
+        int[][] array = {{1, 3}, {2, 6}, {8, 10}, {15, 18}};
+        int i1 = new LeetCode().uniquePaths(3, 3);
         int i;
     }
 
