@@ -891,30 +891,48 @@ public class LeetCode {
      * 75. 颜色分类
      */
     public void sortColors(int[] nums) {
-        int p0 = 0,curr = 0;
-        int p2 = nums.length-1;
+        int p0 = 0, curr = 0;
+        int p2 = nums.length - 1;
         int tmp;
-        while (curr <= p2){
-            if(nums[curr] == 0){
+        while (curr <= p2) {
+            if (nums[curr] == 0) {
                 tmp = nums[p0];
                 nums[p0++] = nums[curr];
                 nums[curr++] = tmp;
-            }else if(nums[curr] == 2){
+            } else if (nums[curr] == 2) {
                 tmp = nums[curr];
                 nums[curr] = nums[p2];
                 nums[p2--] = tmp;
-            }else curr++;
+            } else curr++;
         }
+    }
+
+    private void find(int[] nums, int begin, List<Integer> pre) {
+        // 没有显式的递归终止
+        res.add(new ArrayList<>(pre));// 注意：Java 的引用传递机制，这里要 new 一下
+        for (int i = begin; i < nums.length; i++) {
+            pre.add(nums[i]);
+            find(nums, i + 1, pre);
+            pre.remove(pre.size() - 1);// 组合问题，状态在递归完成后要重置
+        }
+    }
+
+    public List<List<Integer>> subsets(int[] nums) {
+        int len = nums.length;
+        res = new ArrayList<>();
+        if (len == 0) {
+            return res;
+        }
+        List<Integer> pre = new ArrayList<>();
+        find(nums, 0, pre);
+        return res;
     }
 
 
     public static void main(String[] args) {
 //        String[] array = {"abc", "acb", "aq", "qa"};
-
-
-        int[][] array = {{1, 2, 5}, {3, 2, 1}};
-        int i1 = new LeetCode().minDistance("horse", "ros");
-        int i;
+        int[] nums = {1, 2, 3};
+        List<List<Integer>> subsets = new LeetCode().subsets(nums);
+        System.out.println(subsets);
     }
-
 }

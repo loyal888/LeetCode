@@ -1766,8 +1766,23 @@ public class Solution {
 //        List<String> ans = new ArrayList();
 //        backtrack(ans, "", 0, 0, 3);
 //        convert("leetcod", 3);
-new Thread(()-> System.out.println("你好")).start();
+        NumberOf1Between1AndN_Solution1(29,33,'3');
     }
 
+    public static int NumberOf1Between1AndN_Solution1(int m,int n,char k) {
+        int count = 0;
+        Scanner sc = new Scanner(System.in);
 
+        for (int i = m; i <= n; i++) {
+            Integer integer = i;
+            char one = k;
+            String s = integer.toString();
+            for (int j = 0; j < s.length(); j++) {
+                if (one == s.charAt(j)) {
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
 }
