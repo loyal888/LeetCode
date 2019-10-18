@@ -1,4 +1,5 @@
-import org.omg.CORBA.INTERNAL;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 import java.util.regex.Matcher;
@@ -9,7 +10,7 @@ public class LeetCode {
 
     public static class ListNode {
         int val;
-        ListNode next = null;
+        @Nullable ListNode next = null;
 
         ListNode(int val) {
             this.val = val;
@@ -160,6 +161,7 @@ public class LeetCode {
      * @param nums
      * @return
      */
+    @NotNull
     public static List<List<Integer>> threeSum(int[] nums) {
         List<List<Integer>> ans = new ArrayList();
         int len = nums.length;
@@ -193,7 +195,7 @@ public class LeetCode {
      * @param target
      * @return
      */
-    public int threeSumClosest(int[] nums, int target) {
+    public int threeSumClosest(@Nullable int[] nums, int target) {
         if (nums == null || nums.length < 3) {
             return -1;
         }
@@ -224,6 +226,7 @@ public class LeetCode {
      * @param digits
      * @return
      */
+    @NotNull
     public static List<String> letterCombinations(String digits) {
         LinkedList<String> ans = new LinkedList<String>();
         if (digits.isEmpty()) return ans;
@@ -248,7 +251,7 @@ public class LeetCode {
      * @param target
      * @return
      */
-    public static List<List<Integer>> fourSum(int[] nums, int target) {
+    public static List<List<Integer>> fourSum(@Nullable int[] nums, int target) {
         if (nums == null || nums.length < 4) {
             return new ArrayList<>();
         }
@@ -266,7 +269,6 @@ public class LeetCode {
                         tList.add(nums[j]);
                         tList.add(nums[start]);
                         tList.add(nums[end]);
-                        ;
                         ans.add(tList);
                         start++;
                         end--;
@@ -290,6 +292,7 @@ public class LeetCode {
      * @param n
      * @return
      */
+    @Nullable
     public ListNode removeNthFromEnd(ListNode head, int n) {
         ListNode p = new ListNode(0);
         p.next = head;
@@ -340,7 +343,8 @@ public class LeetCode {
      * @param l2
      * @return
      */
-    public static ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+    @Nullable
+    public static ListNode mergeTwoLists(@Nullable ListNode l1, @Nullable ListNode l2) {
 
         if (l1 == null) {
             return l2;
@@ -364,7 +368,8 @@ public class LeetCode {
      * @param lists
      * @return
      */
-    public static ListNode mergeKLists(ListNode[] lists) {
+    @Nullable
+    public static ListNode mergeKLists(@Nullable ListNode[] lists) {
         if (lists == null || lists.length == 0) {
             return null;
         }
@@ -374,6 +379,7 @@ public class LeetCode {
 
     }
 
+    @Nullable
     static ListNode merge(ListNode[] lists, int left, int right) {
         if (left == right) {
             return lists[left];
@@ -387,7 +393,7 @@ public class LeetCode {
     /**
      * @param nums
      */
-    public void nextPermutation(int[] nums) {
+    public void nextPermutation(@NotNull int[] nums) {
         int i = nums.length - 2;
         while (i >= 0 && nums[i + 1] <= nums[i]) {
             i--;
@@ -423,7 +429,7 @@ public class LeetCode {
      * @param s
      * @return
      */
-    public static int longestValidParentheses(String s) {
+    public static int longestValidParentheses(@Nullable String s) {
         if (s == null || s.length() == 0) {
             return 0;
         }
@@ -453,7 +459,7 @@ public class LeetCode {
      * @param target
      * @return
      */
-    public int search(int[] nums, int target) {
+    public int search(@NotNull int[] nums, int target) {
         int lo = 0, hi = nums.length - 1;
         while (lo < hi) {
             int mid = (lo + hi) / 2;
@@ -489,7 +495,8 @@ public class LeetCode {
         return lo;
     }
 
-    public static int[] searchRange(int[] nums, int target) {
+    @NotNull
+    public static int[] searchRange(@NotNull int[] nums, int target) {
         int[] targetRange = {-1, -1};
 
         int leftIdx = extremeInsertionIndex(nums, target, true);
@@ -507,6 +514,7 @@ public class LeetCode {
     }
 
 
+    @NotNull
     private List<List<Integer>> res = new ArrayList<>();
     private int[] candidates;
     private int len;
@@ -519,7 +527,7 @@ public class LeetCode {
      * @param start
      * @param pre
      */
-    private void findCombinationSum(int residue, int start, Stack<Integer> pre) {
+    private void findCombinationSum(int residue, int start, @NotNull Stack<Integer> pre) {
         if (residue == 0) {
             // Java 中可变对象是引用传递，因此需要将当前 path 里的值拷贝出来
             res.add(new ArrayList<>(pre));
@@ -536,7 +544,8 @@ public class LeetCode {
         }
     }
 
-    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+    @NotNull
+    public List<List<Integer>> combinationSum(@NotNull int[] candidates, int target) {
         int len = candidates.length;
         if (len == 0) {
             return res;
@@ -577,6 +586,7 @@ public class LeetCode {
      * @param nums
      * @return
      */
+    @NotNull
     public static List<List<Integer>> permute(int[] nums) {
 
         List<List<Integer>> res = new ArrayList<>();
@@ -586,7 +596,7 @@ public class LeetCode {
 
     }
 
-    private static void backtrack(List<List<Integer>> res, int[] nums, ArrayList<Integer> tmp, int[] visited) {
+    private static void backtrack(@NotNull List<List<Integer>> res, int[] nums, ArrayList<Integer> tmp, int[] visited) {
         if (tmp.size() == nums.length) {
             res.add(new ArrayList<>(tmp));
             return;
@@ -606,7 +616,7 @@ public class LeetCode {
      *
      * @param matrix
      */
-    public void rotate(int[][] matrix) {
+    public void rotate(@NotNull int[][] matrix) {
         int n = matrix.length;
         // 转置矩阵
         for (int i = 0; i < n; i++) {
@@ -632,7 +642,7 @@ public class LeetCode {
      * @param strs
      * @return
      */
-    public static List<List<String>> groupAnagrams(String[] strs) {
+    public static List<List<String>> groupAnagrams(@Nullable String[] strs) {
         if (strs == null || strs.length == 0) return new ArrayList<List<String>>();
         Map<String, List<String>> map = new HashMap<>();
         for (String str : strs) {
@@ -678,7 +688,7 @@ public class LeetCode {
      * @param nums
      * @return
      */
-    public int maxSubArray1(int[] nums) {
+    public int maxSubArray1(@NotNull int[] nums) {
         int ans = nums[0];
         int sum = 0;
         for (int num : nums) {
@@ -725,7 +735,7 @@ public class LeetCode {
      * @param nums
      * @return
      */
-    public boolean canJump(int[] nums) {
+    public boolean canJump(@NotNull int[] nums) {
         memo = new Index[nums.length];
         // 初始化 memo 的所有元素为 UNKNOWN，
         for (int i = 0; i < memo.length; i++) {
@@ -740,10 +750,10 @@ public class LeetCode {
 
     Index[] memo;
 
-    public boolean canJumpFromPosition(int position, int[] nums) {
+    public boolean canJumpFromPosition(int position, @NotNull int[] nums) {
         if (memo[position] != Index.UNKNOWN) {
             // 如果已知直接返回结果 True / False
-            return memo[position] == Index.GOOD ? true : false;
+            return memo[position] == Index.GOOD;
         }
 
         int furthestJump = Math.min(position + nums[position], nums.length - 1);
@@ -764,7 +774,8 @@ public class LeetCode {
      * @param intervals
      * @return
      */
-    public int[][] merge(int[][] intervals) {
+    @NotNull
+    public int[][] merge(@Nullable int[][] intervals) {
         List<int[]> res = new ArrayList<>();
         if (intervals == null || intervals.length == 0)
             return res.toArray(new int[0][]);
@@ -813,7 +824,7 @@ public class LeetCode {
         return dp[m - 1][n - 1];
     }
 
-    public int minPathSum(int[][] grid) {
+    public int minPathSum(@NotNull int[][] grid) {
         int M = grid[0].length;
         int N = grid.length;
         for (int i = 0; i < N; i++) {
@@ -866,7 +877,7 @@ public class LeetCode {
      * @param word2
      * @return
      */
-    public int minDistance(String word1, String word2) {
+    public int minDistance(@NotNull String word1, @NotNull String word2) {
         int n1 = word1.length();
         int n2 = word2.length();
         int[][] dp = new int[n1 + 1][n2 + 1];
@@ -890,7 +901,7 @@ public class LeetCode {
     /**
      * 75. 颜色分类
      */
-    public void sortColors(int[] nums) {
+    public void sortColors(@NotNull int[] nums) {
         int p0 = 0, curr = 0;
         int p2 = nums.length - 1;
         int tmp;
@@ -907,7 +918,69 @@ public class LeetCode {
         }
     }
 
-    private void find(int[] nums, int begin, List<Integer> pre) {
+    // 用来标记该节点是否遍历过 因为只允许使用一次
+    private boolean[][] marked;
+    // 算出左上右下四个点坐标
+    //          (x-1,y)
+    // (x,y-1)   (x,y)  (x,y+1)
+    //          (x+1,y)
+    private int[][] directions = {{-1,0},{0,-1},{0,1},{1,0}};
+    // 行数
+    int m;
+    // 列数
+    int n;
+    String word;
+    private char[][] board;
+
+    /**
+     * 79. 单词搜索
+     * @param board
+     * @param word
+     * @return
+     */
+    public boolean exist(char[][] board, String word) {
+        m = board.length;
+        if(m == 0){return false;}
+        n = board[0].length;
+        marked = new boolean[m][n];
+        this.word = word;
+        this.board = board;
+        for(int i = 0;i<m;i++){
+            for(int j = 0;j<n;j++){
+                if(dfs(i,j,0)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean inArea(int x,int y){
+        return x>=0 && x<m && y>=0 && y<n;
+    }
+
+    private boolean dfs(int i,int j,int start){
+        if(start == word.length()-1){
+            return board[i][j] == word.charAt(start);
+        }
+        if(board[i][j] == word.charAt(start)){
+            marked[i][j] = true;
+            for(int k = 0;k<4;k++){
+                int newX = i + directions[k][0];
+                int newY = j + directions[k][1];
+                if(inArea(newX,newY) && !marked[newX][newY]){
+                    if(dfs(newX,newY,start+1)){
+                        return true;
+                    }
+                }
+
+            }
+            marked[i][j] = false;
+        }
+        return false;
+    }
+
+    private void find(int[] nums, int begin, @NotNull List<Integer> pre) {
         // 没有显式的递归终止
         res.add(new ArrayList<>(pre));// 注意：Java 的引用传递机制，这里要 new 一下
         for (int i = begin; i < nums.length; i++) {
@@ -917,7 +990,12 @@ public class LeetCode {
         }
     }
 
-    public List<List<Integer>> subsets(int[] nums) {
+    /**
+     * 78. 子集
+     * @param nums
+     * @return
+     */
+    public List<List<Integer>> subsets(@NotNull int[] nums) {
         int len = nums.length;
         res = new ArrayList<>();
         if (len == 0) {
