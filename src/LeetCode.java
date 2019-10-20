@@ -1232,6 +1232,12 @@ public class LeetCode {
         return root;
     }
     private TreeNode pre;
+
+    /**
+     * 114
+     * 二叉树展开为链表
+     * @param root
+     */
     public void flatten(TreeNode root) {
         if(root == null){return;}
         if(pre != null){
