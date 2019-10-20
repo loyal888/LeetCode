@@ -431,10 +431,17 @@ public class LeetCode {
     }
 
     private void swap(int[] nums, int i, int j) {
-        int temp = nums[i];
-        nums[i] = nums[j];
-        nums[j] = temp;
+//        int temp = nums[i];
+//        nums[i] = nums[j];
+//        nums[j] = temp;
+//          a = a^b;
+//          b = b^a;
+//          a = a^b;
+        nums[i] = nums[i] ^ nums[j];
+        nums[j] = nums[j] ^ nums[i];
+        nums[i] = nums[i] ^ nums[j];
     }
+
 
     /**
      * 32 最长有效括号
@@ -1120,6 +1127,7 @@ public class LeetCode {
 
     /**
      * 102. 二叉树的层次遍历
+     *
      * @param root
      * @return
      */
@@ -1132,14 +1140,22 @@ public class LeetCode {
     }
 
     private void helper(TreeNode node, int level) {
-        if(ans.size() == level){ans.add(new ArrayList<Integer>());}
+        if (ans.size() == level) {
+            ans.add(new ArrayList<Integer>());
+        }
         ans.get(level).add(node.val);
-        if(node.left != null){helper(node.left,level+1);}
-        if(node.right != null){helper(node.right,level+1);}
+        if (node.left != null) {
+            helper(node.left, level + 1);
+        }
+        if (node.right != null) {
+            helper(node.right, level + 1);
+        }
 
     }
+
     /**
      * 102. 二叉树的层次遍历
+     *
      * @param root
      * @return
      */
@@ -1150,13 +1166,13 @@ public class LeetCode {
         Queue<TreeNode> queue = new LinkedList<TreeNode>();
         queue.add(root);
         int level = 0;
-        while ( !queue.isEmpty() ) {
+        while (!queue.isEmpty()) {
             // start the current level
             levels.add(new ArrayList<Integer>());
 
             // number of elements in the current level
             int level_length = queue.size();
-            for(int i = 0; i < level_length; ++i) {
+            for (int i = 0; i < level_length; ++i) {
                 TreeNode node = queue.remove();
 
                 // fulfill the current level
@@ -1175,16 +1191,20 @@ public class LeetCode {
 
     /**
      * 104. 二叉树的最大深度
+     *
      * @param root
      * @return
      */
     public int maxDepth(TreeNode root) {
-        if(root == null){return 0;}
-        return Math.max(maxDepth(root.left),maxDepth(root.right))+1;
+        if (root == null) {
+            return 0;
+        }
+        return Math.max(maxDepth(root.left), maxDepth(root.right)) + 1;
     }
 
     /**
      * 105. 从前序与中序遍历序列构造二叉树
+     *
      * @param preorder
      * @param inorder
      * @return
@@ -1231,16 +1251,20 @@ public class LeetCode {
                 inorder, pivotIndex + 1, inRight);
         return root;
     }
+
     private TreeNode pre;
 
     /**
      * 114
      * 二叉树展开为链表
+     *
      * @param root
      */
     public void flatten(TreeNode root) {
-        if(root == null){return;}
-        if(pre != null){
+        if (root == null) {
+            return;
+        }
+        if (pre != null) {
             pre.right = root;
             pre.left = null;
         }
@@ -1251,6 +1275,7 @@ public class LeetCode {
 
     /**
      * 121. 买卖股票的最佳时机
+     *
      * @param prices
      * @return
      */
@@ -1277,7 +1302,7 @@ public class LeetCode {
      */
     public int singleNumber(int[] nums) {
         int ans = 0;
-        for(int i = 0;i<nums.length;i++){
+        for (int i = 0; i < nums.length; i++) {
             ans ^= nums[i];
         }
         return ans;
@@ -1286,7 +1311,8 @@ public class LeetCode {
     public static void main(String[] args) {
 //        String[] array = {"abc", "acb", "aq", "qa"};
         int[] nums = {1, 2, 3};
-        List<List<Integer>> subsets = new LeetCode().subsets(nums);
-        System.out.println(subsets);
+        new LeetCode().swap(nums, 1, 2);
+//        List<List<Integer>> subsets = new LeetCode().subsets(nums);
+        System.out.println(Arrays.toString(nums));
     }
 }
