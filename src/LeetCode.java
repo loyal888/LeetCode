@@ -1266,6 +1266,23 @@ public class LeetCode {
         return maxprofit;
     }
 
+    /**
+     * 136. 只出现一次的数字
+     * XOR 满足交换律和结合律
+     * a \oplus b \oplus a = (a \oplus a) \oplus b = 0 \oplus b = ba⊕b⊕a=(a⊕a)⊕b=0⊕b=b
+     * 所以我们只需要将所有的数进行 XOR 操作，得到那个唯一的数字。
+     *
+     * @param nums
+     * @return
+     */
+    public int singleNumber(int[] nums) {
+        int ans = 0;
+        for(int i = 0;i<nums.length;i++){
+            ans ^= nums[i];
+        }
+        return ans;
+    }
+
     public static void main(String[] args) {
 //        String[] array = {"abc", "acb", "aq", "qa"};
         int[] nums = {1, 2, 3};
