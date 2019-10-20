@@ -1026,9 +1026,9 @@ public class LeetCode {
 
     /**
      * 94. 二叉树的中序遍历
+     *
      * @param root
-     * @return
-     * 时间复杂度：O(n)。
+     * @return 时间复杂度：O(n)。
      * 空间复杂度：O(n))。
      */
     public List<Integer> inorderTraversal(TreeNode root) {
@@ -1049,6 +1049,7 @@ public class LeetCode {
 
     /**
      * 96. 不同的二叉搜索树
+     *
      * @param n
      * @return
      */
@@ -1063,6 +1064,35 @@ public class LeetCode {
             }
         }
         return G[n];
+    }
+
+    /**
+     * 98. 验证二叉搜索树
+     * @param root
+     * @return
+     */
+    public boolean isValidBST(TreeNode root) {
+        return helper(root, null, null);
+    }
+
+    public boolean helper(TreeNode node, Integer lower, Integer upper) {
+        if (node == null) {
+            return true;
+        }
+        int val = node.val;
+        if (lower != null && val <= lower) {
+            return false;
+        }
+        if (upper != null && val >= upper) {
+            return false;
+        }
+        if (!helper(node.left, lower, val)) {
+            return false;
+        }
+        if (!helper(node.right, val, upper)) {
+            return false;
+        }
+        return true;
     }
 
 
