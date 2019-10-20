@@ -1068,6 +1068,7 @@ public class LeetCode {
 
     /**
      * 98. 验证二叉搜索树
+     *
      * @param root
      * @return
      */
@@ -1097,17 +1098,82 @@ public class LeetCode {
 
     /**
      * 101. 对称二叉树
+     *
      * @param root
      * @return
      */
     public boolean isSymmetric(TreeNode root) {
         return isMirror(root, root);
     }
-    public boolean isMirror(TreeNode t1,TreeNode t2){
-        if(t1 == null && t2 == null){return true;}
-        if(t1 == null || t2 == null){return false;}
-        return (t1.val == t2.val) && isMirror(t1.left,t2.right) && isMirror(t2.left,t1.right);
+
+    public boolean isMirror(TreeNode t1, TreeNode t2) {
+        if (t1 == null && t2 == null) {
+            return true;
+        }
+        if (t1 == null || t2 == null) {
+            return false;
+        }
+        return (t1.val == t2.val) && isMirror(t1.left, t2.right) && isMirror(t2.left, t1.right);
     }
+
+    List<List<Integer>> ans = new ArrayList<>();
+
+    /**
+     * 102. 二叉树的层次遍历
+     * @param root
+     * @return
+     */
+    public List<List<Integer>> levelOrder(TreeNode root) {
+        if (root == null) {
+            return ans;
+        }
+        helper(root, 0);
+        return ans;
+    }
+
+    private void helper(TreeNode node, int level) {
+        if(ans.size() == level){ans.add(new ArrayList<Integer>());}
+        ans.get(level).add(node.val);
+        if(node.left != null){helper(node.left,level+1);}
+        if(node.right != null){helper(node.right,level+1);}
+
+    }
+    /**
+     * 102. 二叉树的层次遍历
+     * @param root
+     * @return
+     */
+    public List<List<Integer>> levelOrder1(TreeNode root) {
+        List<List<Integer>> levels = new ArrayList<List<Integer>>();
+        if (root == null) return levels;
+
+        Queue<TreeNode> queue = new LinkedList<TreeNode>();
+        queue.add(root);
+        int level = 0;
+        while ( !queue.isEmpty() ) {
+            // start the current level
+            levels.add(new ArrayList<Integer>());
+
+            // number of elements in the current level
+            int level_length = queue.size();
+            for(int i = 0; i < level_length; ++i) {
+                TreeNode node = queue.remove();
+
+                // fulfill the current level
+                levels.get(level).add(node.val);
+
+                // add child nodes of the current level
+                // in the queue for the next level
+                if (node.left != null) queue.add(node.left);
+                if (node.right != null) queue.add(node.right);
+            }
+            // go to next level
+            level++;
+        }
+        return levels;
+    }
+
+
 
 
     public static void main(String[] args) {
