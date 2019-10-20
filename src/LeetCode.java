@@ -1231,7 +1231,17 @@ public class LeetCode {
                 inorder, pivotIndex + 1, inRight);
         return root;
     }
-
+    private TreeNode pre;
+    public void flatten(TreeNode root) {
+        if(root == null){return;}
+        if(pre != null){
+            pre.right = root;
+            pre.left = null;
+        }
+        pre = root;
+        flatten(root.left);
+        flatten(root.right);
+    }
 
 
     public static void main(String[] args) {
