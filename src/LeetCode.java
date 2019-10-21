@@ -1308,11 +1308,36 @@ public class LeetCode {
         return ans;
     }
 
+
+    /**
+     * 139. 单词拆分
+     * @param s
+     * @param wordDict
+     * @return
+     */
+    public boolean wordBreak(String s, List<String> wordDict) {
+        if (wordDict == null || wordDict.size() == 0) return s.isEmpty();
+        int n = s.length();
+        boolean[] dp = new boolean[n + 1];
+        dp[0] = true;
+        for (int i = 1; i <= n; i++) {
+            for (int j = i - 1; j >= 0; j--) {
+                if (dp[j] && wordDict.contains(s.substring(j, i))) {
+                    dp[i] = true;
+                    break;
+                }
+            }
+        }
+        return dp[n];
+    }
+
+
     public static void main(String[] args) {
 //        String[] array = {"abc", "acb", "aq", "qa"};
         int[] nums = {1, 2, 3};
         new LeetCode().swap(nums, 1, 2);
-//        List<List<Integer>> subsets = new LeetCode().subsets(nums);
-        System.out.println(Arrays.toString(nums));
+
+
     }
+
 }
