@@ -1331,6 +1331,21 @@ public class LeetCode {
         return dp[n];
     }
 
+    /**
+     * 141. 环形链表
+     * @param head
+     * @return
+     */
+    public boolean hasCycle(ListNode head) {
+        ListNode fast = head;
+        ListNode slow = head;
+        while (fast != null && fast.next != null) {
+            fast = fast.next.next;
+            slow = slow.next;
+            if (fast == slow) {return true;}
+        }
+        return false;
+    }
 
     public static void main(String[] args) {
 //        String[] array = {"abc", "acb", "aq", "qa"};
