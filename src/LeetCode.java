@@ -1347,6 +1347,60 @@ public class LeetCode {
         return false;
     }
 
+    private ListNode getIntersect(ListNode head) {
+        ListNode tortoise = head;
+        ListNode hare = head;
+        while (hare != null && hare.next != null) {
+            tortoise = tortoise.next;
+            hare = hare.next.next;
+            if (tortoise == hare) {
+                return tortoise;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * 142. 环形链表 II
+     *
+     * 我们利用已知的条件：慢指针移动 1 步，快指针移动 2 步，来说明它们相遇在环的入口处。
+     * （下面证明中的 tortoise 表示慢指针，hare 表示快指针）
+     * 2 *distance(tortoise) = distance(hare)
+     * 2(F+a) = F+a+b+a
+     * 2F+2a = F+2a+b
+     * F = b
+     * 2⋅distance(tortoise)
+     * 2(F+a)
+     * 2F+2a
+     * F=distance(hare)
+     * =F+a+b+a
+     * =F+2a+b
+     * =b
+     * 因为 F=b ，指针从 h 点出发和从链表的头出发，最后会遍历相同数目的节点后在环的入口处相遇。
+     * @param head
+     * @return
+     */
+    public ListNode detectCycle(ListNode head) {
+        if (head == null) {
+            return null;
+        }
+        // 判断是否有环
+        ListNode intersect = getIntersect(head);
+        if (intersect == null) {
+            return null;
+        }
+        ListNode ptr1 = head;
+        ListNode ptr2 = intersect;
+        while (ptr1 != ptr2) {
+            ptr1 = ptr1.next;
+            ptr2 = ptr2.next;
+        }
+
+        return ptr1;
+    }
+
+
     public static void main(String[] args) {
 //        String[] array = {"abc", "acb", "aq", "qa"};
         int[] nums = {1, 2, 3};
