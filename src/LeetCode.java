@@ -1311,6 +1311,7 @@ public class LeetCode {
 
     /**
      * 139. 单词拆分
+     *
      * @param s
      * @param wordDict
      * @return
@@ -1333,6 +1334,7 @@ public class LeetCode {
 
     /**
      * 141. 环形链表
+     *
      * @param head
      * @return
      */
@@ -1342,7 +1344,9 @@ public class LeetCode {
         while (fast != null && fast.next != null) {
             fast = fast.next.next;
             slow = slow.next;
-            if (fast == slow) {return true;}
+            if (fast == slow) {
+                return true;
+            }
         }
         return false;
     }
@@ -1363,7 +1367,7 @@ public class LeetCode {
 
     /**
      * 142. 环形链表 II
-     *
+     * <p>
      * 我们利用已知的条件：慢指针移动 1 步，快指针移动 2 步，来说明它们相遇在环的入口处。
      * （下面证明中的 tortoise 表示慢指针，hare 表示快指针）
      * 2 *distance(tortoise) = distance(hare)
@@ -1378,6 +1382,7 @@ public class LeetCode {
      * =F+2a+b
      * =b
      * 因为 F=b ，指针从 h 点出发和从链表的头出发，最后会遍历相同数目的节点后在环的入口处相遇。
+     *
      * @param head
      * @return
      */
@@ -1403,6 +1408,7 @@ public class LeetCode {
     /**
      * 148. 排序链表
      * 归并排序（递归法）
+     *
      * @param head
      * @return
      */
@@ -1464,6 +1470,27 @@ public class LeetCode {
 //    return res.next
 
 
+    /**
+     * 152. 乘积最大子序列
+     * @param nums
+     * @return
+     */
+    public int maxProduct(int[] nums) {
+        if (nums == null || nums.length == 0) return 0;
+        int res = nums[0];
+        int pre_max = nums[0];
+        int pre_min = nums[0];
+        for (int i = 1; i < nums.length; i++) {
+            int cur_max = Math.max(Math.max(pre_max * nums[i], pre_min * nums[i]), nums[i]);
+            int cur_min = Math.min(Math.min(pre_max * nums[i], pre_min * nums[i]), nums[i]);
+            res = Math.max(res, cur_max);
+            pre_max = cur_max;
+            pre_min = cur_min;
+        }
+        return res;
+    }
+
+
     public static void main(String[] args) {
 //        String[] array = {"abc", "acb", "aq", "qa"};
 //        int[] nums = {1, 2, 3};
@@ -1482,8 +1509,8 @@ public class LeetCode {
         listNode3.next = listNode4;
         listNode4.next = listNode6;
         listNode5.next = listNode6;
-
-        new LeetCode().sortList(listNode);
+        int[] nums = {2, 3, -2, 0, 1, 6};
+        new LeetCode().maxProduct(nums);
 
     }
 
