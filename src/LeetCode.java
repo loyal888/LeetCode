@@ -1400,12 +1400,90 @@ public class LeetCode {
         return ptr1;
     }
 
+    /**
+     * 148. 排序链表
+     * 归并排序（递归法）
+     * @param head
+     * @return
+     */
+    public ListNode sortList(ListNode head) {
+        if (head == null || head.next == null)
+            return head;
+        ListNode fast = head.next, slow = head;
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        ListNode tmp = slow.next;
+        slow.next = null;
+        ListNode left = sortList(head);
+        ListNode right = sortList(tmp);
+        ListNode h = new ListNode(0);
+        ListNode res = h;
+        while (left != null && right != null) {
+            if (left.val < right.val) {
+                h.next = left;
+                left = left.next;
+            } else {
+                h.next = right;
+                right = right.next;
+            }
+            h = h.next;
+        }
+        h.next = left != null ? left : right;
+        return res.next;
+    }
+
+//归并排序（从底至顶直接合并）
+//    class Solution:
+//    def sortList(self, head: ListNode) -> ListNode:
+//    h, length, intv = head, 0, 1
+//            while h: h, length = h.next, length + 1
+//    res = ListNode(0)
+//    res.next = head
+//        # merge the list in different intv.
+//            while intv < length:
+//    pre, h = res, res.next
+//            while h:
+//            # get the two merge head `h1`, `h2`
+//    h1, i = h, intv
+//                while i and h: h, i = h.next, i - 1
+//            if i: break # no need to merge because the `h2` is None.
+//    h2, i = h, intv
+//                while i and h: h, i = h.next, i - 1
+//    c1, c2 = intv, intv - i # the `c2`: length of `h2` can be small than the `intv`.
+//            # merge the `h1` and `h2`.
+//            while c1 and c2:
+//            if h1.val < h2.val: pre.next, h1, c1 = h1, h1.next, c1 - 1
+//            else: pre.next, h2, c2 = h2, h2.next, c2 - 1
+//    pre = pre.next
+//    pre.next = h1 if c1 else h2
+//                while c1 > 0 or c2 > 0: pre, c1, c2 = pre.next, c1 - 1, c2 - 1
+//    pre.next = h
+//    intv *= 2
+//    return res.next
+
 
     public static void main(String[] args) {
 //        String[] array = {"abc", "acb", "aq", "qa"};
-        int[] nums = {1, 2, 3};
-        new LeetCode().swap(nums, 1, 2);
+//        int[] nums = {1, 2, 3};
+//        new LeetCode().swap(nums, 1, 2);
+        ListNode listNode = new ListNode(3);
+        ListNode listNode1 = new ListNode(2);
+        ListNode listNode2 = new ListNode(4);
+        ListNode listNode3 = new ListNode(6);
+        ListNode listNode4 = new ListNode(5);
+        ListNode listNode5 = new ListNode(1);
+        ListNode listNode6 = new ListNode(8);
 
+        listNode.next = listNode1;
+        listNode1.next = listNode2;
+        listNode2.next = listNode3;
+        listNode3.next = listNode4;
+        listNode4.next = listNode6;
+        listNode5.next = listNode6;
+
+        new LeetCode().sortList(listNode);
 
     }
 
