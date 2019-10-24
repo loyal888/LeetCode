@@ -1542,6 +1542,23 @@ public class LeetCode {
         return pA;
     }
 
+    /**
+     * 169. 求众数
+     * @param nums
+     * @return
+     */
+    public int majorityElement(int[] nums) {
+        int count = 0;
+        Integer candidates = null;
+        for (int num : nums) {
+            if (count == 0) {
+                candidates = num;
+            }
+            count += (num == candidates) ? 1 : -1;
+        }
+        return candidates;
+    }
+
     public static void main(String[] args) {
 //        String[] array = {"abc", "acb", "aq", "qa"};
 //        int[] nums = {1, 2, 3};
