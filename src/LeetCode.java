@@ -1668,6 +1668,20 @@ public class LeetCode {
         return num_islands;
     }
 
+    /**
+     * 206. 反转链表
+     * @param head
+     * @return
+     */
+    public ListNode reverseList(ListNode head) {
+        if (head == null || head.next == null) return head;
+        ListNode p = reverseList(head.next);
+        head.next.next = head;
+        head.next = null;
+        return p;
+    }
+
+
 
     public static void main(String[] args) {
 //        String[] array = {"abc", "acb", "aq", "qa"};
@@ -1689,7 +1703,7 @@ public class LeetCode {
         listNode5.next = listNode6;
         int[] nums = {2, 3, -2, 0, 1, 6};
         char[][] grid = new char[][]{{'1', '1', '1'}, {'0', '1', '0'}, {'1', '0', '0'}, {'1', '0', '1'}};
-        new LeetCode().numIslands1(grid);
+        new LeetCode().reverseList(listNode);
 
     }
 
