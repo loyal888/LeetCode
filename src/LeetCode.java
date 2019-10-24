@@ -1527,18 +1527,17 @@ public class LeetCode {
 
     /**
      * 160. 相交链表
+     *
      * @param headA
      * @param headB
      * @return
      */
     public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
-        if (headA == null || headB == null) {
-            return null;
-        }
+        if (headA == null || headB == null) return null;
         ListNode pA = headA, pB = headB;
         while (pA != pB) {
-            pA = pA.next == null ? pB : pA.next;
-            pB = pB.next == null ? pA : pB.next;
+            pA = pA == null ? headB : pA.next;
+            pB = pB == null ? headA : pB.next;
         }
         return pA;
     }
