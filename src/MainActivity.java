@@ -4,7 +4,9 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.WindowManagerImpl;
 import android.widget.EditText;
+import com.android.internal.policy.PhoneWindow;
 
 public class MainActivity extends Activity {
     View[] views;
@@ -29,6 +31,5 @@ public class MainActivity extends Activity {
 
             }
         });
-//        InputMethodService
     }
 }
