@@ -1594,8 +1594,11 @@ public class LeetCode {
         dfs(grid, r, c + 1);
     }
 
+// ================================================================================================
+
     /**
      * 200. 岛屿数量
+     *
      * @param grid
      * @return
      */
@@ -1619,8 +1622,11 @@ public class LeetCode {
         return num_islands;
     }
 
+// ================================================================================================
+
     /**
      * 200. 岛屿数量
+     *
      * @param grid
      * @return
      */
@@ -1644,21 +1650,21 @@ public class LeetCode {
                         int id = neighbors.remove();
                         int row = id / nc;
                         int col = id % nc;
-                        if (row - 1 >= 0 && grid[row-1][col] == '1') {
-                            neighbors.add((row-1) * nc + col);
-                            grid[row-1][col] = '0';
+                        if (row - 1 >= 0 && grid[row - 1][col] == '1') {
+                            neighbors.add((row - 1) * nc + col);
+                            grid[row - 1][col] = '0';
                         }
-                        if (row + 1 < nr && grid[row+1][col] == '1') {
-                            neighbors.add((row+1) * nc + col);
-                            grid[row+1][col] = '0';
+                        if (row + 1 < nr && grid[row + 1][col] == '1') {
+                            neighbors.add((row + 1) * nc + col);
+                            grid[row + 1][col] = '0';
                         }
-                        if (col - 1 >= 0 && grid[row][col-1] == '1') {
-                            neighbors.add(row * nc + col-1);
-                            grid[row][col-1] = '0';
+                        if (col - 1 >= 0 && grid[row][col - 1] == '1') {
+                            neighbors.add(row * nc + col - 1);
+                            grid[row][col - 1] = '0';
                         }
-                        if (col + 1 < nc && grid[row][col+1] == '1') {
-                            neighbors.add(row * nc + col+1);
-                            grid[row][col+1] = '0';
+                        if (col + 1 < nc && grid[row][col + 1] == '1') {
+                            neighbors.add(row * nc + col + 1);
+                            grid[row][col + 1] = '0';
                         }
                     }
                 }
@@ -1668,8 +1674,11 @@ public class LeetCode {
         return num_islands;
     }
 
+// ================================================================================================
+
     /**
      * 206. 反转链表
+     *
      * @param head
      * @return
      */
@@ -1681,9 +1690,96 @@ public class LeetCode {
         return p;
     }
 
+    // =======================================分 割 线=========================================================
 
+    /**
+     * 栈排序
+     *
+     * @param stack
+     */
+    public static void sortStackByStack(Stack<Integer> stack) {
+        //用于帮助排序的栈
+        Stack<Integer> help = new Stack<Integer>();
+        System.out.println(stack);
+        while (!stack.isEmpty()) {
+            //弹出一个元素
+            int cur = stack.pop();
+            //在帮助栈不为空并且弹出的元素小于帮助栈栈顶的元素就将帮助栈栈顶的元素压会元素数据栈
+            while (!help.isEmpty() && help.peek() > cur) {
+                stack.push(help.pop());
+            }
+            //将弹出的元素放到帮助栈中
+            help.push(cur);
+        }
+        //现在的元素全部在帮助栈中从栈顶到栈底从大到小排列
+        System.out.println(help);
+        //将帮助栈的元素倒出到原数据栈
+        while (!help.isEmpty()) {
+            stack.push(help.pop());
+        }
+    }
 
+    // =======================================分 割 线=========================================================
+
+    /**
+     * 队列Queue的链表实现（FIFO）
+     * @param <String>
+     */
+    public class MyQueue<String> {
+        private Node first; // 最早添加的结点连接
+        private Node last;  // 最近添加的结点连接
+        private int N;      // 元素数量
+
+        // 定义结点的嵌套类
+        private class Node {
+            String string;
+            Node next;
+        }
+
+        // 判断链表是否为空
+        public boolean isEmpty() {
+            return first == null;
+        }
+
+        // 统计链表结点数
+        public int size() {
+            return N;
+        }
+
+        // 向表尾添加元素
+        public void enqueue(String s) {
+            Node oldlast = last;
+            last = new Node();
+            last.string = s;
+            last.next = null;
+            if (isEmpty()) {
+                first = last;
+            } else {
+                oldlast.next = last;
+            }
+            N++;
+        }
+
+        // 从表头删除元素
+        public String dequeue() {
+            String s = first.string;
+            first = first.next;
+            if (isEmpty()) {
+                last = null;
+            }
+            N--;
+            return s;
+        }
+    }
+
+    // =======================================分 割 线=========================================================
     public static void main(String[] args) {
+        Stack<Integer> stack = new Stack<>();
+        stack.push(1);
+        stack.push(2);
+        stack.push(3);
+        sortStackByStack(stack);
+        System.out.println(stack.toString());
 //        String[] array = {"abc", "acb", "aq", "qa"};
 //        int[] nums = {1, 2, 3};
 //        new LeetCode().swap(nums, 1, 2);
@@ -1706,5 +1802,6 @@ public class LeetCode {
         new LeetCode().reverseList(listNode);
 
     }
+// ================================================================================================
 
 }
