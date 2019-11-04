@@ -1749,10 +1749,8 @@ public class LeetCode {
 
     /**
      * 队列Queue的链表实现（FIFO）
-     *
-     * @param <String>
      */
-    public class MyQueue<String> {
+    public class QueueImplByLinkList {
         private Node first; // 最早添加的结点连接
         private Node last;  // 最近添加的结点连接
         private int N;      // 元素数量
@@ -1866,10 +1864,11 @@ public class LeetCode {
 
     /**
      * 一个n位数，现在可以删除其中任意k位，使得剩下的数最小
+     *
      * @param a
      * @param k
      */
-    static  void findMinNums(int a, int k) {
+    static void findMinNums(int a, int k) {
         int n = 0;          //n指a有多少位
         int i, j, s = 1;
 
@@ -1897,7 +1896,7 @@ public class LeetCode {
                     p[j + 1] = -1;
                 }
             }
-            for(i=0;i<n-k;i++){
+            for (i = 0; i < n - k; i++) {
                 System.out.println(p[i]);
             }
         }
@@ -1907,6 +1906,7 @@ public class LeetCode {
 
     /**
      * 两数相加(大数之和)
+     *
      * @param l1
      * @param l2
      * @return
@@ -1915,29 +1915,93 @@ public class LeetCode {
         ListNode pre = new ListNode(0);
         ListNode cur = pre;
         int carry = 0;
-        while(l1 != null || l2 != null){
-            int x = l1 == null?0:l1.val;
-            int y = l2 == null?0:l2.val;
+        while (l1 != null || l2 != null) {
+            int x = l1 == null ? 0 : l1.val;
+            int y = l2 == null ? 0 : l2.val;
 
             int sum = x + y + carry;
-            carry = sum/10;
-            sum = sum%10;
+            carry = sum / 10;
+            sum = sum % 10;
             cur.next = new ListNode(sum);
             cur = cur.next;
-            if(l1 != null){l1 = l1.next;}
-            if(l2 != null){l2 = l2.next;}
+            if (l1 != null) {
+                l1 = l1.next;
+            }
+            if (l2 != null) {
+                l2 = l2.next;
+            }
         }
-        if(carry == 1){
+        if (carry == 1) {
             cur.next = new ListNode(1);
         }
         return pre.next;
     }
 
     // =======================================分 割 线=========================================================
+
+    /**
+     * 232. 用栈实现队列
+     */
+    class MyQueue {
+        Stack<Integer> s1 = new Stack<>();
+        Stack<Integer> s2 = new Stack<>();
+
+
+        /**
+         * Initialize your data structure here.
+         */
+        public MyQueue() {
+
+        }
+
+        private int front;
+
+        public void push(int x) {
+            if (s1.empty()) {
+                front = x;
+            }
+            while (!s1.isEmpty()) {
+                s2.push(s1.pop());
+            }
+            s2.push(x);
+            while (!s2.isEmpty()) {
+                s1.push(s2.pop());
+            }
+        }
+
+
+        /**
+         * Removes the element from in front of queue and returns that element.
+         */
+        public int pop() {
+            int ans = s1.pop();
+            if (!s1.empty()) {
+                front = s1.peek();
+            }
+            return ans;
+        }
+
+        /**
+         * Get the front element.
+         */
+        public int peek() {
+            return front;
+        }
+
+        /**
+         * Returns whether the queue is empty.
+         */
+        public boolean empty() {
+            return s1.isEmpty();
+        }
+    }
+
+
+    // =======================================分 割 线=========================================================
     public static void main(String[] args) {
 
 
-        findMinNums(1231,2);
+        findMinNums(1231, 2);
         Stack<Integer> stack = new Stack<>();
         stack.push(1);
         stack.push(2);
@@ -1963,7 +2027,7 @@ public class LeetCode {
         listNode4.next = listNode6;
 //        listNode5.next = listNode6;
 
-        addTwoNumbers(listNode,listNode3);
+        addTwoNumbers(listNode, listNode3);
 
 
         int[] nums = {2, 3, -2, 0, 1, 6};
