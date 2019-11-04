@@ -58,6 +58,7 @@ public class Solution {
             this.val = val;
         }
     }
+
     /**
      * 输入一个链表，按链表从尾到头的顺序返回一个ArrayList。
      *
@@ -393,7 +394,7 @@ public class Solution {
         return node;
     }
 
-    public class TreeNode {
+    public static class TreeNode {
         int val = 0;
         TreeNode left = null;
         TreeNode right = null;
@@ -1741,8 +1742,8 @@ public class Solution {
      * @param k
      * @return
      */
-
-    TreeNode KthNode(TreeNode root, int k) {
+    static TreeNode KthNode(TreeNode root, int k) {
+        int index = 0;
         if (root != null) { //中序遍历寻找第k个
             TreeNode node = KthNode(root.left, k);
             if (node != null) {
@@ -1761,15 +1762,22 @@ public class Solution {
     }
 
     public static void main(String args[]) {
+        TreeNode node = new TreeNode(5);
+        TreeNode node1 = new TreeNode(3);
+        TreeNode node2 = new TreeNode(7);
+        node.left = node1;
+        node.right = node2;
+
+        KthNode(node, 2);
 //        int[] array = new int[]{2, 7, 9};
 //        twoSum(array, 9);
 //        List<String> ans = new ArrayList();
 //        backtrack(ans, "", 0, 0, 3);
 //        convert("leetcod", 3);
-        NumberOf1Between1AndN_Solution1(29,33,'3');
+        NumberOf1Between1AndN_Solution1(29, 33, '3');
     }
 
-    public static int NumberOf1Between1AndN_Solution1(int m,int n,char k) {
+    public static int NumberOf1Between1AndN_Solution1(int m, int n, char k) {
         int count = 0;
         Scanner sc = new Scanner(System.in);
 

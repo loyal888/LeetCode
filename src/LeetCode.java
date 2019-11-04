@@ -2035,13 +2035,83 @@ public class LeetCode {
         }
         return head;
     }
+    // =======================================分 割 线=========================================================
 
+    /**
+     * @param x a double
+     * @return the square root of x
+     */
+    public double sqrt(double x) {
+        double left = 0.0;
+        double right = x;
+        double eps = 1e-10;
 
+        // 因为小于1的小数的平方是小于它本身的
+        // 即小于1的小数的平方根大于该数本身
+        // 如果不使right = 1则无法用二分法找到该数
+        if (right < 1.0) {
+            right = 1.0;
+        }
+
+        while (right - left > eps) {
+            // 二分浮点数 和二分整数不同
+            // 一般都有一个精度的要求 譬如这题就是要求小数点后八位
+            // 也就是只要我们二分的结果达到了这个精度的要求就可以
+            // 所以 需要让 right 和 left 小于一个我们事先设定好的精度值 eps
+            // 一般eps的设定1e-8,因为这题的要求是到1e-8,所以我把精度调到了1e-10
+            // 和-8差两位，开完平方结果差一位，结果是9位小数，取8位不会出现误差
+            // 最后 选择 left 或 right 作为一个结果即可
+            double mid = left + (right - left) / 2;
+            if (mid * mid < x) {
+                left = mid;
+            } else {
+                right = mid;
+            }
+        }
+
+        return left;
+    }
+
+    // =======================================分 割 线=========================================================
+
+    /**
+     * 一个无序有正有负数组，求乘积最大的三个数的乘积
+     * 思路:定义五个数:一个最大,一个次大,一个第三大,一个最小,一个次小
+     * 只要找出这五个数,问题就解决了
+     * @param arr
+     * @return
+     */
+    private static long maxProduct(long[] arr) {
+        //max1,max2,max3用于记录最大,次大,第三大的数
+        long max1 = Integer.MIN_VALUE, max2 = Integer.MIN_VALUE, max3 = Integer.MIN_VALUE;
+        //min1,min2用于记录最小,次小的数
+        long min1 = Integer.MAX_VALUE, min2 = Integer.MAX_VALUE;
+        for (long num : arr) {
+            if (num > max1) {
+                max3 = max2;
+                max2 = max1;
+                max1 = num;
+            } else if (num > max2) {
+                max3 = max2;
+                max2 = num;
+            } else if (num > max3) {
+                max3 = num;
+            }
+            if (num < min1) {
+                min2 = min1;
+                min1 = num;
+            } else if (num < min2) {
+                min2 = num;
+            }
+        }
+        return Math.max(max1 * max2 * max3, min1 * min2 * max1);
+    }
 
 
     // =======================================分 割 线=========================================================
     public static void main(String[] args) {
-
+        int[] num = {1,2,3};
+        permute(num);
 
         findMinNums(1231, 2);
         Stack<Integer> stack = new Stack<>();
