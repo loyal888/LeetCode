@@ -1999,6 +1999,7 @@ public class LeetCode {
 
     /**
      * 83. 删除排序链表中的重复元素
+     *
      * @param head
      * @return
      */
@@ -2017,6 +2018,7 @@ public class LeetCode {
 
     /**
      * 82. 删除排序链表中的重复元素 II
+     *
      * @param head
      * @return
      */
@@ -2029,8 +2031,7 @@ public class LeetCode {
                 head = head.next;
             }
             return deleteDuplicates2(head.next);
-        }
-        else {
+        } else {
             head.next = deleteDuplicates2(head.next);
         }
         return head;
@@ -2078,6 +2079,7 @@ public class LeetCode {
      * 一个无序有正有负数组，求乘积最大的三个数的乘积
      * 思路:定义五个数:一个最大,一个次大,一个第三大,一个最小,一个次小
      * 只要找出这五个数,问题就解决了
+     *
      * @param arr
      * @return
      */
@@ -2107,10 +2109,57 @@ public class LeetCode {
         return Math.max(max1 * max2 * max3, min1 * min2 * max1);
     }
 
+    // =======================================分 割 线=========================================================
+
+    /**
+     * 125. 验证回文串
+     * @param head
+     * @return
+     */
+    public boolean isPalindrome(ListNode head) {
+        if (head == null || head.next == null) {
+            return true;
+        }
+        //快慢指针找到链表的中点
+        ListNode fast = head.next.next;
+        ListNode slow = head.next;
+        while (fast != null && fast.next != null) {
+            fast = fast.next.next;
+            slow = slow.next;
+        }
+
+        //翻转链表前半部分
+        ListNode pre = null;
+        ListNode next = null;
+        while (head != slow) {
+            next = head.next;
+            head.next = pre;
+            pre = head;
+            head = next;
+        }
+        //如果是奇数个节点，去掉后半部分的第一个节点。
+
+        if (fast != null) {
+            slow = slow.next;
+        }
+        //回文校验
+        while (pre != null) {
+            if (pre.val != slow.val) {
+                return false;
+            }
+            pre = pre.next;
+            slow = slow.next;
+        }
+
+        return true;
+
+    }
+    // =======================================分 割 线=========================================================
+
 
     // =======================================分 割 线=========================================================
     public static void main(String[] args) {
-        int[] num = {1,2,3};
+        int[] num = {1, 2, 3};
         permute(num);
 
         findMinNums(1231, 2);
