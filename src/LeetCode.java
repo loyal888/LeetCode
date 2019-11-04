@@ -17,7 +17,7 @@ public class LeetCode {
         }
     }
 
-    public class TreeNode {
+    public static class TreeNode {
         int val = 0;
         TreeNode left = null;
         TreeNode right = null;
@@ -1723,16 +1723,17 @@ public class LeetCode {
 
     /**
      * 674. 最长连续递增序列
+     *
      * @param nums
      * @return
      */
     public int findLengthOfLCIS(int[] nums) {
-        if(nums.length <= 1)
+        if (nums.length <= 1)
             return nums.length;
         int ans = 1;
         int count = 1;
-        for(int i=0;i<nums.length-1;i++) {
-            if(nums[i+1] > nums[i]) {
+        for (int i = 0; i < nums.length - 1; i++) {
+            if (nums[i + 1] > nums[i]) {
                 count++;
             } else {
                 count = 1;
@@ -1746,6 +1747,7 @@ public class LeetCode {
 
     /**
      * 队列Queue的链表实现（FIFO）
+     *
      * @param <String>
      */
     public class MyQueue<String> {
@@ -1799,6 +1801,7 @@ public class LeetCode {
 
     /**
      * 108. 将有序数组转换为二叉搜索树
+     *
      * @param nums
      * @return
      */
@@ -1806,22 +1809,58 @@ public class LeetCode {
         Arrays.sort(nums);
         return sortedArrayToBST(nums, 0, nums.length);
     }
-    private TreeNode sortedArrayToBST(int[] nums,int start,int end){
-        if(start == end){return null;}
-        int mid = (start + end ) >>> 1;
+
+    private TreeNode sortedArrayToBST(int[] nums, int start, int end) {
+        if (start == end) {
+            return null;
+        }
+        int mid = (start + end) >>> 1;
 
         TreeNode root = new TreeNode(nums[mid]);
-        root.left = sortedArrayToBST(nums,start,mid);
-        root.right = sortedArrayToBST(nums,mid+1,end);
+        root.left = sortedArrayToBST(nums, start, mid);
+        root.right = sortedArrayToBST(nums, mid + 1, end);
         return root;
     }
 
+    // =======================================分 割 线=========================================================
 
+    /**
+     * 662. 二叉树最大宽度
+     * @param root
+     * @return
+     */
+    public static int widthOfBinaryTree(TreeNode root) {
+        Queue<AnnotatedNode> queue = new LinkedList();
+        queue.add(new AnnotatedNode(root, 0, 0));
+        int curDepth = 0, left = 0, ans = 0;
+        while (!queue.isEmpty()) {
+            AnnotatedNode a = queue.poll();
+            if (a.node != null) {
+                queue.add(new AnnotatedNode(a.node.left, a.depth + 1, a.pos * 2));
+                queue.add(new AnnotatedNode(a.node.right, a.depth + 1, a.pos * 2 + 1));
+                if (curDepth != a.depth) {
+                    curDepth = a.depth;
+                    left = a.pos;
+                }
+                ans = Math.max(ans, a.pos - left + 1);
+            }
+        }
+        return ans;
+    }
 
+    static class AnnotatedNode {
+        TreeNode node;
+        int depth, pos;
+
+         AnnotatedNode(TreeNode n, int d, int p) {
+            node = n;
+            depth = d;
+            pos = p;
+        }
+    }
 
 
     // =======================================分 割 线=========================================================
-
     public static void main(String[] args) {
         Stack<Integer> stack = new Stack<>();
         stack.push(1);
@@ -1850,6 +1889,16 @@ public class LeetCode {
         char[][] grid = new char[][]{{'1', '1', '1'}, {'0', '1', '0'}, {'1', '0', '0'}, {'1', '0', '1'}};
         new LeetCode().reverseList(listNode);
 
+
+        TreeNode treeNode = new TreeNode(3);
+        TreeNode treeNode1 = new TreeNode(2);
+        TreeNode treeNode2 = new TreeNode(4);
+        TreeNode treeNode3 = new TreeNode(6);
+
+        treeNode.left = treeNode1;
+        treeNode.right = treeNode2;
+        treeNode1.right = treeNode3;
+        widthOfBinaryTree(treeNode);
     }
 // ================================================================================================
 
