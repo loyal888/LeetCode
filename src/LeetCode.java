@@ -2113,6 +2113,7 @@ public class LeetCode {
 
     /**
      * 125. 验证回文串
+     *
      * @param head
      * @return
      */
@@ -2158,14 +2159,15 @@ public class LeetCode {
 
     /**
      * 链表相邻元素交换
+     *
      * @param head
      * @return
      */
     public static ListNode swapPairs(ListNode head) {
-        if(head == null) {
+        if (head == null) {
             return null;
         }
-        if(head.next == null) {
+        if (head.next == null) {
             return head;
         }
 
@@ -2173,6 +2175,41 @@ public class LeetCode {
         head.next = swapPairs(temp.next);
         temp.next = head;
         return temp;
+    }
+
+    // =======================================分 割 线=========================================================
+    TreeNode ansNode;
+
+    private boolean recurseTree(TreeNode currentNode, TreeNode p, TreeNode q) {
+
+        // If reached the end of a branch, return false.
+        if (currentNode == null) {
+            return false;
+        }
+
+        // Left Recursion. If left recursion returns true, set left = 1 else 0
+        int left = recurseTree(currentNode.left, p, q) ? 1 : 0;
+
+        // Right Recursion
+        int right = recurseTree(currentNode.right, p, q) ? 1 : 0;
+
+        // If the current node is one of p or q
+        int mid = (currentNode == p || currentNode == q) ? 1 : 0;
+
+
+        // If any two of the flags left, right or mid become True
+        if (mid + left + right >= 2) {
+            ansNode = currentNode;
+        }
+
+        // Return true if any one of the three bool values is True.
+        return (mid + left + right > 0);
+    }
+
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        // Traverse the tree
+        recurseTree(root, p, q);
+        return ansNode;
     }
 
     // =======================================分 割 线=========================================================
