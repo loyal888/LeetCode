@@ -2013,6 +2013,30 @@ public class LeetCode {
         }
         return head;
     }
+    // =======================================分 割 线=========================================================
+
+    /**
+     * 82. 删除排序链表中的重复元素 II
+     * @param head
+     * @return
+     */
+    public static ListNode deleteDuplicates2(ListNode head) {
+        if (head == null) {
+            return head;
+        }
+        if (head.next != null && head.val == head.next.val) {
+            while (head.next != null && head.val == head.next.val) {
+                head = head.next;
+            }
+            return deleteDuplicates2(head.next);
+        }
+        else {
+            head.next = deleteDuplicates2(head.next);
+        }
+        return head;
+    }
+
+
 
 
     // =======================================分 割 线=========================================================
@@ -2029,10 +2053,10 @@ public class LeetCode {
 //        String[] array = {"abc", "acb", "aq", "qa"};
 //        int[] nums = {1, 2, 3};
 //        new LeetCode().swap(nums, 1, 2);
-        ListNode listNode = new ListNode(3);
+        ListNode listNode = new ListNode(1);
         ListNode listNode1 = new ListNode(2);
-        ListNode listNode2 = new ListNode(4);
-        ListNode listNode3 = new ListNode(6);
+        ListNode listNode2 = new ListNode(2);
+        ListNode listNode3 = new ListNode(3);
         ListNode listNode4 = new ListNode(5);
         ListNode listNode5 = new ListNode(1);
         ListNode listNode6 = new ListNode(8);
@@ -2040,12 +2064,14 @@ public class LeetCode {
 
         listNode.next = listNode1;
         listNode1.next = listNode2;
-//        listNode2.next = listNode3;
-        listNode3.next = listNode4;
-        listNode4.next = listNode6;
+        listNode2.next = listNode3;
+
+        deleteDuplicates2(listNode);
+//        listNode3.next = listNode4;
+//        listNode4.next = listNode6;
 //        listNode5.next = listNode6;
 
-        addTwoNumbers(listNode, listNode3);
+//        addTwoNumbers(listNode, listNode3);
 
 
         int[] nums = {2, 3, -2, 0, 1, 6};
