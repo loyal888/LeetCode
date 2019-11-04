@@ -5,6 +5,8 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static java.lang.StrictMath.log10;
+
 @SuppressWarnings("AlibabaRemoveCommentedCode")
 public class LeetCode {
 
@@ -1826,6 +1828,7 @@ public class LeetCode {
 
     /**
      * 662. 二叉树最大宽度
+     *
      * @param root
      * @return
      */
@@ -1852,16 +1855,58 @@ public class LeetCode {
         TreeNode node;
         int depth, pos;
 
-         AnnotatedNode(TreeNode n, int d, int p) {
+        AnnotatedNode(TreeNode n, int d, int p) {
             node = n;
             depth = d;
             pos = p;
         }
     }
 
+    // =======================================分 割 线=========================================================
+
+    /**
+     * 一个n位数，现在可以删除其中任意k位，使得剩下的数最小
+     * @param a
+     * @param k
+     */
+    static  void findMinNums(int a, int k) {
+        int n = 0;          //n指a有多少位
+        int i, j, s = 1;
+
+        n = ((int) Math.log10(a) + 1);
+
+        int[] p = new int[n];
+        j = a;
+        for (i = n - 1; i >= 0; i--) {  //数组p中从0到n-1,分别为：5 6 3 1 7
+            p[i] = j % 10;
+            j /= 10;
+        }
+
+        for (i = 1; i <= k; i++) {  //控制删去的个数
+            for (j = 0; j < n - i; j++) {
+                if (p[j] < p[j + 1]) {  //如果递增，删除最后一个数
+                    continue;
+                } else {            //如果递减，删除第一个数
+                    p[j] = -1;
+                    break;
+                }
+            }
+            for (j = 0; j < n - i; j++) {   //删掉的数的位置被赋值-1，现在把-1以后的数
+                if (p[j] == -1) {     //都往前挪
+                    p[j] = p[j + 1];
+                    p[j + 1] = -1;
+                }
+            }
+            for(i=0;i<n-k;i++){
+                System.out.println(p[i]);
+            }
+        }
+    }
 
     // =======================================分 割 线=========================================================
     public static void main(String[] args) {
+        findMinNums(1231,2);
+
         Stack<Integer> stack = new Stack<>();
         stack.push(1);
         stack.push(2);
