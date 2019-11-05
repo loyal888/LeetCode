@@ -2211,6 +2211,48 @@ public class LeetCode {
         recurseTree(root, p, q);
         return ansNode;
     }
+    // =======================================分 割 线=========================================================
+
+    /**
+     *  25. K 个一组翻转链表
+     */
+    public static ListNode reverseKGroup(ListNode head, int k) {
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+
+        ListNode pre = dummy;
+        ListNode end = dummy;
+
+        while (end.next != null) {
+            for (int i = 0; i < k && end != null; i++) {
+                end = end.next;
+            }
+            if (end == null) {
+                break;
+            }
+            ListNode start = pre.next;
+            ListNode next = end.next;
+            end.next = null;
+            pre.next = reverse(start);
+            start.next = next;
+            pre = start;
+
+            end = pre;
+        }
+        return dummy.next;
+    }
+
+    private static ListNode reverse(ListNode head) {
+        ListNode pre = null;
+        ListNode curr = head;
+        while (curr != null) {
+            ListNode next = curr.next;
+            curr.next = pre;
+            pre = curr;
+            curr = next;
+        }
+        return pre;
+    }
 
     // =======================================分 割 线=========================================================
     public static void main(String[] args) {
@@ -2239,13 +2281,13 @@ public class LeetCode {
         listNode.next = listNode1;
         listNode1.next = listNode2;
         listNode2.next = listNode3;
-        swapPairs(listNode);
+//        swapPairs(listNode);
 
-        deleteDuplicates2(listNode);
-//        listNode3.next = listNode4;
-//        listNode4.next = listNode6;
-//        listNode5.next = listNode6;
-
+//        deleteDuplicates2(listNode);
+        listNode3.next = listNode4;
+        listNode4.next = listNode6;
+        listNode5.next = listNode6;
+        reverseKGroup(listNode,2);
 //        addTwoNumbers(listNode, listNode3);
 
 
