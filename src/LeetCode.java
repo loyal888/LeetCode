@@ -5,9 +5,7 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static java.lang.StrictMath.log10;
 
-@SuppressWarnings("AlibabaRemoveCommentedCode")
 public class LeetCode {
 
     public static class ListNode {
@@ -2286,8 +2284,10 @@ public class LeetCode {
         }
     }
     // =======================================分 割 线=========================================================
+
     /**
      * 257. 二叉树的所有路径
+     *
      * @param root
      * @return
      */
@@ -2311,10 +2311,32 @@ public class LeetCode {
             }
         }
     }
-
-
     // =======================================分 割 线=========================================================
 
+    /**
+     * 1013. 将数组分成和相等的三个部分
+     *
+     * @param nums
+     * @return
+     */
+    public boolean canThreePartsEqualSum(int[] nums) {
+        // 求nums的平均值
+        double sum = 0;
+        for (int i : nums) {
+            sum += i;
+        }
+        double ave = sum / 3.0;
+        int count = 0;
+        double s = 0;
+        for (int i : nums) {
+            s += i;
+            if (s == ave) {
+                count++;
+                s = 0;
+            }
+        }
+        return count == 3;
+    }
 
     // =======================================分 割 线=========================================================
     public static void main(String[] args) {
