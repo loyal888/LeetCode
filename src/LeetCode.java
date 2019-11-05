@@ -2253,6 +2253,37 @@ public class LeetCode {
         }
         return pre;
     }
+    // =======================================分 割 线=========================================================
+    static class SUMNUMBERS {
+        private int sum = 0;
+
+        /**
+         * 129. 求根到叶子节点数字之和
+         * @param root
+         * @return
+         */
+        public int sumNumbers(TreeNode root) {
+            if (root == null) {
+                return sum;
+            }
+            helper(root, 0);
+            return sum;
+        }
+
+        private void helper(TreeNode node, Integer father) {
+            if (node == null) {
+                return;
+            }
+            int current = father * 10 + node.val;
+            if (node.left == null && node.right == null) {
+                sum += current;
+                return;
+            }
+            helper(node.left, current);
+            helper(node.right, current);
+        }
+    }
+
 
     // =======================================分 割 线=========================================================
     public static void main(String[] args) {
@@ -2278,6 +2309,8 @@ public class LeetCode {
         ListNode listNode6 = new ListNode(8);
 
 
+
+
         listNode.next = listNode1;
         listNode1.next = listNode2;
         listNode2.next = listNode3;
@@ -2301,9 +2334,11 @@ public class LeetCode {
         TreeNode treeNode2 = new TreeNode(4);
         TreeNode treeNode3 = new TreeNode(6);
 
+
         treeNode.left = treeNode1;
         treeNode.right = treeNode2;
         treeNode1.right = treeNode3;
+        new SUMNUMBERS().sumNumbers(treeNode);
         widthOfBinaryTree(treeNode);
     }
 // ================================================================================================
