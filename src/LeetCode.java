@@ -2337,10 +2337,30 @@ public class LeetCode {
         }
         return count == 3;
     }
+    // =======================================分 割 线=========================================================
+    public static int removeDuplicates(int[] nums) {
+        if (nums.length == 0) {
+            return 0;
+        }
+        int i = 0;
+        for (int j = 1; j < nums.length; j++) {
+            if (nums[j] != nums[i]) {
+                i++;
+                nums[i] = nums[j];
+            }
+        }
+        return i + 1;
+    }
 
     // =======================================分 割 线=========================================================
+
+    /**
+     * 26. 删除排序数组中的重复项
+     * @param args
+     */
     public static void main(String[] args) {
-        int[] num = {1, 2, 3};
+        int[] num = {0,0,1,1,1,2,2,3,3,4};
+        removeDuplicates(num);
         permute(num);
 
         findMinNums(1231, 2);
