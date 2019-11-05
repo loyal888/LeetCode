@@ -2214,7 +2214,7 @@ public class LeetCode {
     // =======================================分 割 线=========================================================
 
     /**
-     *  25. K 个一组翻转链表
+     * 25. K 个一组翻转链表
      */
     public static ListNode reverseKGroup(ListNode head, int k) {
         ListNode dummy = new ListNode(0);
@@ -2253,12 +2253,14 @@ public class LeetCode {
         }
         return pre;
     }
+
     // =======================================分 割 线=========================================================
     static class SUMNUMBERS {
         private int sum = 0;
 
         /**
          * 129. 求根到叶子节点数字之和
+         *
          * @param root
          * @return
          */
@@ -2283,6 +2285,35 @@ public class LeetCode {
             helper(node.right, current);
         }
     }
+    // =======================================分 割 线=========================================================
+    /**
+     * 二叉树的所有路径
+     * @param root
+     * @return
+     */
+    public List<String> binaryTreePaths(TreeNode root) {
+        LinkedList<String> paths = new LinkedList();
+        construct_paths(root, "", paths);
+        return paths;
+    }
+
+    public void construct_paths(TreeNode root, String path, LinkedList<String> paths) {
+        if (root != null) {
+            path += Integer.toString(root.val);
+            // 当前节点是叶子节点
+            if ((root.left == null) && (root.right == null)) {
+                // 把路径加入到答案中
+                paths.add(path);
+            } else { // 当前节点不是叶子节点，继续递归遍历
+                path += "->";
+                construct_paths(root.left, path, paths);
+                construct_paths(root.right, path, paths);
+            }
+        }
+    }
+
+
+    // =======================================分 割 线=========================================================
 
 
     // =======================================分 割 线=========================================================
@@ -2309,8 +2340,6 @@ public class LeetCode {
         ListNode listNode6 = new ListNode(8);
 
 
-
-
         listNode.next = listNode1;
         listNode1.next = listNode2;
         listNode2.next = listNode3;
@@ -2320,7 +2349,7 @@ public class LeetCode {
         listNode3.next = listNode4;
         listNode4.next = listNode6;
         listNode5.next = listNode6;
-        reverseKGroup(listNode,2);
+        reverseKGroup(listNode, 2);
 //        addTwoNumbers(listNode, listNode3);
 
 
@@ -2339,6 +2368,8 @@ public class LeetCode {
         treeNode.right = treeNode2;
         treeNode1.right = treeNode3;
         new SUMNUMBERS().sumNumbers(treeNode);
+        List<String> strings = new LeetCode().binaryTreePaths(treeNode);
+        System.out.println(strings);
         widthOfBinaryTree(treeNode);
     }
 // ================================================================================================
