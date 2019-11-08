@@ -2472,7 +2472,7 @@ public class LeetCode {
      * @param matrix
      * @return
      */
-    public static  int maximalSquare(char[][] matrix) {
+    public static int maximalSquare(char[][] matrix) {
         int rows = matrix.length, cols = rows > 0 ? matrix[0].length : 0;
         int[][] dp = new int[rows + 1][cols + 1];
         int maxsqlen = 0;
@@ -2485,6 +2485,26 @@ public class LeetCode {
             }
         }
         return maxsqlen * maxsqlen;
+    }
+
+    // =======================================分 割 线=========================================================
+
+    /**
+     * 226. 翻转二叉树
+     * @param root
+     * @return
+     */
+    public TreeNode invertTree(TreeNode root) {
+        if (root == null) {
+            return root;
+        }
+        TreeNode right = root.right;
+        TreeNode left = root.left;
+        invertTree(root.left);
+        invertTree(root.right);
+        root.right = left;
+        root.left = right;
+        return root;
     }
 
 
