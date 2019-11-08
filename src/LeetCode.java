@@ -2438,10 +2438,37 @@ public class LeetCode {
             return node != null;
         }
     }
+    // =======================================分 割 线=========================================================
+
+    /**
+     * 215. 数组中的第K个最大元素
+     * @param nums
+     * @param k
+     * @return
+     */
+    public static int findKthLargest(int[] nums, int k) {
+        // init heap 'the smallest element first'
+        PriorityQueue<Integer> heap =
+                new PriorityQueue<Integer>();
+
+        // keep k largest elements in the heap
+        for (int n: nums) {
+            heap.add(n);
+            if (heap.size() > k) {
+                heap.poll();
+            }
+        }
+
+        // output
+        return heap.poll();
+    }
+
 
 
     // =======================================分 割 线=========================================================
     public static void main(String[] args) {
+
+
         Trie trie = new Trie();
         trie.insert("le");
         trie.insert("leet");
@@ -2451,7 +2478,8 @@ public class LeetCode {
         trie.search("leet");
         trie.search("code");
 
-        int[] num = {0, 0, 1, 1, 1, 2, 2, 3, 3, 4};
+        int[] num = {0, 1, 2, 1, 3, 2, 6, 3, 3, 4,0,0};
+        findKthLargest(num,3);
         removeDuplicates(num);
         permute(num);
 
