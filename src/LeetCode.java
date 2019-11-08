@@ -2442,6 +2442,7 @@ public class LeetCode {
 
     /**
      * 215. 数组中的第K个最大元素
+     *
      * @param nums
      * @param k
      * @return
@@ -2452,7 +2453,7 @@ public class LeetCode {
                 new PriorityQueue<Integer>();
 
         // keep k largest elements in the heap
-        for (int n: nums) {
+        for (int n : nums) {
             heap.add(n);
             if (heap.size() > k) {
                 heap.poll();
@@ -2462,13 +2463,42 @@ public class LeetCode {
         // output
         return heap.poll();
     }
+
     // =======================================分 割 线=========================================================
 
+    /**
+     * 221. 最大正方形
+     *
+     * @param matrix
+     * @return
+     */
+    public static  int maximalSquare(char[][] matrix) {
+        int rows = matrix.length, cols = rows > 0 ? matrix[0].length : 0;
+        int[][] dp = new int[rows + 1][cols + 1];
+        int maxsqlen = 0;
+        for (int i = 1; i <= rows; i++) {
+            for (int j = 1; j <= cols; j++) {
+                if (matrix[i - 1][j - 1] == '1') {
+                    dp[i][j] = Math.min(Math.min(dp[i][j - 1], dp[i - 1][j]), dp[i - 1][j - 1]) + 1;
+                    maxsqlen = Math.max(maxsqlen, dp[i][j]);
+                }
+            }
+        }
+        return maxsqlen * maxsqlen;
+    }
 
 
     // =======================================分 割 线=========================================================
     public static void main(String[] args) {
+        char[][] matrix = new char[][]{
+                {'0', '1', '1', '1', '0'},
+                {'1', '1', '1', '1', '1'},
+                {'0', '1', '1', '1', '1'},
+                {'0', '1', '1', '1', '1'},
+                {'0', '0', '1', '1', '0'}
 
+        };
+        maximalSquare(matrix);
 
         Trie trie = new Trie();
         trie.insert("le");
@@ -2479,8 +2509,8 @@ public class LeetCode {
         trie.search("leet");
         trie.search("code");
 
-        int[] num = {0, 1, 2, 1, 3, 2, 6, 3, 3, 4,0,0};
-        findKthLargest(num,3);
+        int[] num = {0, 1, 2, 1, 3, 2, 6, 3, 3, 4, 0, 0};
+        findKthLargest(num, 3);
         removeDuplicates(num);
         permute(num);
 
