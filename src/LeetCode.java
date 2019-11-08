@@ -2506,6 +2506,28 @@ public class LeetCode {
         root.left = right;
         return root;
     }
+    // =======================================分 割 线=========================================================
+
+    /**
+     * 238. 除自身以外数组的乘积
+     * @param nums
+     * @return
+     */
+    public static int[] productExceptSelf(int[] nums) {
+        int[] res = new int[nums.length];
+        int k = 1;
+        for(int i = 0; i < res.length; i++){
+            res[i] = k;
+            k = k * nums[i]; // 此时数组存储的是除去当前元素左边的元素乘积
+        }
+        k = 1;
+        for(int i = res.length - 1; i >= 0; i--){
+            res[i] *= k; // k为该数右边的乘积。
+            k *= nums[i]; // 此时数组等于左边的 * 该数右边的。
+        }
+        return res;
+    }
+
 
 
     // =======================================分 割 线=========================================================
@@ -2529,7 +2551,8 @@ public class LeetCode {
         trie.search("leet");
         trie.search("code");
 
-        int[] num = {0, 1, 2, 1, 3, 2, 6, 3, 3, 4, 0, 0};
+        int[] num = {1, 2, 3, 4};
+        productExceptSelf(num);
         findKthLargest(num, 3);
         removeDuplicates(num);
         permute(num);
