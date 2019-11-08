@@ -2391,6 +2391,9 @@ public class LeetCode {
         }
     }
 
+    /**
+     * 208. 实现 Trie (前缀树)
+     */
     static class Trie {
         private TrieNode root;
 
