@@ -2652,48 +2652,38 @@ public class LeetCode {
     }
     // =======================================分 割 线=========================================================
 
-
+    /**
+     * 300. 最长上升子序列
+     * @param nums
+     * @return
+     */
+    public static int lengthOfLIS(int[] nums) {
+        if (nums.length == 0) {
+            return 0;
+        }
+        int[] dp = new int[nums.length];
+        dp[0] = 1;
+        int maxans = 1;
+        for (int i = 1; i < dp.length; i++) {
+            int maxval = 0;
+            for (int j = 0; j < i; j++) {
+                if (nums[i] > nums[j]) {
+                    maxval = Math.max(maxval, dp[j]);
+                }
+            }
+            dp[i] = maxval + 1;
+            maxans = Math.max(maxans, dp[i]);
+        }
+        return maxans;
+    }
 
     // =======================================分 割 线=========================================================
     public static void main(String[] args) {
-        findDuplicate(new int[]{1,2,3,2});
-        numSquares(10);
 
-        char[][] matrix = new char[][]{
-                {'0', '1', '1', '1', '0'},
-                {'1', '1', '1', '1', '1'},
-                {'0', '1', '1', '1', '1'},
-                {'0', '1', '1', '1', '1'},
-                {'0', '0', '1', '1', '0'}
-
-        };
-        maximalSquare(matrix);
-
-        Trie trie = new Trie();
-        trie.insert("le");
-        trie.insert("leet");
-        trie.insert("code");
-        trie.search("co");
-        trie.search("le");
-        trie.search("leet");
-        trie.search("code");
+        lengthOfLIS(new int[]{10,9,2,5,3,7,101,18});
 
         int[] num = {1, 2, 3, 4};
-        productExceptSelf(num);
-        findKthLargest(num, 3);
-        removeDuplicates(num);
-        permute(num);
 
-        findMinNums(1231, 2);
-        Stack<Integer> stack = new Stack<>();
-        stack.push(1);
-        stack.push(2);
-        stack.push(3);
-        sortStackByStack(stack);
-        System.out.println(stack.toString());
-//        String[] array = {"abc", "acb", "aq", "qa"};
-//        int[] nums = {1, 2, 3};
-//        new LeetCode().swap(nums, 1, 2);
         ListNode listNode = new ListNode(1);
         ListNode listNode1 = new ListNode(2);
         ListNode listNode2 = new ListNode(3);
@@ -2726,14 +2716,9 @@ public class LeetCode {
         TreeNode treeNode2 = new TreeNode(4);
         TreeNode treeNode3 = new TreeNode(6);
 
-
         treeNode.left = treeNode1;
         treeNode.right = treeNode2;
         treeNode1.right = treeNode3;
-        new SUMNUMBERS().sumNumbers(treeNode);
-        List<String> strings = new LeetCode().binaryTreePaths(treeNode);
-        System.out.println(strings);
-        widthOfBinaryTree(treeNode);
     }
 // ================================================================================================
 
