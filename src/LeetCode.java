@@ -2534,6 +2534,7 @@ public class LeetCode {
 
     /**
      * 240. 搜索二维矩阵 II
+     *
      * @param matrix
      * @param target
      * @return
@@ -2560,6 +2561,7 @@ public class LeetCode {
 
     /**
      * 279. 完全平方数
+     *
      * @param n
      * @return
      */
@@ -2578,11 +2580,62 @@ public class LeetCode {
     }
 // =======================================分 割 线=========================================================
 
+//    public static void moveZeroes(int[] nums) {
+//        if (nums == null || nums.length < 2) {
+//            return;
+//        }
+//        int p = 0;
+//        int q = 0;
+//        while (true) {
+//            if (q == nums.length - 1 || p == nums.length - 1) {
+//                return;
+//            }
+//            while (p < nums.length - 1 && nums[p] != 0) {
+//                p++;
+//            }
+//            q = q+1;
+//            while (q < nums.length - 1 && nums[q] == 0) {
+//                q++;
+//            }
+//            if (p < q) {
+//                // 交换值
+//                int tmp = nums[p];
+//                nums[p] = nums[q];
+//                nums[q] = tmp;
+//            }
+//        }
+//    }
+
+    /**
+     * 283. 移动零
+     * 1.nums中，i指针用于存放非零元素
+     * 2.j指针用于遍历寻找非零元素
+     * （注：j指针找到一个非零元素后，方法nums[i]的位置，i++，用于下一个j指针找到的非零元素）
+     * 3.j指针遍历完后，最后nums数组还有空位置，存放0即可
+     *
+     * @param nums
+     */
+    public void moveZeroes(int[] nums) {
+        int i = 0;
+        for(int j = 0; j < nums.length; j++){
+            if(nums[j] != 0){
+                if(i != j){
+                    nums[i] = nums[j];
+                }
+                i ++;
+            }
+        }
+        for(; i < nums.length; i++){
+            nums[i] = 0;
+        }
+    }
 
 
 
     // =======================================分 割 线=========================================================
     public static void main(String[] args) {
+        int[] a = new int[]{ 1,0,0};
+        moveZeroes(a);
         numSquares(10);
 
         char[][] matrix = new char[][]{
