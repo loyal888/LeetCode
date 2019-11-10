@@ -2491,6 +2491,7 @@ public class LeetCode {
 
     /**
      * 226. 翻转二叉树
+     *
      * @param root
      * @return
      */
@@ -2510,24 +2511,51 @@ public class LeetCode {
 
     /**
      * 238. 除自身以外数组的乘积
+     *
      * @param nums
      * @return
      */
     public static int[] productExceptSelf(int[] nums) {
         int[] res = new int[nums.length];
         int k = 1;
-        for(int i = 0; i < res.length; i++){
+        for (int i = 0; i < res.length; i++) {
             res[i] = k;
             k = k * nums[i]; // 此时数组存储的是除去当前元素左边的元素乘积
         }
         k = 1;
-        for(int i = res.length - 1; i >= 0; i--){
+        for (int i = res.length - 1; i >= 0; i--) {
             res[i] *= k; // k为该数右边的乘积。
             k *= nums[i]; // 此时数组等于左边的 * 该数右边的。
         }
         return res;
     }
 
+    // =======================================分 割 线=========================================================
+
+    /**
+     * 240. 搜索二维矩阵 II
+     * @param matrix
+     * @param target
+     * @return
+     */
+    public boolean searchMatrix(int[][] matrix, int target) {
+        if (matrix == null || matrix.length == 0) {
+            return false;
+        }
+        int raw = matrix.length;
+        int col = matrix[0].length;
+        for (int i = 0; i < raw; i++) {
+            for (int j = col - 1; j >= 0; j--) {
+                if (matrix[i][j] < target) {
+                    break;
+                }
+                if (matrix[i][j] == target) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
 
     // =======================================分 割 线=========================================================
