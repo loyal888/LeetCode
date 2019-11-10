@@ -2617,26 +2617,44 @@ public class LeetCode {
      */
     public void moveZeroes(int[] nums) {
         int i = 0;
-        for(int j = 0; j < nums.length; j++){
-            if(nums[j] != 0){
-                if(i != j){
+        for (int j = 0; j < nums.length; j++) {
+            if (nums[j] != 0) {
+                if (i != j) {
                     nums[i] = nums[j];
                 }
-                i ++;
+                i++;
             }
         }
-        for(; i < nums.length; i++){
+        for (; i < nums.length; i++) {
             nums[i] = 0;
         }
     }
-// =======================================分 割 线=========================================================
 
+    // =======================================分 割 线=========================================================
+
+    /**
+     * 287. 寻找重复数
+     * @param nums
+     * @return
+     */
+    public static int findDuplicate(int[] nums) {
+        if(nums == null || nums.length == 0){return -1;}
+        int len = nums.length;
+        int[] dp = new int[len+1];
+        for(int i = 0;i<len;i++){
+            if(dp[nums[i]] == 0){
+                dp[nums[i]] = nums[i];
+            }else {
+                return dp[dp[nums[i]]];
+            }
+        }
+        return -1;
+    }
 
 
     // =======================================分 割 线=========================================================
     public static void main(String[] args) {
-        int[] a = new int[]{ 1,0,0};
-        moveZeroes(a);
+        findDuplicate(new int[]{1,2,3,2});
         numSquares(10);
 
         char[][] matrix = new char[][]{
