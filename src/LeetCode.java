@@ -2634,17 +2634,20 @@ public class LeetCode {
 
     /**
      * 287. 寻找重复数
+     *
      * @param nums
      * @return
      */
     public static int findDuplicate(int[] nums) {
-        if(nums == null || nums.length == 0){return -1;}
+        if (nums == null || nums.length == 0) {
+            return -1;
+        }
         int len = nums.length;
-        int[] dp = new int[len+1];
-        for(int i = 0;i<len;i++){
-            if(dp[nums[i]] == 0){
+        int[] dp = new int[len + 1];
+        for (int i = 0; i < len; i++) {
+            if (dp[nums[i]] == 0) {
                 dp[nums[i]] = nums[i];
-            }else {
+            } else {
                 return dp[dp[nums[i]]];
             }
         }
@@ -2654,6 +2657,7 @@ public class LeetCode {
 
     /**
      * 300. 最长上升子序列
+     *
      * @param nums
      * @return
      */
@@ -2679,15 +2683,18 @@ public class LeetCode {
 
     /**
      * 27. 移除元素
+     *
      * @param nums
      * @param val
      * @return
      */
     public int removeElement(int[] nums, int val) {
-        if(nums==null || nums.length == 0){return  0;}
+        if (nums == null || nums.length == 0) {
+            return 0;
+        }
         int len = 0;
-        for(int i = 0; i<nums.length ;i++){
-            if(nums[i] == val){
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] == val) {
                 continue;
             }
             nums[len] = nums[i];
@@ -2696,10 +2703,42 @@ public class LeetCode {
         return len;
     }
 
+    /**
+     * 29. 两数相除
+     * @param dividend
+     * @param divisor
+     * @return
+     */
+    public static int divide(int dividend, int divisor) {
+        boolean sign = (dividend > 0) ^ (divisor > 0);
+        int result = 0;
+        if (dividend > 0) {
+            dividend = -dividend;
+        }
+        if (divisor > 0) divisor = -divisor;
+        while (dividend <= divisor) {
+            int temp_result = -1;
+            int temp_divisor = divisor;
+            while (dividend <= (temp_divisor << 1)) {
+                if (temp_divisor <= (Integer.MIN_VALUE >> 1)) break;
+                temp_result = temp_result << 1;
+                temp_divisor = temp_divisor << 1;
+            }
+            dividend = dividend - temp_divisor;
+            result += temp_result;
+        }
+        if (!sign) {
+            if (result <= Integer.MIN_VALUE) return Integer.MAX_VALUE;
+            result = -result;
+        }
+        return result;
+    }
+
     // =======================================分 割 线=========================================================
     public static void main(String[] args) {
 
-        lengthOfLIS(new int[]{10,9,2,5,3,7,101,18});
+        int result = divide(7, -2);
+        lengthOfLIS(new int[]{10, 9, 2, 5, 3, 7, 101, 18});
 
         int[] num = {1, 2, 3, 4};
 
