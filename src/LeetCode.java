@@ -2677,6 +2677,25 @@ public class LeetCode {
         return maxans;
     }
 
+    /**
+     * 27. 移除元素
+     * @param nums
+     * @param val
+     * @return
+     */
+    public int removeElement(int[] nums, int val) {
+        if(nums==null || nums.length == 0){return  0;}
+        int len = 0;
+        for(int i = 0; i<nums.length ;i++){
+            if(nums[i] == val){
+                continue;
+            }
+            nums[len] = nums[i];
+            len++;
+        }
+        return len;
+    }
+
     // =======================================分 割 线=========================================================
     public static void main(String[] args) {
 
