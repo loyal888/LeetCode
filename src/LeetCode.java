@@ -2829,13 +2829,41 @@ public class LeetCode {
     }
     // ================================================================================
 
+    /**
+     * 50. Pow(x, n)
+     * @param x
+     * @param n
+     * @return
+     */
+        private double fastPow(double x, long n) {
+            if (n == 0) {
+                return 1.0;
+            }
+            double half = fastPow(x, n / 2);
+            if (n % 2 == 0) {
+                return half * half;
+            } else {
+                return half * half * x;
+            }
+        }
+        public double myPow(double x, int n) {
+            long N = n;
+            if (N < 0) {
+                x = 1 / x;
+                N = -N;
+            }
+
+            return fastPow(x, N);
+        }
 
     // =======================================分 割 线=========================================================
     public static void main(String[] args) {
 
+
         int[] candidates = {10, 1, 2, 7, 6, 1, 5};
         int target = 8;
         LeetCode solution = new LeetCode();
+        solution.fastPow(2,2);
         List<List<Integer>> combinationSum2 = solution.combinationSum2(candidates, target);
         System.out.println(combinationSum2);
 
