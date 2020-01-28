@@ -3,6 +3,9 @@ package jianzhi️offer;
 public class JianZhiOfferSolution {
 
     public static void main(String[] args) {
+        int[] nums = {2, 3, 5, 4, 3, 2, 6, 7};
+        int duplication = new JianZhiOfferSolution().getDuplication(nums, 8);
+        System.out.println(duplication);
 
     }
 
@@ -28,10 +31,10 @@ public class JianZhiOfferSolution {
                 return false;
             }
         }
-        for(int i=0;i<length;i++){
-            while(numbers[i] != i){
-                if(numbers[i] == numbers[numbers[i]]){
-                    duplication[0] =  numbers[i];
+        for (int i = 0; i < length; i++) {
+            while (numbers[i] != i) {
+                if (numbers[i] == numbers[numbers[i]]) {
+                    duplication[0] = numbers[i];
                     return true;
                 }
                 // swap
@@ -41,6 +44,54 @@ public class JianZhiOfferSolution {
             }
         }
         return false;
+    }
+
+    // ================================================================================
+
+    /**
+     * 不修改数组找出重复的数字
+     * 缺点：不能找到所有重复的数字
+     *
+     * @param nums
+     * @param length
+     * @return
+     */
+     int getDuplication(int[] nums, int length) {
+        if (nums == null || length <= 0) {
+            return -1;
+        }
+        int start = 1;
+        int end = length - 1;
+        while (end >= start) {
+            int middle = ((end - start) >> 1) + start;
+            int count = countRange(nums, length, start, middle);
+            if (end == start) {
+                if (count > 1) {
+                    return start;
+                } else {
+                    break;
+                }
+            }
+            if (count > (middle - start + 1)) {
+                end = middle;
+            } else {
+                start = middle + 1;
+            }
+        }
+        return -1;
+    }
+
+     public int countRange(int[] nums, int length, int start, int end) {
+        if (nums == null) {
+            return 0;
+        }
+        int count = 0;
+        for (int i = 0; i < length; i++) {
+            if (nums[i] >= start && nums[i] <= end) {
+                count++;
+            }
+        }
+        return count;
     }
 
     // ================================================================================
