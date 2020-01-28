@@ -7,8 +7,15 @@ public class JianZhiOfferSolution {
 
     public static void main(String[] args) {
         int[] nums = {2, 3, 5, 4, 3, 2, 6, 7};
+        int[][] matrix = {
+                {1, 2, 8, 9},
+                {2, 4, 9, 12},
+                {4, 7, 10, 13},
+                {6, 8, 11, 15}
+        };
         int duplication = new JianZhiOfferSolution().getDuplication(nums, 8);
-        System.out.println(duplication);
+        boolean found = new JianZhiOfferSolution().Find(matrix, 4, 4, 7);
+        System.out.println(found);
 
     }
 
@@ -59,7 +66,7 @@ public class JianZhiOfferSolution {
      * @param length
      * @return
      */
-     int getDuplication(int[] nums, int length) {
+    int getDuplication(int[] nums, int length) {
         if (nums == null || length <= 0) {
             return -1;
         }
@@ -84,7 +91,7 @@ public class JianZhiOfferSolution {
         return -1;
     }
 
-     public int countRange(int[] nums, int length, int start, int end) {
+    public int countRange(int[] nums, int length, int start, int end) {
         if (nums == null) {
             return 0;
         }
@@ -96,6 +103,41 @@ public class JianZhiOfferSolution {
         }
         return count;
     }
+
+    // ================================================================================
+
+    /**
+     * 在一个二维数组中（每个一维数组的长度相同），
+     * 每一行都按照从左到右递增的顺序排序，
+     * 每一列都按照从上到下递增的顺序排序。
+     * 请完成一个函数，输入这样的一个二维数组和一个整数，
+     * 判断数组中是否含有该整数。
+     * @param matrix
+     * @param rows
+     * @param cols
+     * @param num
+     * @return
+     */
+    boolean Find(int[][] matrix, int rows, int cols, int num) {
+        boolean found = false;
+        if (matrix != null && rows > 0 && cols > 0) {
+            int row = 0;
+            int col = cols-1;
+            while (row < rows && col >= 0) {
+                if (matrix[row][col] == num) {
+                    found = true;
+                    break;
+                } else if (matrix[row][col] > num) {
+                    col--;
+                } else {
+                    row++;
+                }
+
+            }
+        }
+        return found;
+    }
+
 
     // ================================================================================
 }
