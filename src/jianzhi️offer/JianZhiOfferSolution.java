@@ -17,6 +17,11 @@ public class JianZhiOfferSolution {
         boolean found = new JianZhiOfferSolution().Find(matrix, 4, 4, 7);
         System.out.println(found);
 
+        String s = "|www.pinecloud.cn|b.com|hao123.com|";
+
+        String[] whiteArray = s.trim().split("\\|");
+        System.out.println(whiteArray);
+
     }
 
     // ================================================================================

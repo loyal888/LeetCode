@@ -2705,6 +2705,7 @@ public class LeetCode {
 
     /**
      * 29. 两数相除
+     *
      * @param dividend
      * @param divisor
      * @return
@@ -2736,17 +2737,18 @@ public class LeetCode {
 
     /**
      * 35. 搜索插入位置
+     *
      * @param nums
      * @param target
      * @return
      */
     public int searchInsert(int[] nums, int target) {
         int left = 0, right = nums.length - 1;
-        while(left <= right) {
+        while (left <= right) {
             int mid = (left + right) / 2;
-            if(nums[mid] == target) {
+            if (nums[mid] == target) {
                 return mid;
-            } else if(nums[mid] < target) {
+            } else if (nums[mid] < target) {
                 left = mid + 1;
             } else {
                 right = mid - 1;
@@ -2756,8 +2758,10 @@ public class LeetCode {
     }
 
 // ================================================================================
+
     /**
      * 38. 报数
+     *
      * @param n
      * @return
      */
@@ -2788,6 +2792,7 @@ public class LeetCode {
         }
         return ans;
     }
+
     // ================================================================================
 // residue 表示剩余，这个值一开始等于 target，基于题目中说明的"所有数字（包括目标数）都是正整数"这个条件
     // residue 在递归遍历中，只会越来越小
@@ -2812,6 +2817,7 @@ public class LeetCode {
 
     /**
      * 40. 组合总和 II
+     *
      * @param candidates
      * @param target
      * @return
@@ -2831,30 +2837,32 @@ public class LeetCode {
 
     /**
      * 50. Pow(x, n)
+     *
      * @param x
      * @param n
      * @return
      */
-        private double fastPow(double x, long n) {
-            if (n == 0) {
-                return 1.0;
-            }
-            double half = fastPow(x, n / 2);
-            if (n % 2 == 0) {
-                return half * half;
-            } else {
-                return half * half * x;
-            }
+    private double fastPow(double x, long n) {
+        if (n == 0) {
+            return 1.0;
         }
-        public double myPow(double x, int n) {
-            long N = n;
-            if (N < 0) {
-                x = 1 / x;
-                N = -N;
-            }
+        double half = fastPow(x, n / 2);
+        if (n % 2 == 0) {
+            return half * half;
+        } else {
+            return half * half * x;
+        }
+    }
 
-            return fastPow(x, N);
+    public double myPow(double x, int n) {
+        long N = n;
+        if (N < 0) {
+            x = 1 / x;
+            N = -N;
         }
+
+        return fastPow(x, N);
+    }
 
     // =======================================分 割 线=========================================================
     public static void main(String[] args) {
@@ -2863,7 +2871,7 @@ public class LeetCode {
         int[] candidates = {10, 1, 2, 7, 6, 1, 5};
         int target = 8;
         LeetCode solution = new LeetCode();
-        solution.fastPow(2,2);
+        solution.fastPow(2, 2);
         List<List<Integer>> combinationSum2 = solution.combinationSum2(candidates, target);
         System.out.println(combinationSum2);
 
@@ -2910,7 +2918,74 @@ public class LeetCode {
         treeNode.right = treeNode2;
         treeNode1.right = treeNode3;
     }
-// ================================================================================================
+
+    // ================================================================================================
+
+    /**
+     * 1.两数之和
+     * 解法一：暴力法 时间复杂度O(n^2)
+     *
+     * @param nums
+     * @param target
+     * @return
+     */
+//    public int[] twoSum(int[] nums, int target) {
+//        for (int i = 0; i < nums.length; i++) {
+//            for (int j = i + 1; j < nums.length; j++) {
+//                if (nums[i] == target - nums[j]) {
+//                    return new int[]{i, j};
+//                }
+//            }
+//        }
+//        return null;
+//    }
+
+    /**
+     * 1.两数之和
+     * 解法二：用一个hashmap来存储遍历过的值
+     * 时间复杂度 O(n) 空间复杂度o(n)
+     *
+     * @param nums
+     * @param target
+     * @return
+     */
+//    public int[] twoSum(int[] nums, int target) {
+//        HashMap<Integer, Integer> map = new HashMap<>();
+//
+//        for (int i = 0; i < nums.length; i++) {
+//            map.put(nums[i], i);
+//        }
+//        for (int i = 0; i < nums.length; i++) {
+//            int component = target-nums[i];
+//            if(map.containsKey(component)){
+//                return new int[]{i,map.get(component)};
+//            }
+//        }
+//
+//        return null;
+//    }
+
+    /**
+     * 1.两数之和
+     * 解法三：用一个hashmap来存储遍历过的值，并优化
+     * 时间复杂度 O(n) 空间复杂度o(n)
+     *
+     * @param nums
+     * @param target
+     * @return
+     */
+    public int[] twoSum(int[] nums, int target) {
+        HashMap<Integer, Integer> map = new HashMap<>();
+
+        for (int i = 0; i < nums.length; i++) {
+            int component = target-nums[i];
+            if(map.containsKey(component)){
+                return new int[]{map.get(component),i};
+            }
+            map.put(nums[i], i);
+        }
+        return null;
+    }
 
 // ================================================================================================
 
