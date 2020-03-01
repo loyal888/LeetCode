@@ -1909,31 +1909,31 @@ public class LeetCode {
      * @param l2
      * @return
      */
-    public static ListNode addTwoNumbers(ListNode l1, ListNode l2) {
-        ListNode pre = new ListNode(0);
-        ListNode cur = pre;
-        int carry = 0;
-        while (l1 != null || l2 != null) {
-            int x = l1 == null ? 0 : l1.val;
-            int y = l2 == null ? 0 : l2.val;
-
-            int sum = x + y + carry;
-            carry = sum / 10;
-            sum = sum % 10;
-            cur.next = new ListNode(sum);
-            cur = cur.next;
-            if (l1 != null) {
-                l1 = l1.next;
-            }
-            if (l2 != null) {
-                l2 = l2.next;
-            }
-        }
-        if (carry == 1) {
-            cur.next = new ListNode(1);
-        }
-        return pre.next;
-    }
+//    public static ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+//        ListNode pre = new ListNode(0);
+//        ListNode cur = pre;
+//        int carry = 0;
+//        while (l1 != null || l2 != null) {
+//            int x = l1 == null ? 0 : l1.val;
+//            int y = l2 == null ? 0 : l2.val;
+//
+//            int sum = x + y + carry;
+//            carry = sum / 10;
+//            sum = sum % 10;
+//            cur.next = new ListNode(sum);
+//            cur = cur.next;
+//            if (l1 != null) {
+//                l1 = l1.next;
+//            }
+//            if (l2 != null) {
+//                l2 = l2.next;
+//            }
+//        }
+//        if (carry == 1) {
+//            cur.next = new ListNode(1);
+//        }
+//        return pre.next;
+//    }
 
     // =======================================分 割 线=========================================================
 
@@ -2917,6 +2917,9 @@ public class LeetCode {
         treeNode.left = treeNode1;
         treeNode.right = treeNode2;
         treeNode1.right = treeNode3;
+
+        int abc = new LeetCode().lengthOfLongestSubstring("abc");
+        System.out.println(abc);
     }
 
     // ================================================================================================
@@ -2978,9 +2981,9 @@ public class LeetCode {
         HashMap<Integer, Integer> map = new HashMap<>();
 
         for (int i = 0; i < nums.length; i++) {
-            int component = target-nums[i];
-            if(map.containsKey(component)){
-                return new int[]{map.get(component),i};
+            int component = target - nums[i];
+            if (map.containsKey(component)) {
+                return new int[]{map.get(component), i};
             }
             map.put(nums[i], i);
         }
@@ -2988,5 +2991,123 @@ public class LeetCode {
     }
 
 // ================================================================================================
+
+    /**
+     * 2.两数相加
+     *
+     * @param l1
+     * @param l2
+     * @return
+     */
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        ListNode pre = new ListNode(0);
+        ListNode cur = pre;
+        int carry = 0;
+        while (l1 != null || l2 != null) {
+            int x = l1 == null ? 0 : l1.val;
+            int y = l2 == null ? 0 : l2.val;
+
+            int sum = x + y + carry;
+            carry = sum / 10;
+            sum = sum % 10;
+
+            cur.next = new ListNode(sum);
+
+            pre.next = cur;
+            pre = cur;
+            if (l1 != null) {
+                l1 = l1.next;
+            }
+            if (l2 != null) {
+                l2 = l2.next;
+            }
+
+        }
+        if (carry == 1) {
+            cur.next = new ListNode(carry);
+        }
+        return pre.next;
+    }
+
+// ================================================================================
+
+    /**
+     * 3.无重复字符的最长子串
+     * 解法一：暴力法，通过查找s的所有子串并得到最大长度
+     * 时间复杂度 O(n^3)  空间复杂度O(k) k为s的长度
+     *
+     * @param s
+     * @return
+     */
+//    public int lengthOfLongestSubstring(String s) {
+//        int ans = 0;
+//        for (int i = 0; i < s.length(); i++) {
+//            // 注意这里的 j <= s.length()
+//            for (int j = i + 1; j <= s.length(); j++) {
+//                if (allInUnique(i, j, s)) {
+//                    ans = Math.max(ans, j - i);
+//                }
+//            }
+//        }
+//        return ans;
+//    }
+//
+//    public boolean allInUnique(int start, int end, String s) {
+//        HashSet set = new HashSet<Character>();
+//        for (int i = start; i < end; i++) {
+//            if (set.contains(s.charAt(i))) {
+//                return false;
+//            }
+//            set.add(s.charAt(i));
+//        }
+//        return true;
+//    }
+
+    /**
+     * 3.无重复字符的最长子串
+     * 解法二：滑动窗口法 避免暴力法多次判断
+     * 时间复杂度 O(n^2)
+     * @param s
+     * @return
+     */
+//    public int lengthOfLongestSubstring(String s) {
+//        int ans = 0, i = 0, j = 0;
+//        int n = s.length();
+//        Set set = new HashSet<Character>();
+//        while (i < n && j < n) {
+//            if (set.contains(s.charAt(j))) {
+//                set.remove(s.charAt(i++));
+//            } else {
+//                set.add(s.charAt(j++));
+//                ans = Math.max(ans, j - i);
+//            }
+//        }
+//        return ans;
+//    }
+
+    /**
+     * 3.无重复字符的最长子串
+     * 解法三：优化的滑动窗口法
+     * 时间复杂度：O(n)
+     *
+     * @param s
+     * @return
+     */
+    public int lengthOfLongestSubstring(String s) {
+        int ans = 0;
+        int n = s.length();
+        Map<Character, Integer> map = new HashMap();
+        for (int i = 0, j = 0; j < n; j++) {
+            if (map.containsKey(s.charAt(j))) {
+                i = Math.max(map.get(s.charAt(j)), i);
+            }
+            map.put(s.charAt(j), j + 1);
+            ans = Math.max(ans, j - i + 1);
+        }
+        return ans;
+    }
+
+// ================================================================================
+
 
 }
