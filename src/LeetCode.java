@@ -1,6 +1,10 @@
+import android.net.LocalServerSocket;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.FileDescriptor;
+import java.io.IOException;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -2866,16 +2870,25 @@ public class LeetCode {
 
     // =======================================分 割 线=========================================================
     public static void main(String[] args) {
+        fastPower(3,3);
 
-
+        twoSum(2);
         int[] candidates = {10, 1, 2, 7, 6, 1, 5};
+        int[][] matrix = new int[][]{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
+        spiralOrder(matrix);
+        int[] ints = maxSlidingWindow(candidates, 2);
         int target = 8;
         LeetCode solution = new LeetCode();
         solution.fastPow(2, 2);
         List<List<Integer>> combinationSum2 = solution.combinationSum2(candidates, target);
         System.out.println(combinationSum2);
-
-
+        Singleton<String> s = new Singleton<String>() {
+            @Override
+            protected synchronized String create() {
+                return "11";
+            }
+        };
+        System.out.println(s.get());
         countAndSay(5);
         int result = divide(7, -2);
         lengthOfLIS(new int[]{10, 9, 2, 5, 3, 7, 101, 18});
@@ -3110,6 +3123,7 @@ public class LeetCode {
     /**
      * 4.寻找两个有序数组的中位数
      * // TODO
+     *
      * @param nums1
      * @param nums2
      * @return
@@ -3119,7 +3133,107 @@ public class LeetCode {
     }
 
 
-// ================================================================================
+    // ================================================================================
+    public static double[] twoSum(int n) {
+        double[] pd = new double[n * 6 + 1];
+        pd[0] = 1;
+        for (int i = 1; i <= n; i++) {
+            for (int j = i * 6; j >= i; j--) {
+                pd[j] = 0;
+                for (int k = i - 1; k < j && k <= (i - 1) * 6; k++) {
+                    if (j - k <= 6) {
+                        pd[j] += pd[k] * 1.0 / 6;
+                    }
+                }
+            }
+        }
+        double[] ans = new double[n * 6 - n + 1];
+        for (int i = 0; i < ans.length; i++) ans[i] = pd[i + n];
+        return ans;
+    }
 
+    // ================================================================================
+    public static int[] maxSlidingWindow(int[] nums, int k) {
+        if (nums == null || k < 1 || nums.length < k) {
+            return new int[0];
+        }
 
+        int index = 0;
+        int[] res = new int[nums.length - k + 1];
+        LinkedList<Integer> qMax = new LinkedList<>();
+
+        for (int i = 0; i < nums.length; i++) {
+            // 在队列不为空的情况下，如果队列尾部的元素要比当前的元素小，或等于当前的元素
+            // 那么为了维持从大到小的原则，我必须让尾部元素弹出
+            while (!qMax.isEmpty() && nums[qMax.peekLast()] <= nums[i]) {
+                qMax.pollLast();
+            }
+            // 不走 while 的话，说明我们正常在队列尾部添加元素
+            qMax.addLast(i);
+            // 如果滑动窗口已经略过了队列中头部的元素，则将头部元素弹出
+            if (qMax.peekFirst() == (i - k)) {
+                qMax.pollFirst();
+            }
+            // 看看窗口有没有形成，只有形成了大小为 k 的窗口，我才能收集窗口内的最大值
+            if (i >= (k - 1)) {
+                res[index++] = nums[qMax.peekFirst()];
+            }
+        }
+        return res;
+    }
+
+    // ================================================================================
+    public static int[] spiralOrder(int[][] matrix) {
+        if (matrix.length == 0) return new int[0];
+        int l = 0, r = matrix[0].length - 1, t = 0, b = matrix.length - 1, x = 0;
+        int[] res = new int[(r + 1) * (b + 1)];
+        while (true) {
+            for (int i = l; i <= r; i++) {
+                res[x++] = matrix[t][i];
+            } // left to right.
+            if (++t > b) {
+                break;
+            }
+            for (int i = t; i <= b; i++) {
+                res[x++] = matrix[i][r];
+            } // top to bottom.
+            if (l > --r) {
+                break;
+            }
+            for (int i = r; i >= l; i--) {
+                res[x++] = matrix[b][i];
+            } // right to left.
+            if (t > --b) {
+                break;
+            }
+            for (int i = b; i >= t; i--) {
+                res[x++] = matrix[i][l];
+            }// bottom to top.
+            if (++l > r) {
+                break;
+            }
+        }
+        return res;
+    }
+
+    /**
+     * 快速幂
+     * @param a
+     * @param b
+     * @return
+     */
+    public static int fastPower(int a, int b) {
+        int ans = 1;
+        int base = a;
+        while (b != 0) {
+            if ((b & 1) != 0) { //如果当前的次幂数最后一位(二进制数)不为0的话，那么我们将当前权值加入到最后答案里面去
+                ans = ans * base;
+            }
+            //权值增加
+            base = base * base;
+            b >>= 1;
+        }
+        return ans;
+    }
 }
+
