@@ -18,6 +18,9 @@ class ListNode {
     }
 }
 
+/**
+ * LRU 例子
+ */
 public class LRUCache {
     // 初始容量
     int capacity = 5;

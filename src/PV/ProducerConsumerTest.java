@@ -1,8 +1,8 @@
 package PV;
 
 /**
- * @author by runoob.com
- * ProducerConsumerTest.java
+ * 生产者消费者测试
+ *
  **/
 public class ProducerConsumerTest {
     public static void main(String[] args) {
