@@ -8,6 +8,9 @@ import android.view.WindowManagerImpl;
 import android.widget.EditText;
 import com.android.internal.policy.PhoneWindow;
 
+/**
+ * android 源码查看入口
+ */
 public class MainActivity extends Activity {
     View[] views;
 

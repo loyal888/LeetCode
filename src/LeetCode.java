@@ -1,7 +1,8 @@
+import android.annotation.Nullable;
 import android.net.LocalServerSocket;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+import com.sun.istack.internal.NotNull;
 
 import java.io.FileDescriptor;
 import java.io.IOException;
@@ -14,7 +15,8 @@ public class LeetCode {
 
     public static class ListNode {
         int val;
-        @Nullable ListNode next = null;
+        @Nullable
+        ListNode next = null;
 
         ListNode(int val) {
             this.val = val;
@@ -2869,71 +2871,6 @@ public class LeetCode {
     }
 
     // =======================================分 割 线=========================================================
-    public static void main(String[] args) {
-        fastPower(3,3);
-
-        twoSum(2);
-        int[] candidates = {10, 1, 2, 7, 6, 1, 5};
-        int[][] matrix = new int[][]{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
-        spiralOrder(matrix);
-        int[] ints = maxSlidingWindow(candidates, 2);
-        int target = 8;
-        LeetCode solution = new LeetCode();
-        solution.fastPow(2, 2);
-        List<List<Integer>> combinationSum2 = solution.combinationSum2(candidates, target);
-        System.out.println(combinationSum2);
-        Singleton<String> s = new Singleton<String>() {
-            @Override
-            protected synchronized String create() {
-                return "11";
-            }
-        };
-        System.out.println(s.get());
-        countAndSay(5);
-        int result = divide(7, -2);
-        lengthOfLIS(new int[]{10, 9, 2, 5, 3, 7, 101, 18});
-
-        int[] num = {1, 2, 3, 4};
-
-        ListNode listNode = new ListNode(1);
-        ListNode listNode1 = new ListNode(2);
-        ListNode listNode2 = new ListNode(3);
-        ListNode listNode3 = new ListNode(4);
-        ListNode listNode4 = new ListNode(5);
-        ListNode listNode5 = new ListNode(1);
-        ListNode listNode6 = new ListNode(8);
-
-
-        listNode.next = listNode1;
-        listNode1.next = listNode2;
-        listNode2.next = listNode3;
-//        swapPairs(listNode);
-
-//        deleteDuplicates2(listNode);
-        listNode3.next = listNode4;
-        listNode4.next = listNode6;
-        listNode5.next = listNode6;
-        reverseKGroup(listNode, 2);
-//        addTwoNumbers(listNode, listNode3);
-
-
-        int[] nums = {2, 3, -2, 0, 1, 6};
-        char[][] grid = new char[][]{{'1', '1', '1'}, {'0', '1', '0'}, {'1', '0', '0'}, {'1', '0', '1'}};
-        new LeetCode().reverseList(listNode);
-
-
-        TreeNode treeNode = new TreeNode(3);
-        TreeNode treeNode1 = new TreeNode(2);
-        TreeNode treeNode2 = new TreeNode(4);
-        TreeNode treeNode3 = new TreeNode(6);
-
-        treeNode.left = treeNode1;
-        treeNode.right = treeNode2;
-        treeNode1.right = treeNode3;
-
-        int abc = new LeetCode().lengthOfLongestSubstring("abc");
-        System.out.println(abc);
-    }
 
     // ================================================================================================
 
@@ -3235,5 +3172,105 @@ public class LeetCode {
         }
         return ans;
     }
+
+    public int minArray(int[] numbers) {
+        int len = numbers.length;
+        if (len == 0) {
+            return 0;
+        }
+        int left = 0;
+        int right = len - 1;
+        while (left < right) {
+            int mid = (left + right) >>> 1;
+            if (numbers[mid] > numbers[right]) {
+                // [3, 4, 5, 1, 2]，mid 以及 mid 的左边一定不是最小数字
+                // 下一轮搜索区间是 [mid + 1, right]
+                left = mid + 1;
+            } else if (numbers[mid] == numbers[right]) {
+                // 只能把 right 排除掉，下一轮搜索区间是 [left, right - 1]
+                right = right - 1;
+            } else {
+                // 此时 numbers[mid] < numbers[right]
+                // mid 的右边一定不是最小数字，mid 有可能是，下一轮搜索区间是 [left, mid]
+                right = mid;
+            }
+        }
+
+        // 最小数字一定在数组中，因此不用后处理
+        return numbers[left];
+    }
+
+    public static int missingNumber(int[] nums) {
+        int res = 0;
+        for (int i = 0; i < nums.length; ++i) {
+            res ^= i;
+            res ^= nums[i];
+        }
+        res ^= nums.length;
+
+        return res;
+    }
+
+    // ---------------------------------
+    public static void main(String[] args) {
+        fastPower(3,3);
+        missingNumber(new int[]{1,3,4,0});
+        twoSum(2);
+        int[] candidates = {10, 1, 2, 7, 6, 1, 5};
+        int[][] matrix = new int[][]{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
+        spiralOrder(matrix);
+        int[] ints = maxSlidingWindow(candidates, 2);
+        int target = 8;
+        LeetCode solution = new LeetCode();
+        solution.fastPow(2, 2);
+        List<List<Integer>> combinationSum2 = solution.combinationSum2(candidates, target);
+        System.out.println(combinationSum2);
+
+        countAndSay(5);
+        int result = divide(7, -2);
+        lengthOfLIS(new int[]{10, 9, 2, 5, 3, 7, 101, 18});
+
+        int[] num = {1, 2, 3, 4};
+
+        ListNode listNode = new ListNode(1);
+        ListNode listNode1 = new ListNode(2);
+        ListNode listNode2 = new ListNode(3);
+        ListNode listNode3 = new ListNode(4);
+        ListNode listNode4 = new ListNode(5);
+        ListNode listNode5 = new ListNode(1);
+        ListNode listNode6 = new ListNode(8);
+
+
+        listNode.next = listNode1;
+        listNode1.next = listNode2;
+        listNode2.next = listNode3;
+//        swapPairs(listNode);
+
+//        deleteDuplicates2(listNode);
+        listNode3.next = listNode4;
+        listNode4.next = listNode6;
+        listNode5.next = listNode6;
+        reverseKGroup(listNode, 2);
+//        addTwoNumbers(listNode, listNode3);
+
+
+        int[] nums = {2, 3, -2, 0, 1, 6};
+        char[][] grid = new char[][]{{'1', '1', '1'}, {'0', '1', '0'}, {'1', '0', '0'}, {'1', '0', '1'}};
+        new LeetCode().reverseList(listNode);
+
+
+        TreeNode treeNode = new TreeNode(3);
+        TreeNode treeNode1 = new TreeNode(2);
+        TreeNode treeNode2 = new TreeNode(4);
+        TreeNode treeNode3 = new TreeNode(6);
+
+        treeNode.left = treeNode1;
+        treeNode.right = treeNode2;
+        treeNode1.right = treeNode3;
+
+        int abc = new LeetCode().lengthOfLongestSubstring("abc");
+        System.out.println(abc);
+    }
+
 }
 
