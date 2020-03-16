@@ -3155,6 +3155,7 @@ public class LeetCode {
 
     /**
      * 快速幂
+     *
      * @param a
      * @param b
      * @return
@@ -3213,8 +3214,8 @@ public class LeetCode {
 
     // ---------------------------------
     public static void main(String[] args) {
-        fastPower(3,3);
-        missingNumber(new int[]{1,3,4,0});
+        fastPower(3, 3);
+        missingNumber(new int[]{1, 3, 4, 0});
         twoSum(2);
         int[] candidates = {10, 1, 2, 7, 6, 1, 5};
         int[][] matrix = new int[][]{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
@@ -3270,7 +3271,44 @@ public class LeetCode {
 
         int abc = new LeetCode().lengthOfLongestSubstring("abc");
         System.out.println(abc);
+        hasGroupsSizeX(new int[]{1, 1, 2, 2});
     }
+
+    /**
+     * 914. 卡牌分组
+     *
+     * @param deck
+     * @return
+     */
+        public static boolean hasGroupsSizeX(int[] deck) {
+            int N = deck.length;
+            int[] count = new int[10000];
+            // 构建hash表
+            for (int c: deck) {
+                count[c]++;
+            }
+            // 添加value
+            List<Integer> values = new ArrayList();
+            for (int i = 0; i < 10000; ++i) {
+                if (count[i] > 0) {
+                    values.add(count[i]);
+                }
+            }
+            // 重二开始查找到X 如果没找到return false
+            search: for (int X = 2; X <= N; ++X) {
+                if (N % X == 0) {
+                    for (int v: values) {
+                        if (v % X != 0) {
+                            continue search;
+                        }
+                    }
+                    // 找到了
+                    return true;
+                }
+            }
+            return false;
+        }
+
 
 }
 

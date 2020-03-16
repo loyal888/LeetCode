@@ -5,13 +5,9 @@
     </CLASSES>
     <JAVADOC />
     <SOURCES>
-      <root url="file://E:/User/Administrator/AppData/Local/Android/Sdk/sources/android-28" />
-      <root url="file://$USER_HOME$/Desktop/MyApplication/app/build/generated/source/buildConfig/debug" />
-      <root url="file://$USER_HOME$/Desktop/MyApplication/app/src/androidTest/java" />
-      <root url="file://$USER_HOME$/Desktop/MyApplication/app/src/main/java" />
-      <root url="file://$USER_HOME$/Desktop/MyApplication/app/src/test/java" />
-      <root url="file://$USER_HOME$/Desktop/untitled1/src" />
-      <root url="file://$USER_HOME$/Desktop/untitled/src" />
+      <root url="file://$PROJECT_DIR$/../sdk/tools/proguard/examples/annotations/examples" />
+      <root url="file://$PROJECT_DIR$/../sdk/tools/proguard/examples/annotations/src" />
+      <root url="file://$PROJECT_DIR$/../sdk/sources/android-29" />
     </SOURCES>
   </library>
 </component>

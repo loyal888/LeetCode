@@ -4,14 +4,6 @@
       <root url="jar://$PROJECT_DIR$/src/lib/android.jar!/" />
     </CLASSES>
     <JAVADOC />
-    <SOURCES>
-      <root url="file://E:/User/Administrator/AppData/Local/Android/Sdk/sources/android-28" />
-      <root url="file://$USER_HOME$/Desktop/MyApplication/app/build/generated/source/buildConfig/debug" />
-      <root url="file://$USER_HOME$/Desktop/MyApplication/app/src/androidTest/java" />
-      <root url="file://$USER_HOME$/Desktop/MyApplication/app/src/main/java" />
-      <root url="file://$USER_HOME$/Desktop/MyApplication/app/src/test/java" />
-      <root url="file://$USER_HOME$/Desktop/untitled1/src" />
-      <root url="file://$USER_HOME$/Desktop/untitled/src" />
-    </SOURCES>
+    <SOURCES />
   </library>
 </component>
