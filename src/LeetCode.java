@@ -3309,6 +3309,27 @@ public class LeetCode {
             return false;
         }
 
+    /**
+     * 面试题 01.06. 字符串压缩
+     * @param S
+     * @return
+     */
+    public String compressString(String S) {
+        char[] arr = S.toCharArray();
+        int j = 0;
+        int i = 0;
+        StringBuilder sb = new StringBuilder();
+        while(i<arr.length){
+            int count =0;
+            while(j < arr.length && arr[j] == arr[i]){
+                j++;
+                count++;
+            }
+            sb.append(arr[i]).append(count);
+            i = j;
+        }
+        return sb.toString().length()>=S.length()?S:sb.toString();
+    }
 
 }
 
