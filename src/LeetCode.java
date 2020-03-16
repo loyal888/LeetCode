@@ -3120,38 +3120,7 @@ public class LeetCode {
     }
 
     // ================================================================================
-    public static int[] spiralOrder(int[][] matrix) {
-        if (matrix.length == 0) return new int[0];
-        int l = 0, r = matrix[0].length - 1, t = 0, b = matrix.length - 1, x = 0;
-        int[] res = new int[(r + 1) * (b + 1)];
-        while (true) {
-            for (int i = l; i <= r; i++) {
-                res[x++] = matrix[t][i];
-            } // left to right.
-            if (++t > b) {
-                break;
-            }
-            for (int i = t; i <= b; i++) {
-                res[x++] = matrix[i][r];
-            } // top to bottom.
-            if (l > --r) {
-                break;
-            }
-            for (int i = r; i >= l; i--) {
-                res[x++] = matrix[b][i];
-            } // right to left.
-            if (t > --b) {
-                break;
-            }
-            for (int i = b; i >= t; i--) {
-                res[x++] = matrix[i][l];
-            }// bottom to top.
-            if (++l > r) {
-                break;
-            }
-        }
-        return res;
-    }
+
 
     /**
      * 快速幂
@@ -3219,7 +3188,7 @@ public class LeetCode {
         twoSum(2);
         int[] candidates = {10, 1, 2, 7, 6, 1, 5};
         int[][] matrix = new int[][]{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
-        spiralOrder(matrix);
+//        spiralOrder(matrix);
         int[] ints = maxSlidingWindow(candidates, 2);
         int target = 8;
         LeetCode solution = new LeetCode();
@@ -3272,6 +3241,7 @@ public class LeetCode {
         int abc = new LeetCode().lengthOfLongestSubstring("abc");
         System.out.println(abc);
         hasGroupsSizeX(new int[]{1, 1, 2, 2});
+        spiralOrder(new int[][]{{1,2,3},{4,5,6}});
     }
 
     /**
@@ -3280,37 +3250,39 @@ public class LeetCode {
      * @param deck
      * @return
      */
-        public static boolean hasGroupsSizeX(int[] deck) {
-            int N = deck.length;
-            int[] count = new int[10000];
-            // 构建hash表
-            for (int c: deck) {
-                count[c]++;
-            }
-            // 添加value
-            List<Integer> values = new ArrayList();
-            for (int i = 0; i < 10000; ++i) {
-                if (count[i] > 0) {
-                    values.add(count[i]);
-                }
-            }
-            // 重二开始查找到X 如果没找到return false
-            search: for (int X = 2; X <= N; ++X) {
-                if (N % X == 0) {
-                    for (int v: values) {
-                        if (v % X != 0) {
-                            continue search;
-                        }
-                    }
-                    // 找到了
-                    return true;
-                }
-            }
-            return false;
+    public static boolean hasGroupsSizeX(int[] deck) {
+        int N = deck.length;
+        int[] count = new int[10000];
+        // 构建hash表
+        for (int c : deck) {
+            count[c]++;
         }
+        // 添加value
+        List<Integer> values = new ArrayList();
+        for (int i = 0; i < 10000; ++i) {
+            if (count[i] > 0) {
+                values.add(count[i]);
+            }
+        }
+        // 重二开始查找到X 如果没找到return false
+        search:
+        for (int X = 2; X <= N; ++X) {
+            if (N % X == 0) {
+                for (int v : values) {
+                    if (v % X != 0) {
+                        continue search;
+                    }
+                }
+                // 找到了
+                return true;
+            }
+        }
+        return false;
+    }
 
     /**
      * 面试题 01.06. 字符串压缩
+     *
      * @param S
      * @return
      */
@@ -3319,17 +3291,69 @@ public class LeetCode {
         int j = 0;
         int i = 0;
         StringBuilder sb = new StringBuilder();
-        while(i<arr.length){
-            int count =0;
-            while(j < arr.length && arr[j] == arr[i]){
+        while (i < arr.length) {
+            int count = 0;
+            while (j < arr.length && arr[j] == arr[i]) {
                 j++;
                 count++;
             }
             sb.append(arr[i]).append(count);
             i = j;
         }
-        return sb.toString().length()>=S.length()?S:sb.toString();
+        return sb.toString().length() >= S.length() ? S : sb.toString();
     }
 
+    /**
+     *面试题29. 顺时针打印矩阵
+     * @param matrix
+     * @return
+     */
+    public static int[] spiralOrder(int[][] matrix) {
+        if (matrix == null || matrix.length == 0) {
+            return new int[0];
+        }
+        int l = 0;
+        int r = matrix[0].length - 1;
+        int b = matrix.length - 1;
+        // 下标
+        int index = 0;
+        int curRow = 0;
+        int[] res = new int[(r + 1) * (b + 1)];
+
+        while (true) {
+            // l -> r
+            for (int i = l; i <= r; i++) {
+                // 这里是先使用 再++
+                res[index++] = matrix[curRow][i];
+            }
+            // 这里是先++ 再比较
+            if (++curRow > b) {
+                break;
+            }
+            // top -> bot
+            for (int i = curRow; i <= b; i++) {
+                res[index++] = matrix[i][r];
+            }
+            if (l > --r) {
+                break;
+            }
+            // r -> l
+            for (int i = r; i >= l; i--) {
+                res[index++] = matrix[b][i];
+            }
+            if (curRow > --b) {
+                break;
+            }
+            // bot -> top
+            for (int i = b; i >= curRow; i--) {
+                res[index++] = matrix[i][l];
+            }
+            if (++l > r) {
+                break;
+            }
+        }
+        return res;
+
+    }
 }
 
