@@ -3,41 +3,42 @@ package sort;
 import java.util.Arrays;
 
 public class QuikSort {
-    void swap(int a[], int i, int j) {
-        int tmp = a[i];
-        a[i] = a[j];
-        a[j] = tmp;
-    }
+    public void quick_sort(int[] nums,int left,int right){
+        if(left >= right){return;}
+        // 确定分界点
+        int i = left -1;
+        int j = right + 1;
+        int midValue = nums[left+right>>1];
+        // 划分区间
+        while(i < j){
+            // 在左序列，寻找大于等于midValue的值
+            do {
+                ++i;
+            }while(nums[i]<midValue);
 
-    void quickSort(int a[], int start, int end) {
-        if (start >= end) {
-            // 只剩下一个元素直接返回
-            return;
-        }
-        int k = a[start];
-        int i = start, j = end;
-        while (i != j) {
-            while (j > i && a[j] >= k) {
-                // 后面的比基准值大，不动,j--,找到比k小的值
+            // 在右序列，寻找小于等于midValue的值
+            do{
                 --j;
+            }while(nums[j]>midValue);
+
+            // 交换值
+            if(i < j){
+                int tmp = nums[i];
+                nums[i] = nums[j];
+                nums[j] = tmp;
             }
-            // 交换k 和 比k小的值
-            swap(a, i, j);
-            while (i < j && a[i] <= k) {
-                // 找到比k大的值，i++
-                i++;
-            }
-            // 交换
-            swap(a, i, j);
         }
-        quickSort(a, start, i - 1);
-        quickSort(a, i + 1, end);
+        quick_sort(nums,left,j);
+        quick_sort(nums,j+1,right);
     }
 
     public static void main(String[] args) {
         QuikSort quikSort = new QuikSort();
         int[] ints = {3, 2, 1, 3, 45, 0};
-        quikSort.quickSort(ints, 0, 5);
-        System.out.println(Arrays.toString(ints));
+        quikSort.quick_sort(ints,0,5);
+
+        for(int i: ints){
+            System.out.println(i);
+        }
     }
 }
